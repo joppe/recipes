@@ -1,0 +1,43 @@
+{
+    "name": "recipes",
+    "version": "0.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "webpack --mode production",
+        "dev": "webpack-dev-server --port 1234 --content-base public/",
+        "tslint": "tslint-config-prettier-check ./tslint.json"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/joppe/recipes.git"
+    },
+    "keywords": [],
+    "author": {
+        "name": "Joppe Aarts",
+        "email": "joppe@apestaartje.info"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/joppe/recipes/issues"
+    },
+    "homepage": "https://github.com/joppe/recipes#readme",
+    "devDependencies": {
+        "@types/react": "^16.9.34",
+        "@types/react-dom": "^16.9.6",
+        "prettier": "^2.0.4",
+        "source-map-loader": "^0.2.4",
+        "ts-loader": "^6.2.2",
+        "tslint": "^6.1.1",
+        "tslint-config-prettier": "^1.18.0",
+        "tslint-microsoft-contrib": "^6.2.0",
+        "typescript": "^3.8.3",
+        "webpack": "^4.42.1",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.10.3"
+    },
+    "dependencies": {
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+      "baseUrl": "./",
+      "experimentalDecorators": true,
+      "jsx": "react",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "noImplicitAny": true,
+      "paths": {
+          "@recipe/*": [
+              "./src/recipe/*"
+          ]
+      },
+      "removeComments": true,
+      "sourceMap": true,
+      "strictBindCallApply": true,
+      "strictNullChecks": true,
+      "target": "es6"
+  },
+  "include": [
+      "src/**/*.tsx"
+  ]
+}

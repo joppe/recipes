@@ -1,0 +1,72 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "definitions": {
+      "ingredient": {
+        "$id": "ingredient",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          }
+        },
+        "required": ["name"]
+      },
+      "direction": {
+        "$id": "direction",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "type": "object",
+    "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "$ref": "#ingredient"
+          }
+        },
+        "directions": {
+          "type": "array",
+          "items": {
+            "$ref": "#direction"
+          }
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "servings": {
+          "type": "integer"
+        },
+        "preparation": {
+          "description": "Time to prepare the recipe",
+          "type": "integer"
+        },
+        "cooking": {
+          "description": "Total cooking time",
+          "type": "integer"
+        }
+    },
+    "required": ["title"]
+}
