@@ -5,7 +5,9 @@
  */
 
 module.exports = {
-    /* Your site config here */
+    siteMetadata: {
+        title: `Maak je eigen weekmenu 🍽️`,
+    },
     plugins: [
         'gatsby-plugin-typescript',
         'gatsby-plugin-emotion',
