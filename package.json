@@ -22,12 +22,14 @@
     "gatsby": "^2.20.12",
     "gatsby-plugin-emotion": "^4.2.1",
     "gatsby-plugin-typescript": "^2.3.1",
+    "gatsby-source-firestore": "^1.0.3",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
   "devDependencies": {
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
+    "firebase": "^7.14.1",
     "prettier": "^1.19.1",
     "tslint": "^6.1.1",
     "tslint-config-prettier": "^1.18.0",
