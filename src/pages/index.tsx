@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { css, jsx, SerializedStyles } from '@emotion/core';
 
 import { weekDays } from '../services/date/weekDays';
 import { Menu, MenuEntry } from '../services/recipes/Menu';
+import { Layout } from '../components/Layout';
 
 const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
@@ -57,10 +59,17 @@ const menu: Menu = {
     ],
 };
 
+const orderedListStyle: SerializedStyles = css({
+    margin: 0,
+    padding: 0,
+    listStyle: 'none',
+    color: 'green',
+});
+
 export default function(): JSX.Element {
     return (
-        <div>
-            <ol>
+        <Layout>
+            <ol css={orderedListStyle}>
                 {menu.days.map(
                     (menuEntry: MenuEntry): JSX.Element => {
                         return (
@@ -75,6 +84,6 @@ export default function(): JSX.Element {
                     },
                 )}
             </ol>
-        </div>
+        </Layout>
     );
 }
