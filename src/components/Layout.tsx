@@ -1,9 +1,19 @@
 import * as React from 'react';
-import { css, Global } from '@emotion/core';
+import { css, Global, SerializedStyles } from '@emotion/core';
 // tslint:disable-next-line match-default-export-name
 import emotionNormalize from 'emotion-normalize';
 
 import { root } from '../styles/root';
+
+const containerStyles: SerializedStyles = css({
+    display: 'flex',
+    justifyContent: 'center',
+});
+
+const contentStyles: SerializedStyles = css({
+    maxWidth: '1024px',
+    width: '1024px',
+});
 
 // tslint:disable-next-line function-name
 export function Layout({
@@ -19,7 +29,9 @@ export function Layout({
                     ${root}
                 `}
             />
-            {children}
+            <div css={containerStyles}>
+                <div css={contentStyles}>{children}</div>
+            </div>
         </>
     );
 }
