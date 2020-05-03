@@ -4,6 +4,7 @@ import { css, Global, SerializedStyles } from '@emotion/core';
 import emotionNormalize from 'emotion-normalize';
 
 import { root } from '../styles/root';
+import { LocaleProvider } from '../containers/LocaleProvider';
 
 const containerStyles: SerializedStyles = css({
     display: 'flex',
@@ -29,9 +30,11 @@ export function Layout({
                     ${root}
                 `}
             />
-            <div css={containerStyles}>
-                <div css={contentStyles}>{children}</div>
-            </div>
+            <LocaleProvider>
+                <div css={containerStyles}>
+                    <div css={contentStyles}>{children}</div>
+                </div>
+            </LocaleProvider>
         </>
     );
 }

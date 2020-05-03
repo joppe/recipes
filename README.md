@@ -8,3 +8,5 @@ Todo
 - add recipe for day, for now only a string
 - data is stored in firebase
 - use gql to handle data 
+
+View the app in real life [here](https://optimistic-keller-a43289.netlify.app/)

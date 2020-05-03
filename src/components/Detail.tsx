@@ -5,6 +5,7 @@ import { MenuEntry } from '../services/recipes/Menu';
 import { spacing } from '../styles/spacing';
 import { color } from '../styles/color';
 import { font } from '../styles/font';
+import { Locale, LocaleContext } from '../containers/LocaleProvider';
 
 type DetailProps = {
     active: MenuEntry | undefined;
@@ -41,9 +42,10 @@ export function Detail(props: DetailProps): JSX.Element | null {
         return null;
     }
 
+    const locale: Locale = React.useContext(LocaleContext);
     const [title, setTitle] = React.useState(props.active.recipe.title);
     const header: string = `Recept voor ${props.active.date.toLocaleDateString(
-        'nl-NL',
+        locale.locale,
         {
             weekday: 'long',
         },

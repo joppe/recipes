@@ -5,6 +5,7 @@ import { MenuEntry } from '../services/recipes/Menu';
 import { spacing } from '../styles/spacing';
 import { color } from '../styles/color';
 import { font } from '../styles/font';
+import { Locale, LocaleContext } from '../containers/LocaleProvider';
 
 type MenuListItemProps = {
     isActive: boolean;
@@ -59,9 +60,13 @@ const recipeTitleStyle: SerializedStyles = css({
 // tslint:disable-next-line function-name
 export function MenuListItem(props: MenuListItemProps): JSX.Element {
     const styles: SerializedStyles[] = [weekDayStyle];
-    const weekDay: string = props.menuEntry.date.toLocaleDateString('nl-NL', {
-        weekday: 'short',
-    });
+    const locale: Locale = React.useContext(LocaleContext);
+    const weekDay: string = props.menuEntry.date.toLocaleDateString(
+        locale.locale,
+        {
+            weekday: 'short',
+        },
+    );
 
     if (props.isActive) {
         styles.push(weekDaySelectedStyle);
