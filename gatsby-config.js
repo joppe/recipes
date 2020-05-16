@@ -8,8 +8,5 @@ module.exports = {
     siteMetadata: {
         title: `Maak je eigen weekmenu 🍽️`,
     },
-    plugins: [
-        'gatsby-plugin-typescript',
-        'gatsby-plugin-emotion',
-    ],
+    plugins: ['gatsby-plugin-typescript', 'gatsby-plugin-emotion'],
 };

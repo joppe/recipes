@@ -1,10 +1,13 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase/app';
 // tslint:disable-next-line no-import-side-effect
-import 'firebase/firestore';
+import 'firebase/auth';
+// tslint:disable-next-line no-import-side-effect
+import 'firebase/database';
 
 import { config } from './config';
 
-firebase.initializeApp(config);
+if (firebase.apps.length === 0) {
+    firebase.initializeApp(config);
+}
 
-// tslint:disable-next-line export-name
-export const db: firebase.database.Database = firebase.database();
+export { firebase };

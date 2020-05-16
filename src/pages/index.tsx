@@ -10,6 +10,7 @@ import { mock } from '../data/mock';
 import { reducer } from '../data/reducer/menuEntries';
 import { spacing } from '../styles/spacing';
 import { Locale, LocaleContext } from '../containers/LocaleProvider';
+import { firebase } from '../services/firebase/firebase';
 
 const todayFormatOptions: Intl.DateTimeFormatOptions = {
     weekday: 'long',
@@ -37,6 +38,9 @@ export default function(): JSX.Element {
         locale.locale,
         todayFormatOptions,
     )}`;
+
+    console.log(firebase.database);
+    console.log(firebase.auth);
 
     function handleUpdate(menuEntry: MenuEntry): void {
         dispatch({

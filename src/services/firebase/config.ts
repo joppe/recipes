@@ -1,11 +1,11 @@
 import { FirebaseConfig } from './FirebaseConfig';
 
 export const config: FirebaseConfig = {
-    apiKey: 'AIzaSyA7a3mcunAZ4TBa9nGsAKx9rkh8cJFvH9k',
-    authDomain: 'cooking-f5edd.firebaseapp.com',
-    databaseURL: 'https://cooking-f5edd.firebaseio.com',
-    projectId: 'cooking-f5edd',
-    storageBucket: 'cooking-f5edd.appspot.com',
-    messagingSenderId: '352227529421',
-    appId: '1:352227529421:web:9d0953775ef9aa83',
+    apiKey: 'AIzaSyCT-i4TfVZN1z5HuZDgTUM3Fyvy4vWawPg',
+    authDomain: 'recipes-77dcc.firebaseapp.com',
+    databaseURL: 'https://recipes-77dcc.firebaseio.com',
+    projectId: 'recipes-77dcc',
+    storageBucket: 'recipes-77dcc.appspot.com',
+    messagingSenderId: '234837299382',
+    appId: '1:234837299382:web:43220128417f959ed41617',
 };
