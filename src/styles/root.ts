@@ -1,4 +1,4 @@
-import { css, SerializedStyles } from '@emotion/core';
+import { SerializedStyles, css } from '@emotion/core';
 
 import { spacing } from './spacing';
 

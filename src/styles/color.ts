@@ -1,7 +1,6 @@
 import { ColorConfig } from './ColorConfig';
 import { ValidConfig } from './ValidConfig';
 
-// tslint:disable-next-line typedef
 const config = {
     red: {
         fireBrick: '#a5381f',

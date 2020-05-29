@@ -1,16 +1,17 @@
+import { SerializedStyles, css } from '@emotion/core';
 import * as React from 'react';
-import { css, SerializedStyles } from '@emotion/core';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-import { MenuEntry } from '../services/recipes/Menu';
-import { Layout } from '../components/Layout';
-import { startOfDay } from '../services/date/startOfDay';
 import { Detail } from '../components/Detail';
+import { Layout } from '../components/Layout';
 import { MenuList } from '../components/MenuList';
+import { Locale, LocaleContext } from '../containers/LocaleProvider';
 import { mock } from '../data/mock';
 import { reducer } from '../data/reducer/menuEntries';
-import { spacing } from '../styles/spacing';
-import { Locale, LocaleContext } from '../containers/LocaleProvider';
+import { startOfDay } from '../services/date/startOfDay';
 import { firebase } from '../services/firebase/firebase';
+import { MenuEntry } from '../services/recipes/Menu';
+import { spacing } from '../styles/spacing';
 
 const todayFormatOptions: Intl.DateTimeFormatOptions = {
     weekday: 'long',
@@ -27,14 +28,24 @@ const titleStyles: SerializedStyles = css({
     paddingBottom: `${spacing[2]}px`,
 });
 
-export default function(): JSX.Element {
+// Configure FirebaseUI.
+const uiConfig = {
+    // Popup signin flow rather than redirect flow.
+    signInFlow: 'popup',
+    // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+    signInSuccessUrl: '/signedIn',
+    // We will display Google and Facebook as auth providers.
+    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+};
+
+export default function (): JSX.Element {
     const initial: MenuEntry[] = mock(today);
     const locale: Locale = React.useContext(LocaleContext);
     const [menuItems, dispatch] = React.useReducer(reducer, initial);
     const [active, setActive] = React.useState<MenuEntry | undefined>(
         undefined,
     );
-    const header: string = `De week van ${today.toLocaleDateString(
+    const header = `De week van ${today.toLocaleDateString(
         locale.locale,
         todayFormatOptions,
     )}`;
@@ -57,6 +68,11 @@ export default function(): JSX.Element {
 
     return (
         <Layout>
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
+
             <h1 css={titleStyles}>{header}</h1>
 
             <div css={containerStyles}>

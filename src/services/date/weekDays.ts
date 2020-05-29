@@ -1,5 +1,5 @@
-import { startOfWeek } from './startOfWeek';
 import { clone } from './clone';
+import { startOfWeek } from './startOfWeek';
 
 export function weekDays(currentDate: Date): Date[] {
     const start: Date = startOfWeek(currentDate);

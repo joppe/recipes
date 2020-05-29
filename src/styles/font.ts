@@ -1,7 +1,6 @@
 import { FontConfig } from './FontConfig';
 import { ValidConfig } from './ValidConfig';
 
-// tslint:disable-next-line typedef
 const config = {
     size: {
         1: 8,

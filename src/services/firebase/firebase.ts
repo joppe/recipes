@@ -1,8 +1,7 @@
-import * as firebase from 'firebase/app';
-// tslint:disable-next-line no-import-side-effect
 import 'firebase/auth';
-// tslint:disable-next-line no-import-side-effect
 import 'firebase/database';
+
+import * as firebase from 'firebase/app';
 
 import { config } from './config';
 

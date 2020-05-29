@@ -1,11 +1,11 @@
+import { SerializedStyles, css } from '@emotion/core';
 import * as React from 'react';
-import { css, SerializedStyles } from '@emotion/core';
 
+import { Locale, LocaleContext } from '../containers/LocaleProvider';
 import { MenuEntry } from '../services/recipes/Menu';
-import { spacing } from '../styles/spacing';
 import { color } from '../styles/color';
 import { font } from '../styles/font';
-import { Locale, LocaleContext } from '../containers/LocaleProvider';
+import { spacing } from '../styles/spacing';
 
 type DetailProps = {
     active: MenuEntry | undefined;
@@ -35,16 +35,14 @@ const closeButtonStyles: SerializedStyles = css({
     lineHeight: `${font.lineHeight[1]}`,
 });
 
-// tslint:disable-next-line function-name
 export function Detail(props: DetailProps): JSX.Element | null {
     if (props.active === undefined) {
-        // tslint:disable-next-line no-null-keyword
         return null;
     }
 
     const locale: Locale = React.useContext(LocaleContext);
     const [title, setTitle] = React.useState(props.active.recipe.title);
-    const header: string = `Recept voor ${props.active.date.toLocaleDateString(
+    const header = `Recept voor ${props.active.date.toLocaleDateString(
         locale.locale,
         {
             weekday: 'long',

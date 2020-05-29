@@ -9,8 +9,6 @@
         "removeComments": true,
         "sourceMap": true,
         "strict": true,
-        "strictBindCallApply": true,
-        "strictNullChecks": true,
         "target": "es6"
     },
     "exclude": [

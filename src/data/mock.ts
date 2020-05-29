@@ -1,5 +1,5 @@
-import { MenuEntry } from '../services/recipes/Menu';
 import { weekDays } from '../services/date/weekDays';
+import { MenuEntry } from '../services/recipes/Menu';
 
 export function mock(today: Date): MenuEntry[] {
     const days: Date[] = weekDays(today);

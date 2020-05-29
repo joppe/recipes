@@ -1,11 +1,11 @@
+import { SerializedStyles, css } from '@emotion/core';
 import * as React from 'react';
-import { css, SerializedStyles } from '@emotion/core';
 
+import { Locale, LocaleContext } from '../containers/LocaleProvider';
 import { MenuEntry } from '../services/recipes/Menu';
-import { spacing } from '../styles/spacing';
 import { color } from '../styles/color';
 import { font } from '../styles/font';
-import { Locale, LocaleContext } from '../containers/LocaleProvider';
+import { spacing } from '../styles/spacing';
 
 type MenuListItemProps = {
     isActive: boolean;
@@ -57,7 +57,6 @@ const recipeTitleStyle: SerializedStyles = css({
     color: color.red.fireBrick,
 });
 
-// tslint:disable-next-line function-name
 export function MenuListItem(props: MenuListItemProps): JSX.Element {
     const styles: SerializedStyles[] = [weekDayStyle];
     const locale: Locale = React.useContext(LocaleContext);

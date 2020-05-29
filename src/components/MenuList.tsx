@@ -1,5 +1,5 @@
+import { SerializedStyles, css } from '@emotion/core';
 import * as React from 'react';
-import { css, SerializedStyles } from '@emotion/core';
 
 import { MenuEntry } from '../services/recipes/Menu';
 import { MenuListItem } from './MenuListItem';
@@ -10,7 +10,6 @@ type MenuListProps = {
     setActive(item: MenuEntry): void;
 };
 
-// tslint:disable-next-line function-name
 export function MenuList(props: MenuListProps): JSX.Element {
     const orderedListStyle: SerializedStyles = css({
         margin: 0,
@@ -22,7 +21,7 @@ export function MenuList(props: MenuListProps): JSX.Element {
     return (
         <ol css={orderedListStyle}>
             {props.items.map(
-                (menuEntry: MenuEntry, index: number): JSX.Element => {
+                (menuEntry: MenuEntry): JSX.Element => {
                     const isActive: boolean = menuEntry === props.active;
                     const key: number = menuEntry.date.getTime();
 

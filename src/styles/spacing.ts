@@ -1,7 +1,6 @@
 import { SizeConfig } from './SizeConfig';
 import { ValidConfig } from './ValidConfig';
 
-// tslint:disable-next-line typedef
 const config = {
     0: 0,
     1: 4,

@@ -1,10 +1,9 @@
-import * as React from 'react';
-import { css, Global, SerializedStyles } from '@emotion/core';
-// tslint:disable-next-line match-default-export-name
+import { Global, SerializedStyles, css } from '@emotion/core';
 import emotionNormalize from 'emotion-normalize';
+import * as React from 'react';
 
-import { root } from '../styles/root';
 import { LocaleProvider } from '../containers/LocaleProvider';
+import { root } from '../styles/root';
 
 const containerStyles: SerializedStyles = css({
     display: 'flex',
@@ -16,7 +15,6 @@ const contentStyles: SerializedStyles = css({
     width: '1024px',
 });
 
-// tslint:disable-next-line function-name
 export function Layout({
     children,
 }: {

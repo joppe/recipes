@@ -1,7 +1,6 @@
-import { startOfDay } from './startOfDay';
 import { MONDAY } from './days';
+import { startOfDay } from './startOfDay';
 
-// tslint:disable-next-line export-name
 export function startOfWeek(currentDate: Date = new Date()): Date {
     const date: Date = startOfDay(currentDate);
 

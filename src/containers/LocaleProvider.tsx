@@ -16,7 +16,6 @@ export const LocaleContext: React.Context<Locale> = React.createContext<Locale>(
     data,
 );
 
-// tslint:disable-next-line function-name
 export function LocaleProvider(props: LocaleProviderProps): JSX.Element {
     return (
         <LocaleContext.Provider value={data}>
