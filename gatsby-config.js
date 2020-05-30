@@ -4,9 +4,15 @@
  * See: https://www.gatsbyjs.org/docs/gatsby-config/
  */
 
+/* eslint-env node */
+
 module.exports = {
     siteMetadata: {
         title: `Maak je eigen weekmenu 🍽️`,
     },
-    plugins: ['gatsby-plugin-typescript', 'gatsby-plugin-emotion'],
+    plugins: [
+        'gatsby-plugin-typescript',
+        'gatsby-theme-material-ui',
+        'gatsby-plugin-emotion',
+    ],
 };

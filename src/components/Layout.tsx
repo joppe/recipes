@@ -1,9 +1,7 @@
-import { Global, SerializedStyles, css } from '@emotion/core';
-import emotionNormalize from 'emotion-normalize';
+import { SerializedStyles, css } from '@emotion/core';
 import * as React from 'react';
 
 import { LocaleProvider } from '../containers/LocaleProvider';
-import { root } from '../styles/root';
 
 const containerStyles: SerializedStyles = css({
     display: 'flex',
@@ -22,12 +20,6 @@ export function Layout({
 }): JSX.Element {
     return (
         <>
-            <Global
-                styles={css`
-                    ${emotionNormalize.styles}
-                    ${root}
-                `}
-            />
             <LocaleProvider>
                 <div css={containerStyles}>
                     <div css={contentStyles}>{children}</div>

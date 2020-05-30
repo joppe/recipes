@@ -1,4 +1,5 @@
 import { SerializedStyles, css } from '@emotion/core';
+import Button from '@material-ui/core/Button';
 import * as React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
@@ -88,6 +89,7 @@ export default function (): JSX.Element {
                     handleClose={handleClose}
                 />
             </div>
+            <Button>Testing</Button>
         </Layout>
     );
 }
