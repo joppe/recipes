@@ -1,16 +1,20 @@
 import * as React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
+import { UserContext } from '../context/UserContext';
 import { firebase } from '../services/firebase/firebase';
 
 type EnsureLoggedInContainerProps = {
-    children: React.ReactNode;
+    children: JSX.Element | JSX.Element[];
 };
 
 export function EnsureLoggedInContainer(
     props: EnsureLoggedInContainerProps,
-): React.ReactNode {
+): JSX.Element {
     const uiConfig: firebaseui.auth.Config = {
+        callbacks: {
+            signInSuccessWithAuthResult: () => false,
+        },
         signInFlow: 'popup',
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
     };
@@ -19,19 +23,25 @@ export function EnsureLoggedInContainer(
     React.useEffect(() => {
         return firebase
             .auth()
-            .onAuthStateChanged((user: firebase.User | null): void => {
-                console.log(user);
+            .onAuthStateChanged((result: firebase.User | null): void => {
+                if (result !== null) {
+                    setUser(result);
+                }
             });
     });
 
-    if (user !== null) {
-        return props.children;
+    if (user === null) {
+        return (
+            <StyledFirebaseAuth
+                uiConfig={uiConfig}
+                firebaseAuth={firebase.auth()}
+            />
+        );
     }
 
     return (
-        <StyledFirebaseAuth
-            uiConfig={uiConfig}
-            firebaseAuth={firebase.auth()}
-        />
+        <UserContext.Provider value={user}>
+            {props.children}
+        </UserContext.Provider>
     );
 }
