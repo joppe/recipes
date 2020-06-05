@@ -31,11 +31,18 @@ const titleStyles: SerializedStyles = css({
 
 // Configure FirebaseUI.
 const uiConfig = {
-    // Popup signin flow rather than redirect flow.
+    callbacks: {
+        signInSuccess(
+            currentUser: firebase.User,
+            credential: firebase.auth.AuthCredential,
+            redirectUrl: string,
+        ): void {
+            console.log(currentUser);
+            console.log(credential);
+            console.log(redirectUrl);
+        },
+    },
     signInFlow: 'popup',
-    // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-    signInSuccessUrl: '/signedIn',
-    // We will display Google and Facebook as auth providers.
     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
 };
 
