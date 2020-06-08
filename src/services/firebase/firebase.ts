@@ -1,5 +1,5 @@
 import 'firebase/auth';
-import 'firebase/database';
+import 'firebase/firestore';
 
 import * as firebase from 'firebase/app';
 

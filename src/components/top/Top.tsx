@@ -1,14 +1,14 @@
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import * as React from 'react';
 
-import { UserContext } from '../../context/UserContext';
+import { useSession } from '../../hooks/useSession';
 
 type TopProps = {
     className: string;
 };
 
 export function Top(props: TopProps): JSX.Element {
-    const user: firebase.User = React.useContext(UserContext) as firebase.User;
+    const user: firebase.User = useSession();
 
     return (
         <AppBar position="static" className={props.className}>

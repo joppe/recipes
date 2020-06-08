@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.10.0",
+        "@material-ui/icons": "^4.9.1",
         "firebase": "^7.14.4",
         "gatsby": "^2.20.12",
         "gatsby-plugin-react-helmet": "^3.3.1",

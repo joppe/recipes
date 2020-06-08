@@ -1,7 +1,10 @@
+import { CircularProgress } from '@material-ui/core';
 import * as React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../contexts/UserContext';
+import { State } from '../hooks/auth/State';
+import { useAuth } from '../hooks/auth/useAuth';
 import { firebase } from '../services/firebase/firebase';
 
 type EnsureLoggedInContainerProps = {
@@ -18,19 +21,13 @@ export function EnsureLoggedInContainer(
         signInFlow: 'popup',
         signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
     };
-    const [user, setUser] = React.useState<firebase.User | null>(null);
+    const state: State = useAuth();
 
-    React.useEffect(() => {
-        return firebase
-            .auth()
-            .onAuthStateChanged((result: firebase.User | null): void => {
-                if (result !== null) {
-                    setUser(result);
-                }
-            });
-    });
+    if (state.initializing) {
+        return <CircularProgress />;
+    }
 
-    if (user === null) {
+    if (state.user === null) {
         return (
             <StyledFirebaseAuth
                 uiConfig={uiConfig}
@@ -40,7 +37,7 @@ export function EnsureLoggedInContainer(
     }
 
     return (
-        <UserContext.Provider value={user}>
+        <UserContext.Provider value={state.user}>
             {props.children}
         </UserContext.Provider>
     );
