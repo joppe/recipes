@@ -1,7 +1,7 @@
 import { MONDAY } from './days';
 import { startOfDay } from './startOfDay';
 
-export function startOfWeek(currentDate: Date = new Date()): Date {
+export function startOfWeek(currentDate: Date): Date {
     const date: Date = startOfDay(currentDate);
 
     while (date.getDay() !== MONDAY) {

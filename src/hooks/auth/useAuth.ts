@@ -16,7 +16,6 @@ export function useAuth(): State {
     );
 
     React.useEffect(() => {
-        console.log('useEffect');
         return firebase
             .auth()
             .onAuthStateChanged((user: firebase.User | null): void => {

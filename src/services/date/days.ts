@@ -1,7 +1,7 @@
 export const MONDAY = 1;
 export const TUESDAY = 2;
-export const WEDNESDAY = 2;
-export const THURDAY = 2;
-export const FRIDAY = 2;
-export const SATURDAY = 2;
-export const SUNDAY = 2;
+export const WEDNESDAY = 3;
+export const THURDAY = 4;
+export const FRIDAY = 5;
+export const SATURDAY = 6;
+export const SUNDAY = 0;
