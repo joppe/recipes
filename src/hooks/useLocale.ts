@@ -4,5 +4,5 @@ import { Locale } from '../contexts/locale/Locale';
 import { LocaleContext } from '../contexts/locale/LocaleContext';
 
 export function useLocale(): Locale {
-    return React.useContext(LocaleContext);
+    return React.useContext<Locale>(LocaleContext);
 }

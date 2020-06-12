@@ -7,6 +7,7 @@ import { Top } from '../components/top/Top';
 import { EnsureLoggedInContainer } from '../containers/EnsureLoggedInContainer';
 import { Locale } from '../contexts/locale/Locale';
 import { LocaleContext } from '../contexts/locale/LocaleContext';
+import { FirebaseProvider } from '../providers/FirebaseProvider';
 
 const locale: Locale = {
     locale: 'nl-NL',
@@ -23,17 +24,19 @@ export default function (): JSX.Element {
     const classes = useStyles();
 
     return (
-        <LocaleContext.Provider value={locale}>
-            <EnsureLoggedInContainer>
-                <Top className={classes.top} />
-                <Container>
-                    <Card>
-                        <CardContent>
-                            <Planner />
-                        </CardContent>
-                    </Card>
-                </Container>
-            </EnsureLoggedInContainer>
-        </LocaleContext.Provider>
+        <FirebaseProvider>
+            <LocaleContext.Provider value={locale}>
+                <EnsureLoggedInContainer>
+                    <Top className={classes.top} />
+                    <Container>
+                        <Card>
+                            <CardContent>
+                                <Planner />
+                            </CardContent>
+                        </Card>
+                    </Container>
+                </EnsureLoggedInContainer>
+            </LocaleContext.Provider>
+        </FirebaseProvider>
     );
 }

@@ -1,21 +1,19 @@
+import * as fbns from 'firebase';
 import * as React from 'react';
 
-import { firebase } from '../../services/firebase/firebase';
 import { State } from './State';
 
-export function useAuth(): State {
-    const [state, setState] = React.useState<State>(
-        (): State => {
-            const user: firebase.User | null = firebase.auth().currentUser;
-
-            return {
-                initializing: user === null,
-                user,
-            };
-        },
-    );
+export function useAuth(firebase: typeof fbns | null): State {
+    const [state, setState] = React.useState<State>({
+        initializing: true,
+        user: null,
+    });
 
     React.useEffect(() => {
+        if (firebase === null) {
+            return;
+        }
+
         return firebase
             .auth()
             .onAuthStateChanged((user: firebase.User | null): void => {
@@ -24,7 +22,7 @@ export function useAuth(): State {
                     initializing: false,
                 });
             });
-    }, []);
+    }, [firebase]);
 
     return state;
 }

@@ -8,12 +8,14 @@ type TopProps = {
 };
 
 export function Top(props: TopProps): JSX.Element {
-    const user: firebase.User = useSession();
+    const user: firebase.User | null = useSession();
 
     return (
         <AppBar position="static" className={props.className}>
             <Toolbar>
-                <Typography variant="h6">Hello {user.displayName}</Typography>
+                <Typography variant="h6">
+                    Hello {user?.displayName ?? 'Anonymous'}
+                </Typography>
             </Toolbar>
         </AppBar>
     );
