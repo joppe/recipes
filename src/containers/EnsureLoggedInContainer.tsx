@@ -12,6 +12,8 @@ type EnsureLoggedInContainerProps = {
     children: JSX.Element | JSX.Element[];
 };
 
+const ALLOWED_USERS: string[] = ['AAobfescV5P35HK7z4G0vnTvctG3'];
+
 export function EnsureLoggedInContainer(
     props: EnsureLoggedInContainerProps,
 ): JSX.Element {
@@ -41,6 +43,10 @@ export function EnsureLoggedInContainer(
                 firebaseAuth={firebase.auth()}
             />
         );
+    }
+
+    if (ALLOWED_USERS.indexOf(state.user.uid) === -1) {
+        return <div>You are not allowed to use this application.</div>;
     }
 
     return (
