@@ -36,10 +36,11 @@ export function useDishes(fromDate: Date, toDate: Date): Dish[] {
                             id: document.id,
                         });
                     },
-                ),
-                    setDishes(newDishes);
+                );
+
+                setDishes(newDishes);
             });
-    }, [fromDate, toDate]);
+    }, [fromDate.getTime(), toDate.getTime()]);
 
     return dishes;
 }
