@@ -23,8 +23,8 @@ import { useLocale } from '../../hook/useLocale';
 import { startOfWeek } from '../../service/date/startOfWeek';
 import { weekDays } from '../../service/date/weekDays';
 import { Dish } from '../../service/recipes/Dish';
-
-type TempDish = Omit<Dish, 'id'>;
+import { TempDish } from '../../service/recipes/TempDish';
+import { EditDish } from '../edit-dish/EditDish';
 
 export function Planner(): JSX.Element {
     const fromDate: Date = startOfWeek(new Date());
@@ -59,8 +59,6 @@ export function Planner(): JSX.Element {
     function handleClose(): void {
         setEdit(undefined);
     }
-
-    function handleSave(dish: Dish | TempDish): void {}
 
     return (
         <>
@@ -98,38 +96,7 @@ export function Planner(): JSX.Element {
                     },
                 )}
             </List>
-            <Dialog open={edit !== undefined} onClose={handleClose}>
-                <DialogTitle>Edit dish</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Je kan hier het gericht voor de dag{' '}
-                        {edit?.date.toLocaleDateString()} aanpassen
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="title"
-                        label="Title"
-                        type="text"
-                        fullWidth
-                    />
-                    <TextField
-                        margin="dense"
-                        id="chef"
-                        label="Chef"
-                        type="text"
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Subscribe
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <EditDish dish={edit} onClose={handleClose} />
         </>
     );
 }
