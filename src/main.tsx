@@ -2,10 +2,10 @@ import { CssBaseline, ThemeProvider, createMuiTheme } from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+import { ContentContainer } from './container/ContentContainer';
 import { EnsureLoggedInContainer } from './container/EnsureLoggedInContainer';
 import { FirebaseProvider } from './context/firebase/FirebaseProvider';
 import { LocaleContext } from './context/locale/LocaleContext';
-import { WeekPlanner } from './page/WeekPlanner';
 
 const theme = createMuiTheme({
     palette: {
@@ -20,7 +20,7 @@ ReactDOM.render(
         <LocaleContext.Provider value={{ locale: 'nl-NL' }}>
             <FirebaseProvider>
                 <EnsureLoggedInContainer>
-                    <WeekPlanner />
+                    <ContentContainer />
                 </EnsureLoggedInContainer>
             </FirebaseProvider>
         </LocaleContext.Provider>

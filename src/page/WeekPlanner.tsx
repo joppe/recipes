@@ -5,15 +5,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import * as React from 'react';
 
 import { Planner } from '../component/planner/Planner';
-import { Top } from '../component/top/Top';
 import { useLocale } from '../hook/useLocale';
 import { fromTimestamp } from '../service/date/fromTimestamp';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        top: {
-            marginBottom: theme.spacing(5),
-        },
         dateNav: {
             display: 'flex',
             alignItems: 'center',
@@ -42,34 +38,31 @@ export function WeekPlanner(): JSX.Element {
     }
 
     return (
-        <>
-            <Top className={classes.top} />
-            <Container>
-                <div className={classes.dateNav}>
-                    <IconButton
-                        edge="end"
-                        aria-label="Previous week"
-                        onClick={() => previousWeek()}
-                    >
-                        <ChevronLeftIcon />
-                    </IconButton>
+        <Container>
+            <div className={classes.dateNav}>
+                <IconButton
+                    edge="end"
+                    aria-label="Previous week"
+                    onClick={() => previousWeek()}
+                >
+                    <ChevronLeftIcon />
+                </IconButton>
 
-                    <span>{date}</span>
+                <span>{date}</span>
 
-                    <IconButton
-                        edge="end"
-                        aria-label="Next week"
-                        onClick={() => nextWeek()}
-                    >
-                        <ChevronRightIcon />
-                    </IconButton>
-                </div>
-                <Card>
-                    <CardContent>
-                        <Planner timestamp={timestamp} />
-                    </CardContent>
-                </Card>
-            </Container>
-        </>
+                <IconButton
+                    edge="end"
+                    aria-label="Next week"
+                    onClick={() => nextWeek()}
+                >
+                    <ChevronRightIcon />
+                </IconButton>
+            </div>
+            <Card>
+                <CardContent>
+                    <Planner timestamp={timestamp} />
+                </CardContent>
+            </Card>
+        </Container>
     );
 }
