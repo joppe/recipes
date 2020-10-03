@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Unit } from './unit.type';
+import { Unit } from '../../types/unit.type';
 
 type Props = { units: Unit[] };
 

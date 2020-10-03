@@ -1,0 +1,5 @@
+name: recipes
+services:
+  myservice:
+    type: mongo:4.2
+    portforward: true

@@ -2,7 +2,7 @@ import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import { Unit } from './unit.type';
+import { Unit } from '../../types/unit.type';
 
 type Props = {
     unit: Unit | null;
@@ -34,8 +34,14 @@ export default function Detail(props: Props): JSX.Element {
     );
 }
 
+interface UnitPageContext extends NextPageContext {
+    query: {
+        name: string;
+    };
+}
+
 Detail.getInitialProps = async (
-    ctx: NextPageContext,
+    ctx: UnitPageContext,
 ): Promise<{ unit: Unit | null }> => {
     if (!ctx.req) {
         return { unit: null };
