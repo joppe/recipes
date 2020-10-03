@@ -7,8 +7,20 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 - home -> weekmenu (CRUD)
 - recipes (CRUD)
 - units (CRUD)
+- ingredients (CRUD)
 
 ## Data Structure
+
+### Ingredients
+
+```json
+{
+    "name": "Rode ui",
+    "type": "Groente",
+    "default-unit": "unit",
+    "images": []
+}
+```
 
 ### Unit
 

@@ -22,5 +22,6 @@ module.exports = {
     ],
     rules: {
         'react/display-name': 0,
+        'react/react-in-jsx-scope': 0,
     },
 };
