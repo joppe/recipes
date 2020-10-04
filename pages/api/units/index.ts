@@ -1,30 +1,25 @@
-import { MongoClient } from 'mongodb';
+import { Db } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { dbName, url } from '../../../config/mongo';
+import { connect } from '../../../mongo/connect';
 
-export default function getUnits(
+export default async function readUnits(
     req: NextApiRequest,
     res: NextApiResponse,
-): void {
+): Promise<void> {
     if (req.method !== 'GET') {
-        res.status(500).json({ msg: 'Only accept GET calls' });
+        return res.status(500).json({ msg: 'Only accept GET calls' });
     }
 
-    MongoClient.connect(url, async (err, client) => {
-        if (err !== null) {
-            res.status(500).json({ msg: 'Could not connect to database' });
-        }
-
-        try {
-            const db = client.db(dbName);
+    await connect(
+        async (db: Db): Promise<void> => {
             const collection = db.collection('units');
             const cursor = collection.find({});
             const results = await cursor.toArray();
 
             res.json({ units: results });
-        } finally {
-            await client.close();
-        }
+        },
+    ).catch((err: Error) => {
+        res.status(500).json({ msg: err.message });
     });
 }
