@@ -65,3 +65,10 @@ I use this project to learn new technologies/frameworks. It's just for fun.
     ]
 }
 ```
+
+## Todo
+
+- use mongoose
+- create middleware for api routes
+- users (authentication/authorization)
+- use environment variables for mongo user/pwd
