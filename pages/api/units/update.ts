@@ -1,8 +1,8 @@
-import { Db, ObjectID } from 'mongodb';
+import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { connect } from '../../../mongo/connect';
-import { Unit } from '../../../types/unit.type';
+import { options, url } from '../../../config/mongoose';
+import { UnitModel } from './model';
 
 interface CreateUnitRequest extends NextApiRequest {
     body: {
@@ -20,29 +20,22 @@ export default async function createUnit(
         return res.status(500).json({ msg: 'Only accept PUT calls' });
     }
 
-    await connect(
-        async (db: Db): Promise<void> => {
-            const collection = db.collection('units');
-            const filter = { _id: new ObjectID(req.body.id) };
-            const options = { upsert: false };
-            const doc: Unit = {
-                name: req.body.name,
-                abbreviation: req.body.abbreviation,
-            };
-            const update = {
-                $set: doc,
-            };
-            const result = await collection.updateOne(filter, update, options);
+    try {
+        connect(url, options);
 
-            if (result.modifiedCount === 1) {
-                res.json({
-                    msg: `${result.matchedCount} documents matched the filter, update : ${result.modifiedCount}`,
-                });
-            } else {
-                res.status(500).json({ msg: 'Unit not updated' });
-            }
-        },
-    ).catch((err: Error) => {
+        const filter = { _id: req.body.id };
+        const doc = {
+            name: req.body.name,
+            abbreviation: req.body.abbreviation,
+        };
+        const result = await UnitModel.updateOne(filter, doc);
+
+        if (result.nModified === 1) {
+            res.json({ msg: 'Unit successfuly updated' });
+        } else {
+            res.status(500).json({ msg: 'Unit not updated' });
+        }
+    } catch (err) {
         res.status(500).json({ msg: err.message });
-    });
+    }
 }

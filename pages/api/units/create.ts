@@ -1,8 +1,8 @@
-import { Db } from 'mongodb';
+import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { connect } from '../../../mongo/connect';
-import { Unit } from '../../../types/unit.type';
+import { options, url } from '../../../config/mongoose';
+import { UnitModel } from './model';
 
 interface CreateUnitRequest extends NextApiRequest {
     body: {
@@ -19,20 +19,18 @@ export default async function createUnit(
         return res.status(500).json({ msg: 'Only accept POST calls' });
     }
 
-    await connect(
-        async (db: Db): Promise<void> => {
-            const collection = db.collection('units');
-            const doc: Unit = {
-                name: req.body.name,
-                abbreviation: req.body.abbreviation,
-            };
-            const result = await collection.insertOne(doc);
+    try {
+        connect(url, options);
 
-            res.json({
-                msg: `${result.insertedCount} documents were insterted with the _id: ${result.insertedId}`,
-            });
-        },
-    ).catch((err: Error) => {
+        const unit = new UnitModel({
+            name: req.body.name,
+            abbreviation: req.body.abbreviation,
+        });
+
+        await unit.save();
+
+        res.json({ msg: 'Unit successfuly created' });
+    } catch (err) {
         res.status(500).json({ msg: err.message });
-    });
+    }
 }

@@ -1,7 +1,8 @@
-import { Db } from 'mongodb';
+import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { connect } from '../../../mongo/connect';
+import { options, url } from '../../../config/mongoose';
+import { UnitModel } from './model';
 
 export default async function readUnits(
     req: NextApiRequest,
@@ -11,15 +12,13 @@ export default async function readUnits(
         return res.status(500).json({ msg: 'Only accept GET calls' });
     }
 
-    await connect(
-        async (db: Db): Promise<void> => {
-            const collection = db.collection('units');
-            const cursor = collection.find({});
-            const results = await cursor.toArray();
+    try {
+        connect(url, options);
 
-            res.json({ units: results });
-        },
-    ).catch((err: Error) => {
+        const result = await UnitModel.find({});
+
+        res.json(result);
+    } catch (err) {
         res.status(500).json({ msg: err.message });
-    });
+    }
 }

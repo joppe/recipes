@@ -1,7 +1,8 @@
-import { Db, ObjectID } from 'mongodb';
+import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { connect } from '../../../mongo/connect';
+import { options, url } from '../../../config/mongoose';
+import { UnitModel } from './model';
 
 interface DeleteUnitRequest extends NextApiRequest {
     body: {
@@ -17,19 +18,15 @@ export default async function deleteUnit(
         return res.status(500).json({ msg: 'Only accept DELETE calls' });
     }
 
-    await connect(
-        async (db: Db): Promise<void> => {
-            const collection = db.collection('units');
-            const query = { _id: new ObjectID(req.body.id) };
-            const result = await collection.deleteOne(query);
+    try {
+        const query = { _id: req.body.id };
 
-            if (result.deletedCount === 1) {
-                res.json({ msg: 'success' });
-            } else {
-                res.status(500).json({ msg: 'Unit not deleted' });
-            }
-        },
-    ).catch((err: Error) => {
+        connect(url, options);
+
+        await UnitModel.deleteOne(query);
+
+        res.json({ msg: 'Unit successfuly deleted' });
+    } catch (err) {
         res.status(500).json({ msg: err.message });
-    });
+    }
 }
