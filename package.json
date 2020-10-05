@@ -18,12 +18,16 @@
     },
     "dependencies": {
         "@material-ui/core": "^4.11.0",
+        "bcrypt": "^5.0.0",
+        "jsonwebtoken": "^8.5.1",
         "mongoose": "^5.10.7",
         "next": "9.5.3",
         "react": "16.13.1",
         "react-dom": "16.13.1"
     },
     "devDependencies": {
+        "@types/bcrypt": "^3.0.0",
+        "@types/jsonwebtoken": "^8.5.0",
         "@types/mongodb": "^3.5.27",
         "@types/mongoose": "^5.7.36",
         "@types/node": "^14.11.2",

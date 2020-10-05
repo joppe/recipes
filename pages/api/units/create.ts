@@ -17,7 +17,7 @@ async function createUnit(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        connect(url, options);
+        await connect(url, options);
 
         const unit = new UnitModel({
             name: req.body.name,
@@ -26,7 +26,7 @@ async function createUnit(
 
         await unit.save();
 
-        res.json({ msg: 'Unit successfuly created' });
+        res.json({ msg: 'Unit successfully created' });
     } catch (err) {
         res.status(500).json({ msg: err.message });
     }

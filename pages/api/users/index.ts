@@ -3,16 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/types/unit/model';
+import { UserModel } from '../../../server/types/user/model';
 
-async function readUnit(
+async function readUser(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
         await connect(url, options);
 
-        const result = await UnitModel.find({});
+        const result = await UserModel.find({});
 
         res.json(result);
     } catch (err) {
@@ -24,5 +24,5 @@ export default async function (
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    await forceRequestMethod(req, res, 'GET', readUnit);
+    await forceRequestMethod(req, res, 'GET', readUser);
 }

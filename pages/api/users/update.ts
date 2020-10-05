@@ -1,36 +1,44 @@
+import { hash } from 'bcrypt';
 import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/types/unit/model';
+import { UserModel } from '../../../server/types/user/model';
 
-interface CreateUnitRequest extends NextApiRequest {
+interface CreateUserRequest extends NextApiRequest {
     body: {
         id: string;
         name: string;
-        abbreviation: string;
+        email: string;
+        password: string;
     };
 }
 
-async function updateUnit(
-    req: CreateUnitRequest,
+async function updateUser(
+    req: CreateUserRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
         await connect(url, options);
 
+        /**
+         * TODO check if email already exists
+         */
+
         const filter = { _id: req.body.id };
+        const password = await hash(req.body.password, 12);
         const doc = {
             name: req.body.name,
-            abbreviation: req.body.abbreviation,
+            email: req.body.email,
+            password,
         };
-        const result = await UnitModel.updateOne(filter, doc);
+        const result = await UserModel.updateOne(filter, doc);
 
         if (result.nModified === 1) {
-            res.json({ msg: 'Unit successfully updated' });
+            res.json({ msg: 'User successfully updated' });
         } else {
-            res.status(500).json({ msg: 'Unit not updated' });
+            res.status(500).json({ msg: 'User not updated' });
         }
     } catch (err) {
         res.status(500).json({ msg: err.message });
@@ -38,8 +46,8 @@ async function updateUnit(
 }
 
 export default async function (
-    req: CreateUnitRequest,
+    req: CreateUserRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    await forceRequestMethod(req, res, 'PUT', updateUnit);
+    await forceRequestMethod(req, res, 'PUT', updateUser);
 }
