@@ -2,7 +2,8 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
-import { UnitModel } from './model';
+import { forceRequestMethod } from '../../../server/middleware/force-request-method';
+import { UnitModel } from '../../../server/types/unit/model';
 
 interface DeleteUnitRequest extends NextApiRequest {
     body: {
@@ -10,23 +11,29 @@ interface DeleteUnitRequest extends NextApiRequest {
     };
 }
 
-export default async function deleteUnit(
+async function deleteUnit(
     req: DeleteUnitRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    if (req.method !== 'DELETE') {
-        return res.status(500).json({ msg: 'Only accept DELETE calls' });
-    }
-
     try {
-        const query = { _id: req.body.id };
-
         connect(url, options);
 
-        await UnitModel.deleteOne(query);
+        const query = { _id: req.body.id };
+        const result = await UnitModel.deleteOne(query);
 
-        res.json({ msg: 'Unit successfuly deleted' });
+        if (result.deletedCount === 1) {
+            res.json({ msg: 'Unit successfuly deleted' });
+        } else {
+            res.status(500).json({ msg: 'Unit not deleted' });
+        }
     } catch (err) {
         res.status(500).json({ msg: err.message });
     }
+}
+
+export default async function (
+    req: DeleteUnitRequest,
+    res: NextApiResponse,
+): Promise<void> {
+    await forceRequestMethod(req, res, 'DELETE', deleteUnit);
 }

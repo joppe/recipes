@@ -2,16 +2,13 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
-import { UnitModel } from './model';
+import { forceRequestMethod } from '../../../server/middleware/force-request-method';
+import { UnitModel } from '../../../server/types/unit/model';
 
-export default async function readUnits(
+async function readUnit(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    if (req.method !== 'GET') {
-        return res.status(500).json({ msg: 'Only accept GET calls' });
-    }
-
     try {
         connect(url, options);
 
@@ -21,4 +18,11 @@ export default async function readUnits(
     } catch (err) {
         res.status(500).json({ msg: err.message });
     }
+}
+
+export default async function (
+    req: NextApiRequest,
+    res: NextApiResponse,
+): Promise<void> {
+    await forceRequestMethod(req, res, 'GET', readUnit);
 }

@@ -70,6 +70,6 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 
 - ~~use material ui~~
 - ~~use mongoose~~
-- create middleware for api routes
+- ~~create middleware for api routes~~
 - users (authentication/authorization)
 - use environment variables for mongo user/pwd

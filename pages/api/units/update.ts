@@ -2,7 +2,8 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
-import { UnitModel } from './model';
+import { forceRequestMethod } from '../../../server/middleware/force-request-method';
+import { UnitModel } from '../../../server/types/unit/model';
 
 interface CreateUnitRequest extends NextApiRequest {
     body: {
@@ -12,14 +13,10 @@ interface CreateUnitRequest extends NextApiRequest {
     };
 }
 
-export default async function createUnit(
+async function updateUnit(
     req: CreateUnitRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    if (req.method !== 'PUT') {
-        return res.status(500).json({ msg: 'Only accept PUT calls' });
-    }
-
     try {
         connect(url, options);
 
@@ -38,4 +35,11 @@ export default async function createUnit(
     } catch (err) {
         res.status(500).json({ msg: err.message });
     }
+}
+
+export default async function (
+    req: CreateUnitRequest,
+    res: NextApiResponse,
+): Promise<void> {
+    await forceRequestMethod(req, res, 'PUT', updateUnit);
 }

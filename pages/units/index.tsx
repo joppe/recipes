@@ -65,5 +65,5 @@ Units.getInitialProps = async (): Promise<{ units: Unit[] }> => {
     const response = await fetch('http://localhost:3000/api/units');
     const json = await response.json();
 
-    return { units: json.units };
+    return { units: json };
 };
