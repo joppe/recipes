@@ -6,7 +6,9 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "mock-server": "json-server --watch ./data/db.json -p 4001 -d 100"
+        "mongo:setup": "docker-compose up -d",
+        "mongo:start": "docker-compose start",
+        "mongo:stop": "docker-compose stop"
     },
     "importSort": {
         ".js, .jsx, .ts, .tsx": {
@@ -33,7 +35,6 @@
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-react": "^7.21.3",
         "import-sort-style-module": "^6.0.0",
-        "json-server": "^0.16.2",
         "mongodb": "^3.6.2",
         "prettier": "^2.1.2",
         "prettier-plugin-import-sort": "0.0.6"
