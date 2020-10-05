@@ -17,7 +17,6 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 {
     "name": "Rode ui",
     "type": "Groente",
-    "default-unit": "unit",
     "images": []
 }
 ```
@@ -43,7 +42,7 @@ I use this project to learn new technologies/frameworks. It's just for fun.
     ],
     "vegetarian": true,
     "vegan": true,
-    "difficulty": "gemiddeld",
+    "difficulty": 3, // 0 - 5
     "course": "hoofdgerecht",
     "servings" 4,
     "preparation-time": 30,
