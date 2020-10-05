@@ -1,7 +1,7 @@
-const host = '127.0.0.1';
-const port = '27017';
-const user = 'root';
-const password = 'develop';
+const host = process.env.MONGO_HOST;
+const port = process.env.MONGO_PORT;
+const user = process.env.MONGO_USER;
+const password = process.env.MONGO_PASSWORD;
 const dbName = 'recipes';
 
 export const url = `mongodb://${host}:${port}/${dbName}`;

@@ -71,4 +71,4 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 - ~~use mongoose~~
 - ~~create middleware for api routes~~
 - users (authentication/authorization)
-- use environment variables for mongo user/pwd
+- ~~use environment variables for mongo user/pwd~~
