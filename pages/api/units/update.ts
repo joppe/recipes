@@ -2,10 +2,11 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
+import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UnitModel } from '../../../server/types/unit/model';
 
-interface CreateUnitRequest extends NextApiRequest {
+interface UpdateUnitRequest extends NextApiRequest {
     body: {
         id: string;
         name: string;
@@ -14,7 +15,7 @@ interface CreateUnitRequest extends NextApiRequest {
 }
 
 async function updateUnit(
-    req: CreateUnitRequest,
+    req: UpdateUnitRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
@@ -37,9 +38,4 @@ async function updateUnit(
     }
 }
 
-export default async function (
-    req: CreateUnitRequest,
-    res: NextApiResponse,
-): Promise<void> {
-    await forceRequestMethod(req, res, 'PUT', updateUnit);
-}
+export default authenticated(forceRequestMethod('PUT', updateUnit));

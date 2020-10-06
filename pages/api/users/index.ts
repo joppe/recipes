@@ -2,6 +2,7 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
+import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UserModel } from '../../../server/types/user/model';
 
@@ -20,9 +21,4 @@ async function readUser(
     }
 }
 
-export default async function (
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
-    await forceRequestMethod(req, res, 'GET', readUser);
-}
+export default authenticated(forceRequestMethod('GET', readUser));

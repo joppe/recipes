@@ -20,9 +20,4 @@ async function readUnit(
     }
 }
 
-export default async function (
-    req: NextApiRequest,
-    res: NextApiResponse,
-): Promise<void> {
-    await forceRequestMethod(req, res, 'GET', readUnit);
-}
+export default forceRequestMethod('GET', readUnit);

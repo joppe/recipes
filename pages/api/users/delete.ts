@@ -2,6 +2,7 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
+import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UserModel } from '../../../server/types/user/model';
 
@@ -31,9 +32,4 @@ async function deleteUser(
     }
 }
 
-export default async function (
-    req: DeleteUserRequest,
-    res: NextApiResponse,
-): Promise<void> {
-    await forceRequestMethod(req, res, 'DELETE', deleteUser);
-}
+export default authenticated(forceRequestMethod('DELETE', deleteUser));
