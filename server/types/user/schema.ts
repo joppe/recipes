@@ -11,8 +11,6 @@ export const userSchema = new Schema({
     },
     password: {
         type: String,
-        minlength: 6,
-        maxlength: 40,
         required: true,
     },
     role: {
