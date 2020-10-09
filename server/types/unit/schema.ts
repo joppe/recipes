@@ -1,6 +1,12 @@
 import { Schema } from 'mongoose';
 
 export const unitSchema = new Schema({
-    name: String,
-    abbreviation: String,
+    name: {
+        type: String,
+        required: true,
+    },
+    abbreviation: {
+        type: String,
+        required: true,
+    },
 });

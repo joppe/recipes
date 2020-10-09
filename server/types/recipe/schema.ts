@@ -1,7 +1,10 @@
 import { Schema } from 'mongoose';
 
 export const recipeSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+    },
     description: String,
     source: String,
     images: [String],
@@ -14,9 +17,19 @@ export const recipeSchema = new Schema({
     preparation: [String],
     ingredients: [
         {
-            name: String,
-            unit: String,
-            amount: Number,
+            name: {
+                type: String,
+                required: true,
+            },
+            unit: {
+                type: String,
+                required: true,
+            },
+            amount: {
+                type: Number,
+                required: true,
+            },
+            preparation: String,
         },
     ],
 });

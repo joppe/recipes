@@ -6,28 +6,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 import { Unit } from '../../types/unit.type';
 
 type Props = { units: Unit[] };
 
 export default function Units(props: Props): JSX.Element {
-    const [units, setUnits] = useState(props.units);
-
-    useEffect(() => {
-        async function getData() {
-            const response = await fetch('http://localhost:3000/api/units');
-            const units = await response.json();
-
-            setUnits(units ?? []);
-        }
-
-        if (units.length === 0) {
-            getData();
-        }
-    }, []);
+    const { units } = props;
 
     return (
         <div>
@@ -42,6 +27,7 @@ export default function Units(props: Props): JSX.Element {
                             <TableCell align="right">Afkorting</TableCell>
                         </TableRow>
                     </TableHead>
+
                     <TableBody>
                         {units.map((unit) => (
                             <TableRow key={unit._id}>
