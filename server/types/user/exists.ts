@@ -1,4 +1,3 @@
-import { use } from 'ast-types';
 import { connect } from 'mongoose';
 
 import { options, url } from '../../../config/mongoose';

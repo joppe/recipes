@@ -41,7 +41,6 @@ export function validate(user: User): ValidationResult<User> {
     const valid = Object.keys(error).every((key: string) => {
         return error[key as keyof User];
     });
-
     if (valid) {
         return {
             isValid: true,
