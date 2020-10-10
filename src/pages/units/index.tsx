@@ -12,8 +12,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useRouter } from 'next/router';
 
+import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
-import { MainLayout } from '../layout/main-layout';
 
 type Props = { units: Unit[] };
 

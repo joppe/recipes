@@ -1,4 +1,3 @@
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -7,8 +6,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import FaceIcon from '@material-ui/icons/Face';
 import FunctionsIcon from '@material-ui/icons/Functions';
@@ -16,6 +13,8 @@ import ListIcon from '@material-ui/icons/List';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import { useRouter } from 'next/router';
 import React from 'react';
+
+import { Header } from '../component/Header';
 
 const drawerWidth = 240;
 
@@ -54,18 +53,10 @@ export function MainLayout(props: Props): JSX.Element {
     const classes = useStyles();
     const router = useRouter();
 
-    console.log(router.pathname);
-
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <Typography variant="h6" noWrap>
-                        {props.title}
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+            <Header className={classes.appBar} title={props.title} />
             <Drawer
                 className={classes.drawer}
                 variant="permanent"

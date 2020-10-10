@@ -1,4 +1,5 @@
 import { compare } from 'bcrypt';
+import cookie from 'cookie';
 import { sign } from 'jsonwebtoken';
 import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -24,9 +25,7 @@ async function loginUser(
         const result = await UserModel.findOne({ email: req.body.email });
 
         if (result === null) {
-            return res
-                .status(401)
-                .json({ msg: 'Unable to login with user/pwd' });
+            return res.json({ success: false });
         }
 
         const isValid = await compare(req.body.password, result.password);
@@ -41,9 +40,28 @@ async function loginUser(
                 expiresIn: '1h',
             });
 
-            res.json({ authToken: jwt });
+            res.setHeader(
+                'Set-Cookie',
+                cookie.serialize('auth', jwt, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV !== 'development',
+                    sameSite: 'strict',
+                    maxAge: 3600,
+                    path: '/',
+                }),
+            );
+
+            res.json({
+                success: true,
+                user: {
+                    _id: result._id,
+                    name: result.name,
+                    email: result.email,
+                    role: result.role,
+                },
+            });
         } else {
-            res.status(401).json({ msg: 'Unable to login with user/pwd' });
+            res.json({ success: false });
         }
     } catch (err) {
         res.status(401).json({ msg: err.message });

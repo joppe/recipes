@@ -1,4 +1,4 @@
-import { MainLayout } from './layout/main-layout';
+import { MainLayout } from '../layout/main-layout';
 
 export default function Home(): JSX.Element {
     return (

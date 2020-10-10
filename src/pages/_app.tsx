@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { theme } from '../config/theme';
+import { UserProvider } from '../context/user-provider';
 
 export default function MyApp(props: AppProps): JSX.Element {
     const { Component, pageProps } = props;
@@ -31,7 +32,9 @@ export default function MyApp(props: AppProps): JSX.Element {
             <ThemeProvider theme={theme}>
                 {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
                 <CssBaseline />
-                <Component {...pageProps} />
+                <UserProvider>
+                    <Component {...pageProps} />
+                </UserProvider>
             </ThemeProvider>
         </React.Fragment>
     );
