@@ -1,8 +1,8 @@
 import { MainLayout } from '../../layout/main-layout';
 
-export default function Ingredients(): JSX.Element {
+export default function Users(): JSX.Element {
     return (
-        <MainLayout title="Lijst van ingredi&euml;nten">
+        <MainLayout title="Lijst van gebruikers">
             <p>TODO</p>
         </MainLayout>
     );

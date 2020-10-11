@@ -37,7 +37,7 @@ export default function Units(props: Props): JSX.Element {
     const classes = useStyles();
 
     return (
-        <MainLayout title={'Lijst van eenheden'}>
+        <MainLayout title="Lijst van eenheden">
             <div className={classes.root}>
                 <Button
                     className={classes.button}

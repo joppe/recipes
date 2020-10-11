@@ -1,7 +1,9 @@
+import { MainLayout } from '../../layout/main-layout';
+
 export default function Recipes(): JSX.Element {
     return (
-        <div>
-            <h1>recepten</h1>
-        </div>
+        <MainLayout title="Lijst van recepten">
+            <p>TODO</p>
+        </MainLayout>
     );
 }
