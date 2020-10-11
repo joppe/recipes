@@ -8,6 +8,7 @@ import { forceRequestMethod } from '../../../server/middleware/force-request-met
 import { exists } from '../../../server/types/user/exists';
 import { UserModel } from '../../../server/types/user/model';
 import { validate } from '../../../server/types/user/validate';
+import { Role } from '../../../types/user.type';
 
 interface UpdateUserRequest extends NextApiRequest {
     body: {
@@ -31,7 +32,7 @@ async function updateUser(
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            role: req.body.role,
+            role: <Role>req.body.role,
         };
         const validateResult = validate(input);
 

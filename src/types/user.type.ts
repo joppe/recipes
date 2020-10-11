@@ -19,6 +19,17 @@ export type LoggedInUser = {
     role: Role;
 };
 
+export type JSONWebTokenClaims = {
+    sub: string;
+    name: string;
+    email: string;
+};
+
+export type JSONWebToken = JSONWebTokenClaims & {
+    iat: number;
+    exp: number;
+};
+
 export type UserInfo = Anonymous | LoggedInUser;
 
 export function isAnonymous(user: UserInfo): user is Anonymous {

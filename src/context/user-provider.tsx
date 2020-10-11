@@ -1,5 +1,4 @@
-import cookie from 'cookie';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Anonymous, UserInfo } from '../types/user.type';
 
@@ -26,19 +25,27 @@ type Props = {
 };
 
 export function UserProvider(props: Props): JSX.Element {
-    const [user, setUser] = useState<UserInfo>(() => {
-        // cookie.parse()
-        return anonymous;
-    });
+    const [user, setUser] = useState<UserInfo>(anonymous);
     const value = {
         user,
         setUser: (user: UserInfo): void => {
-            console.log(user);
+            // store data in localstorage
             setUser(user);
         },
     };
 
-    console.log(user);
+    useEffect((): void => {
+        async function whoAmI(): Promise<void> {
+            const result = await fetch('/api/who-am-i');
+            const json = await result.json();
+
+            if (json.user !== null) {
+                setUser(json.user);
+            }
+        }
+
+        whoAmI();
+    }, []);
 
     return (
         <UserContext.Provider value={value}>

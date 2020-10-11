@@ -7,6 +7,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { options, url } from '../../config/mongoose';
 import { forceRequestMethod } from '../../server/middleware/force-request-method';
 import { UserModel } from '../../server/types/user/model';
+import { JSONWebTokenClaims } from '../../types/user.type';
 
 interface LoginRequest extends NextApiRequest {
     body: {
@@ -31,7 +32,7 @@ async function loginUser(
         const isValid = await compare(req.body.password, result.password);
 
         if (isValid) {
-            const claims = {
+            const claims: JSONWebTokenClaims = {
                 sub: result._id,
                 name: result.name,
                 email: result.email,
@@ -53,6 +54,7 @@ async function loginUser(
 
             res.json({
                 success: true,
+                jwt,
                 user: {
                     _id: result._id,
                     name: result.name,
