@@ -32,4 +32,7 @@ async function deleteIngredient(
     }
 }
 
-export default authenticated(forceRequestMethod('DELETE', deleteIngredient));
+export default authenticated(
+    'user',
+    forceRequestMethod('DELETE', deleteIngredient),
+);

@@ -32,4 +32,4 @@ async function deleteUser(
     }
 }
 
-export default authenticated(forceRequestMethod('DELETE', deleteUser));
+export default authenticated('admin', forceRequestMethod('DELETE', deleteUser));

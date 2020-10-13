@@ -35,4 +35,7 @@ async function createIngredient(
     }
 }
 
-export default authenticated(forceRequestMethod('POST', createIngredient));
+export default authenticated(
+    'user',
+    forceRequestMethod('POST', createIngredient),
+);

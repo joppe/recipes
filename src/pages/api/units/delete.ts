@@ -32,4 +32,4 @@ async function deleteUnit(
     }
 }
 
-export default authenticated(forceRequestMethod('DELETE', deleteUnit));
+export default authenticated('user', forceRequestMethod('DELETE', deleteUnit));

@@ -49,10 +49,8 @@ async function createUser(
 
         const password = await hash(input.password, 12);
         const user = new UserModel({
-            name: input.name,
-            email: input.email,
+            ...input,
             password: password,
-            role: input.role,
         });
 
         await user.save();
@@ -63,4 +61,4 @@ async function createUser(
     }
 }
 
-export default authenticated(forceRequestMethod('POST', createUser));
+export default authenticated('admin', forceRequestMethod('POST', createUser));

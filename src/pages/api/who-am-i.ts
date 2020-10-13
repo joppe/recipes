@@ -1,4 +1,3 @@
-import cookie from 'cookie';
 import { verify } from 'jsonwebtoken';
 import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -17,11 +16,8 @@ async function whoAmI(
     }
 
     try {
-        const parsed = cookie.parse(req.headers.cookie);
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const token: JSONWebToken = <any>(
-            verify(<string>parsed['auth'], <string>process.env.JWT_SECRET)
+        const token = <JSONWebToken>(
+            verify(req.cookies.auth, <string>process.env.JWT_SECRET)
         );
 
         await connect(url, options);

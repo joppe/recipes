@@ -1,16 +1,15 @@
 import { verify } from 'jsonwebtoken';
 import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
-export function authenticated(fn: NextApiHandler): NextApiHandler {
+import { Role } from '../../types/user.type';
+
+export function authenticated(role: Role, fn: NextApiHandler): NextApiHandler {
     return async function (
         req: NextApiRequest,
         res: NextApiResponse,
     ): Promise<void> {
         try {
-            verify(
-                <string>req.headers.authorization,
-                <string>process.env.JWT_SECRET,
-            );
+            verify(req.cookies.auth, <string>process.env.JWT_SECRET);
 
             return await fn(req, res);
         } catch (err) {

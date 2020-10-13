@@ -21,4 +21,4 @@ async function readUser(
     }
 }
 
-export default authenticated(forceRequestMethod('GET', readUser));
+export default authenticated('admin', forceRequestMethod('GET', readUser));

@@ -38,4 +38,4 @@ async function updateUnit(
     }
 }
 
-export default authenticated(forceRequestMethod('PUT', updateUnit));
+export default authenticated('user', forceRequestMethod('PUT', updateUnit));

@@ -38,4 +38,7 @@ async function updateIngredient(
     }
 }
 
-export default authenticated(forceRequestMethod('PUT', updateIngredient));
+export default authenticated(
+    'user',
+    forceRequestMethod('PUT', updateIngredient),
+);

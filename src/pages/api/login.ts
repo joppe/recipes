@@ -26,7 +26,7 @@ async function loginUser(
         const result = await UserModel.findOne({ email: req.body.email });
 
         if (result === null) {
-            return res.json({ success: false });
+            return res.json({ success: false, msg: 'Incorrect credentials' });
         }
 
         const isValid = await compare(req.body.password, result.password);
@@ -54,7 +54,6 @@ async function loginUser(
 
             res.json({
                 success: true,
-                jwt,
                 user: {
                     _id: result._id,
                     name: result.name,
@@ -66,7 +65,7 @@ async function loginUser(
             res.json({ success: false });
         }
     } catch (err) {
-        res.status(401).json({ msg: err.message });
+        res.status(401).json({ success: false, msg: err.message });
     }
 }
 

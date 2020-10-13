@@ -69,4 +69,4 @@ async function updateUser(
     }
 }
 
-export default authenticated(forceRequestMethod('PUT', updateUser));
+export default authenticated('admin', forceRequestMethod('PUT', updateUser));

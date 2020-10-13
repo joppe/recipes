@@ -5,6 +5,7 @@ import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UnitModel } from '../../../server/types/unit/model';
+import { validate } from '../../../server/types/unit/validate';
 
 interface CreateUnitRequest extends NextApiRequest {
     body: {
@@ -20,17 +21,27 @@ async function createUnit(
     try {
         await connect(url, options);
 
-        const unit = new UnitModel({
+        const input = {
             name: req.body.name,
             abbreviation: req.body.abbreviation,
-        });
+        };
+        const validateResult = validate(input);
+
+        if (!validateResult.isValid) {
+            return res.json({
+                success: false,
+                error: validateResult.error,
+            });
+        }
+
+        const unit = new UnitModel(input);
 
         await unit.save();
 
-        res.json({ msg: 'Unit successfully created' });
+        res.json({ success: true });
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 
-export default authenticated(forceRequestMethod('POST', createUnit));
+export default authenticated('user', forceRequestMethod('POST', createUnit));

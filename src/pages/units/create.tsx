@@ -1,8 +1,10 @@
 import { Button, Card, CardContent, TextField } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
 
@@ -26,10 +28,37 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function CreateUnit(): JSX.Element {
     const classes = useStyles();
-    // https://blog.logrocket.com/forms-in-react-in-2020/
-    // const [unit, setUnit] = useState<Partial<Unit>>({});
+    const router = useRouter();
+    const [message, setMessage] = useState(undefined);
+    const { registerField, handleSubmit, errors, setErrors } = useForm();
 
-    // function save(): void {}
+    async function onSubmit(data: FormData): Promise<void> {
+        console.log('onSubmit');
+        const body = {
+            name: data.get('name'),
+            abbreviation: data.get('abbreviation'),
+        };
+        const result = await fetch('/api/units/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+        const json = await result.json();
+
+        console.log(json);
+
+        if (json.success === true) {
+            await router.push('/units');
+        } else if (json.error) {
+            setErrors(json.errors);
+        } else {
+            setMessage(json.msg ?? 'Er is iets fout gegaan');
+        }
+    }
+
+    console.log(errors);
 
     return (
         <MainLayout title={'Eenheid aanmaken'}>
@@ -39,30 +68,40 @@ export default function CreateUnit(): JSX.Element {
                         noValidate
                         autoComplete="off"
                         className={classes.form}
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <TextField
                             className={classes.textField}
                             autoFocus
                             margin="dense"
                             id="name"
+                            name="name"
                             label="Naam"
                             type="text"
+                            error={errors['name'] !== undefined}
                             fullWidth
+                            required={true}
+                            inputRef={registerField()}
                         />
 
                         <TextField
                             className={classes.textField}
                             margin="dense"
                             id="abbreviation"
+                            name="abbreviation"
                             label="Afkorting"
                             type="text"
+                            error={errors['abbreviation'] !== undefined}
                             fullWidth
+                            required={true}
+                            inputRef={registerField()}
                         />
 
                         <Button
                             className={classes.button}
                             variant="contained"
                             color="primary"
+                            type="submit"
                             startIcon={<SaveIcon />}
                         >
                             Opslaan

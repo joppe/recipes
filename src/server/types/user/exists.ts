@@ -8,5 +8,5 @@ export async function exists(email: string, id?: string): Promise<boolean> {
 
     const user = await UserModel.findOne({ email });
 
-    return user !== null && (id === undefined || user._id !== id);
+    return user !== null && (id === undefined || user._id.toString() !== id);
 }
