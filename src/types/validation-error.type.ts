@@ -1,3 +1,3 @@
 export type ValidationError<T> = {
-    [P in keyof T]: boolean;
+    [P in keyof T]?: string;
 };

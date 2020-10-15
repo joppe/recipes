@@ -1,12 +1,12 @@
 import { Button, Card, CardContent, TextField } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
+import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
-import { Unit } from '../../types/unit.type';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,7 +33,6 @@ export default function CreateUnit(): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
-        console.log('onSubmit');
         const body = {
             name: data.get('name'),
             abbreviation: data.get('abbreviation'),
@@ -47,18 +46,23 @@ export default function CreateUnit(): JSX.Element {
         });
         const json = await result.json();
 
-        console.log(json);
-
         if (json.success === true) {
             await router.push('/units');
         } else if (json.error) {
-            setErrors(json.errors);
+            setErrors(json.error);
+            setMessage(undefined);
         } else {
             setMessage(json.msg ?? 'Er is iets fout gegaan');
         }
     }
 
-    console.log(errors);
+    function renderMessage(): JSX.Element | null {
+        if (message === undefined) {
+            return null;
+        }
+
+        return <Alert severity="error">{message}</Alert>;
+    }
 
     return (
         <MainLayout title={'Eenheid aanmaken'}>
@@ -70,6 +74,8 @@ export default function CreateUnit(): JSX.Element {
                         className={classes.form}
                         onSubmit={handleSubmit(onSubmit)}
                     >
+                        {renderMessage()}
+
                         <TextField
                             className={classes.textField}
                             autoFocus

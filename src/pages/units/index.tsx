@@ -10,8 +10,11 @@ import TableRow from '@material-ui/core/TableRow';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
+import { ConfirmDelete } from '../../component/ConfirmDelete';
 import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
 
@@ -32,13 +35,58 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Units(props: Props): JSX.Element {
-    const { units } = props;
+    const [units, setUnits] = useState(props.units);
+    const [deleteTarget, setDeleteTarget] = useState<Unit | undefined>();
+    const [message, setMessage] = useState(undefined);
     const router = useRouter();
     const classes = useStyles();
+
+    async function handleConfirmDelete(): Promise<void> {
+        const result = await fetch('/api/units/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: deleteTarget?._id }),
+        });
+        const json = await result.json();
+
+        if (json.success) {
+            const response = await fetch('http://localhost:3000/api/units');
+            const json = await response.json();
+
+            setUnits(json);
+        } else {
+            setMessage(json.msg ?? 'Er is iets fout gegaan');
+        }
+
+        setDeleteTarget(undefined);
+    }
+
+    function handleCancelDelete(): void {
+        setDeleteTarget(undefined);
+    }
+
+    function renderMessage(): JSX.Element | null {
+        if (message === undefined) {
+            return null;
+        }
+
+        return <Alert severity="error">{message}</Alert>;
+    }
 
     return (
         <MainLayout title="Lijst van eenheden">
             <div className={classes.root}>
+                <ConfirmDelete
+                    value={deleteTarget?.name ?? ''}
+                    open={deleteTarget !== undefined}
+                    onCancel={handleCancelDelete}
+                    onConfirm={handleConfirmDelete}
+                />
+
+                {renderMessage()}
+
                 <Button
                     className={classes.button}
                     variant="contained"
@@ -80,7 +128,9 @@ export default function Units(props: Props): JSX.Element {
                                         <IconButton
                                             edge="end"
                                             aria-label="delete"
-                                            onClick={() => console.log('test')}
+                                            onClick={() =>
+                                                setDeleteTarget(unit)
+                                            }
                                         >
                                             <DeleteIcon />
                                         </IconButton>

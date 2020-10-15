@@ -23,12 +23,15 @@ async function deleteUnit(
         const result = await UnitModel.deleteOne(query);
 
         if (result.deletedCount === 1) {
-            res.json({ msg: 'Unit successfully deleted' });
+            res.json({ success: true });
         } else {
-            res.status(500).json({ msg: 'Unit not deleted' });
+            res.json({
+                success: false,
+                msg: `Units deleted ${result.deletedCount}`,
+            });
         }
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 

@@ -5,6 +5,7 @@ import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UnitModel } from '../../../server/type/unit/model';
+import { validate } from '../../../server/type/unit/validate';
 
 interface UpdateUnitRequest extends NextApiRequest {
     body: {
@@ -21,20 +22,32 @@ async function updateUnit(
     try {
         await connect(url, options);
 
-        const filter = { _id: req.body.id };
-        const doc = {
+        const input = {
             name: req.body.name,
             abbreviation: req.body.abbreviation,
         };
-        const result = await UnitModel.updateOne(filter, doc);
+        const validateResult = await validate(input);
+
+        if (!validateResult.isValid) {
+            return res.json({
+                success: false,
+                error: validateResult.error,
+            });
+        }
+
+        const filter = { _id: req.body.id };
+        const result = await UnitModel.updateOne(filter, input);
 
         if (result.nModified === 1) {
-            res.json({ msg: 'Unit successfully updated' });
+            res.json({ success: true });
         } else {
-            res.status(500).json({ msg: 'Unit not updated' });
+            res.json({
+                success: false,
+                msg: `Units updated ${result.nModified}`,
+            });
         }
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 

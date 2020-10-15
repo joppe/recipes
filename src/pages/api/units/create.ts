@@ -25,7 +25,7 @@ async function createUnit(
             name: req.body.name,
             abbreviation: req.body.abbreviation,
         };
-        const validateResult = validate(input);
+        const validateResult = await validate(input);
 
         if (!validateResult.isValid) {
             return res.json({
