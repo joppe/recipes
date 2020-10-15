@@ -4,8 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/types/unit/model';
-import { validate } from '../../../server/types/unit/validate';
+import { UnitModel } from '../../../server/type/unit/model';
+import { validate } from '../../../server/type/unit/validate';
 
 interface CreateUnitRequest extends NextApiRequest {
     body: {

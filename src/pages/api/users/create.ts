@@ -5,9 +5,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { exists } from '../../../server/types/user/exists';
-import { UserModel } from '../../../server/types/user/model';
-import { validate } from '../../../server/types/user/validate';
+import { exists } from '../../../server/type/user/exists';
+import { UserModel } from '../../../server/type/user/model';
+import { validate } from '../../../server/type/user/validate';
 import { Role } from '../../../types/user.type';
 
 interface CreateUserRequest extends NextApiRequest {

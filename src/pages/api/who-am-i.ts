@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../config/mongoose';
 import { forceRequestMethod } from '../../server/middleware/force-request-method';
-import { UserModel } from '../../server/types/user/model';
+import { UserModel } from '../../server/type/user/model';
 import { JSONWebToken } from '../../types/user.type';
 
 async function whoAmI(

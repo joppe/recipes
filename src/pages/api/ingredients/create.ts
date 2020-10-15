@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/types/ingredient/model';
+import { IngredientModel } from '../../../server/type/ingredient/model';
 
 interface CreateIngredientRequest extends NextApiRequest {
     body: {

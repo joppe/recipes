@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/types/ingredient/model';
+import { IngredientModel } from '../../../server/type/ingredient/model';
 
 async function readIngredient(
     req: NextApiRequest,

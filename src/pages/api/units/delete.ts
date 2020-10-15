@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/types/unit/model';
+import { UnitModel } from '../../../server/type/unit/model';
 
 interface DeleteUnitRequest extends NextApiRequest {
     body: {
