@@ -23,12 +23,15 @@ async function deleteIngredient(
         const result = await IngredientModel.deleteOne(query);
 
         if (result.deletedCount === 1) {
-            res.json({ msg: 'Ingredient successfully deleted' });
+            res.json({ success: true });
         } else {
-            res.status(500).json({ msg: 'Ingredient not deleted' });
+            res.json({
+                success: false,
+                msg: `Units deleted ${result.deletedCount}`,
+            });
         }
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 
