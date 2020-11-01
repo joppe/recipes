@@ -20,6 +20,7 @@
     },
     "include": [
         "next-env.d.ts",
+        "formidable-serverless.d.ts",
         "**/*.ts",
         "**/*.tsx"
     ],

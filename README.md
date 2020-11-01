@@ -16,8 +16,7 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 ```json
 {
     "name": "Rode ui",
-    "type": "Groente",
-    "images": []
+    "image": "/img/rode-ui.png"
 }
 ```
 
@@ -37,8 +36,7 @@ I use this project to learn new technologies/frameworks. It's just for fun.
     "name": "Chili sin carne",
     "description": "De vegetarische variant op de Mexicaanse chili con carne: chili sin carne. Het bekende recept voor chili, maar dan zonder vlees! Een lekker en snel gerecht voor doordeweeks. Eet smakelijk!",
     "source": "https://www.boodschappen.nl/recept/chili-sin-carne/",
-    "images": [
-        "https://www.boodschappen.nl/app/uploads/recipe_images/4by3_header/7179.jpg"
+    "images": [ "https://www.boodschappen.nl/app/uploads/recipe_images/4by3_header/7179.jpg"
     ],
     "vegetarian": true,
     "vegan": true,
@@ -64,6 +62,8 @@ I use this project to learn new technologies/frameworks. It's just for fun.
     ]
 }
 ```
+
+
 
 ## Todo
 

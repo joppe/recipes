@@ -35,13 +35,11 @@ export default function CreateUnit(): JSX.Element {
     async function onSubmit(data: FormData): Promise<void> {
         const body = {
             name: data.get('name'),
+            images: [data.get('image')],
         };
         const result = await fetch('/api/ingredients/create', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
+            body: data,
         });
         const json = await result.json();
 
@@ -84,6 +82,20 @@ export default function CreateUnit(): JSX.Element {
                             label="Naam"
                             type="text"
                             error={errors['name'] !== undefined}
+                            fullWidth
+                            required={true}
+                            inputRef={registerField()}
+                        />
+
+                        <TextField
+                            className={classes.textField}
+                            autoFocus
+                            margin="dense"
+                            id="image"
+                            name="image"
+                            label="Afbeelding"
+                            type="file"
+                            // error={errors['name'] !== undefined}
                             fullWidth
                             required={true}
                             inputRef={registerField()}

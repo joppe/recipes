@@ -1,3 +1,4 @@
+import formidable from 'formidable-serverless';
 import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -17,30 +18,43 @@ async function createIngredient(
     req: CreateIngredientRequest,
     res: NextApiResponse,
 ): Promise<void> {
-    try {
-        await connect(url, options);
+    const form = new formidable.IncomingForm();
 
-        const input = {
-            name: req.body.name,
-        };
-        const validateResult = await validate(input);
+    form.parse(req, function (err, fields, files) {
+        console.log(fields);
+        console.log(files);
+    });
 
-        if (!validateResult.isValid) {
-            return res.json({
-                success: false,
-                error: validateResult.error,
-            });
-        }
-
-        const ingredient = new IngredientModel(input);
-
-        await ingredient.save();
-
-        res.json({ success: true });
-    } catch (err) {
-        res.status(500).json({ success: false, msg: err.message });
-    }
+    // try {
+    //     await connect(url, options);
+    //
+    //     const input = {
+    //         name: req.body.name,
+    //     };
+    //     const validateResult = await validate(input);
+    //
+    //     if (!validateResult.isValid) {
+    //         return res.json({
+    //             success: false,
+    //             error: validateResult.error,
+    //         });
+    //     }
+    //
+    //     const ingredient = new IngredientModel(input);
+    //
+    //     await ingredient.save();
+    //
+    //     res.json({ success: true });
+    // } catch (err) {
+    //     res.status(500).json({ success: false, msg: err.message });
+    // }
 }
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
 
 export default authenticated(
     'user',

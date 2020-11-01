@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
-type Validator = (val: string) => string | undefined;
+type Validator = (val: Blob | string | undefined) => string | undefined;
+
+type FormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 type RegistryEntry = {
-    field: HTMLFormElement;
+    field: FormElement;
     validator?: Validator;
 };
 
@@ -13,7 +15,7 @@ type Registry = {
 
 type FieldErrors = { [fieldNAme: string]: string };
 
-type RegisterReference = (field: HTMLFormElement | null) => void;
+type RegisterReference = (field: FormElement | null) => void;
 
 type SubmitHandler = (data: FormData) => void;
 
@@ -26,13 +28,27 @@ type UseForm = {
     errors: FieldErrors;
 };
 
+function getValue(field: FormElement): Blob | string {
+    if (field.type === 'file') {
+        return (<HTMLInputElement>field).files?.item(0) ?? '';
+    }
+
+    return field.value;
+}
+
 export function useForm(): UseForm {
     const fields: Registry = {};
     const [errors, setErrors] = useState({});
 
     return {
         registerField(validator?: Validator): RegisterReference {
-            return (field: HTMLFormElement | null): void => {
+            /**
+             * create a unique id
+             * use the id as the key in the registry
+             * store the id with the rest of the data in the fields registry
+             * when field equals null remove from registry
+             */
+            return (field: FormElement | null): void => {
                 // check for unmount
                 if (field == null) {
                     return;
@@ -51,10 +67,13 @@ export function useForm(): UseForm {
                 const data = new FormData();
                 const err: FieldErrors = {};
 
+                /**
+                 * if a field name ends with [] the value should be an array
+                 */
                 Object.keys(fields).forEach((fieldName: string): void => {
                     const fieldRegistry = fields[fieldName];
-                    const value = fieldRegistry.field.value;
-
+                    const value = getValue(fieldRegistry.field);
+                    console.log(value);
                     data.append(fieldName, value);
 
                     if (fieldRegistry.validator !== undefined) {
