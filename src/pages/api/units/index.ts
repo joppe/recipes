@@ -5,7 +5,7 @@ import { options, url } from '../../../config/mongoose';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UnitModel } from '../../../server/type/unit/model';
 
-async function readUnit(
+async function listUnits(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
@@ -20,4 +20,4 @@ async function readUnit(
     }
 }
 
-export default forceRequestMethod('GET', readUnit);
+export default forceRequestMethod('GET', listUnits);

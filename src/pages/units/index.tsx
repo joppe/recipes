@@ -120,7 +120,11 @@ export default function Units(props: Props): JSX.Element {
                                         <IconButton
                                             edge="end"
                                             aria-label="edit"
-                                            onClick={() => console.log('test')}
+                                            onClick={() =>
+                                                router.push(
+                                                    `/units/${unit._id}`,
+                                                )
+                                            }
                                         >
                                             <EditIcon />
                                         </IconButton>

@@ -1,5 +1,6 @@
 import { Button, Card, CardContent, TextField } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
 import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
@@ -20,8 +21,11 @@ const useStyles = makeStyles((theme: Theme) =>
         textField: {
             marginBottom: theme.spacing(3),
         },
-        button: {
+        buttonGroup: {
             marginLeft: 'auto',
+        },
+        button: {
+            marginLeft: theme.spacing(3),
         },
     }),
 );
@@ -33,16 +37,9 @@ export default function CreateUnit(): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
-        const body = {
-            name: data.get('name'),
-            abbreviation: data.get('abbreviation'),
-        };
         const result = await fetch('/api/units/create', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(body),
+            body: data,
         });
         const json = await result.json();
 
@@ -103,15 +100,27 @@ export default function CreateUnit(): JSX.Element {
                             inputRef={registerField()}
                         />
 
-                        <Button
-                            className={classes.button}
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            startIcon={<SaveIcon />}
-                        >
-                            Opslaan
-                        </Button>
+                        <div className={classes.buttonGroup}>
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                type="button"
+                                startIcon={<CancelIcon />}
+                                onClick={() => router.push('/units/')}
+                            >
+                                Annuleren
+                            </Button>
+
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                startIcon={<SaveIcon />}
+                            >
+                                Opslaan
+                            </Button>
+                        </div>
                     </form>
                 </CardContent>
             </Card>

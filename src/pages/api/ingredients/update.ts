@@ -42,7 +42,7 @@ async function updateIngredient(
         } else {
             res.json({
                 success: false,
-                msg: `Units updated ${result.nModified}`,
+                msg: `Ingredients updated ${result.nModified}`,
             });
         }
     } catch (err) {

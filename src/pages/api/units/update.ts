@@ -2,10 +2,12 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
+import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { UnitModel } from '../../../server/type/unit/model';
 import { validate } from '../../../server/type/unit/validate';
+import { Unit } from '../../../types/unit.type';
 
 interface UpdateUnitRequest extends NextApiRequest {
     body: {
@@ -22,10 +24,7 @@ async function updateUnit(
     try {
         await connect(url, options);
 
-        const input = {
-            name: req.body.name,
-            abbreviation: req.body.abbreviation,
-        };
+        const input: Unit = await handle(req);
         const validateResult = await validate(input);
 
         if (!validateResult.isValid) {
@@ -35,7 +34,7 @@ async function updateUnit(
             });
         }
 
-        const filter = { _id: req.body.id };
+        const filter = { _id: input._id };
         const result = await UnitModel.updateOne(filter, input);
 
         if (result.nModified === 1) {
@@ -50,5 +49,11 @@ async function updateUnit(
         res.status(500).json({ success: false, msg: err.message });
     }
 }
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
 
 export default authenticated('user', forceRequestMethod('PUT', updateUnit));

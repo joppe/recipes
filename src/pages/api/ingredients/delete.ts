@@ -27,7 +27,7 @@ async function deleteIngredient(
         } else {
             res.json({
                 success: false,
-                msg: `Units deleted ${result.deletedCount}`,
+                msg: `Ingredients deleted ${result.deletedCount}`,
             });
         }
     } catch (err) {

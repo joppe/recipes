@@ -4,7 +4,9 @@ const user = <string>process.env.MONGO_USER;
 const password = <string>process.env.MONGO_PASSWORD;
 const dbName = 'recipes';
 
-export const url = `mongodb://${host}:${port}/${dbName}`;
+export const url = `mongodb+srv://${user}:${password}@${host}${
+    port ? `:${port}` : ''
+}/${dbName}?retryWrites=true&w=majority`;
 
 export const options = {
     authSource: 'admin',

@@ -5,7 +5,7 @@ import { options, url } from '../../../config/mongoose';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { IngredientModel } from '../../../server/type/ingredient/model';
 
-async function readIngredient(
+async function listIngredients(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
@@ -20,4 +20,4 @@ async function readIngredient(
     }
 }
 
-export default forceRequestMethod('GET', readIngredient);
+export default forceRequestMethod('GET', listIngredients);

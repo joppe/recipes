@@ -1,5 +1,6 @@
 import { Button, Card, CardContent, TextField } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
 import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
@@ -21,8 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
         textField: {
             marginBottom: theme.spacing(3),
         },
-        button: {
+        buttonGroup: {
             marginLeft: 'auto',
+        },
+        button: {
+            marginLeft: theme.spacing(3),
         },
     }),
 );
@@ -89,20 +93,33 @@ export default function CreateIngredient(): JSX.Element {
                             name="image"
                             label="Afbeelding"
                             value={undefined}
+                            isImage={true}
                             className={classes.textField}
                             error={errors['image']}
                             registerField={registerField}
                         />
 
-                        <Button
-                            className={classes.button}
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            startIcon={<SaveIcon />}
-                        >
-                            Opslaan
-                        </Button>
+                        <div className={classes.buttonGroup}>
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                type="button"
+                                startIcon={<CancelIcon />}
+                                onClick={() => router.push('/ingredients/')}
+                            >
+                                Annuleren
+                            </Button>
+
+                            <Button
+                                className={classes.button}
+                                variant="contained"
+                                color="primary"
+                                type="submit"
+                                startIcon={<SaveIcon />}
+                            >
+                                Opslaan
+                            </Button>
+                        </div>
                     </form>
                 </CardContent>
             </Card>
