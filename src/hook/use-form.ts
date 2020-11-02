@@ -10,7 +10,7 @@ type RegistryEntry = {
 };
 
 type Registry = {
-    [fieldName: string]: RegistryEntry;
+    [id: string]: RegistryEntry;
 };
 
 type FieldErrors = { [fieldNAme: string]: string };
@@ -39,22 +39,23 @@ function getValue(field: FormElement): Blob | string {
 export function useForm(): UseForm {
     const fields: Registry = {};
     const [errors, setErrors] = useState({});
+    let count = 0;
 
     return {
         registerField(validator?: Validator): RegisterReference {
-            /**
-             * create a unique id
-             * use the id as the key in the registry
-             * store the id with the rest of the data in the fields registry
-             * when field equals null remove from registry
-             */
+            count += 1;
+
+            const id = `field-${count}`;
+
             return (field: FormElement | null): void => {
                 // check for unmount
                 if (field == null) {
+                    delete fields[id];
+
                     return;
                 }
 
-                fields[field.name] = {
+                fields[id] = {
                     field,
                     validator,
                 };
@@ -67,20 +68,18 @@ export function useForm(): UseForm {
                 const data = new FormData();
                 const err: FieldErrors = {};
 
-                /**
-                 * if a field name ends with [] the value should be an array
-                 */
-                Object.keys(fields).forEach((fieldName: string): void => {
-                    const fieldRegistry = fields[fieldName];
+                Object.keys(fields).forEach((id: string): void => {
+                    const fieldRegistry = fields[id];
+                    const name = fieldRegistry.field.name;
                     const value = getValue(fieldRegistry.field);
-                    console.log(value);
-                    data.append(fieldName, value);
+
+                    data.append(name, value);
 
                     if (fieldRegistry.validator !== undefined) {
                         const msg = fieldRegistry.validator(value);
 
                         if (msg !== undefined) {
-                            err[fieldName] = msg;
+                            err[id] = msg;
                         }
                     }
                 });

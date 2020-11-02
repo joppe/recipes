@@ -33,10 +33,6 @@ export default function CreateUnit(): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
-        const body = {
-            name: data.get('name'),
-            images: [data.get('image')],
-        };
         const result = await fetch('/api/ingredients/create', {
             method: 'POST',
             body: data,

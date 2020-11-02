@@ -1,5 +1,5 @@
-import { IncomingForm as Original } from 'formidable';
-
 declare module 'formidable-serverless' {
-    export class IncomingForm extends Original {}
+    import { IncomingForm as Original } from 'formidable';
+
+    class IncomingForm extends Original {}
 }
