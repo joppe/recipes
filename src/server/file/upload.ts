@@ -1,7 +1,6 @@
 import { Storage } from '@google-cloud/storage';
 
-const BASE_URL = 'https://storage.googleapis.com';
-const BUCKET_NAME = 'recipe-images-2020';
+import { BUCKET_NAME } from '../../config/cloud-storage';
 
 export async function upload(path: string): Promise<string> {
     const storage = new Storage();
@@ -11,5 +10,5 @@ export async function upload(path: string): Promise<string> {
 
     await file.makePublic();
 
-    return `${BASE_URL}/${BUCKET_NAME}/${file.name}`;
+    return file.name;
 }

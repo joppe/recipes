@@ -5,6 +5,7 @@ import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import { FileUpload } from '../../component/file-upload';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
 
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function CreateUnit(): JSX.Element {
+export default function CreateIngredient(): JSX.Element {
     const classes = useStyles();
     const router = useRouter();
     const [message, setMessage] = useState(undefined);
@@ -83,18 +84,14 @@ export default function CreateUnit(): JSX.Element {
                             inputRef={registerField()}
                         />
 
-                        <TextField
-                            className={classes.textField}
-                            autoFocus
-                            margin="dense"
+                        <FileUpload
                             id="image"
                             name="image"
                             label="Afbeelding"
-                            type="file"
-                            // error={errors['name'] !== undefined}
-                            fullWidth
-                            required={true}
-                            inputRef={registerField()}
+                            value={undefined}
+                            className={classes.textField}
+                            error={errors['image']}
+                            registerField={registerField}
                         />
 
                         <Button

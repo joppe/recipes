@@ -14,7 +14,7 @@ import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { ConfirmDelete } from '../../component/ConfirmDelete';
+import { ConfirmDelete } from '../../component/confirm-delete';
 import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
 

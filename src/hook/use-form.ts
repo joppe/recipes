@@ -15,7 +15,7 @@ type Registry = {
 
 type FieldErrors = { [fieldNAme: string]: string };
 
-type RegisterReference = (field: FormElement | null) => void;
+export type RegisterReference = (field: FormElement | null) => void;
 
 type SubmitHandler = (data: FormData) => void;
 

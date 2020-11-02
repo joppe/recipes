@@ -14,7 +14,7 @@ import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { ConfirmDelete } from '../../component/ConfirmDelete';
+import { ConfirmDelete } from '../../component/confirm-delete';
 import { MainLayout } from '../../layout/main-layout';
 import { Ingredient } from '../../types/ingredient.type';
 
@@ -118,7 +118,11 @@ export default function Ingredients(props: Props): JSX.Element {
                                         <IconButton
                                             edge="end"
                                             aria-label="edit"
-                                            onClick={() => console.log('test')}
+                                            onClick={() =>
+                                                router.push(
+                                                    `/ingredients/${ingredient._id}`,
+                                                )
+                                            }
                                         >
                                             <EditIcon />
                                         </IconButton>

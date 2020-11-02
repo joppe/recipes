@@ -1,7 +1,11 @@
 import formidable from 'formidable-serverless';
 import { NextApiRequest } from 'next';
 
+import { remove } from '../file/remove';
 import { upload } from '../file/upload';
+
+const DELETE_PREFIX = 'DELETE__';
+const UPLOAD_PREFIX = 'UPLOAD__';
 
 export async function handle<T>(req: NextApiRequest): Promise<T> {
     return new Promise((resolve, reject): void => {
@@ -16,7 +20,30 @@ export async function handle<T>(req: NextApiRequest): Promise<T> {
                 }
 
                 try {
-                    const input = { ...fields };
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const input: any = {};
+
+                    for (const name in fields) {
+                        if (
+                            // eslint-disable-next-line no-prototype-builtins
+                            !fields.hasOwnProperty(name) ||
+                            name.indexOf(UPLOAD_PREFIX) === 0
+                        ) {
+                            continue;
+                        }
+
+                        if (name.indexOf(DELETE_PREFIX) === 0) {
+                            try {
+                                await remove(fields[name] as string);
+                            } catch (e) {
+                                // it doesn't matter if it cannot be deleted
+                            }
+
+                            input[name.replace(DELETE_PREFIX, '')] = '';
+                        } else {
+                            input[name] = fields[name];
+                        }
+                    }
 
                     for (const name in files) {
                         // eslint-disable-next-line no-prototype-builtins
@@ -24,10 +51,12 @@ export async function handle<T>(req: NextApiRequest): Promise<T> {
                             continue;
                         }
 
-                        input[name] = await upload(files[name].path);
+                        input[name.replace(UPLOAD_PREFIX, '')] = await upload(
+                            files[name].path,
+                        );
                     }
 
-                    resolve((input as unknown) as T);
+                    resolve(input as T);
                 } catch (err) {
                     return reject(err);
                 }

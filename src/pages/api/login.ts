@@ -38,7 +38,8 @@ async function loginUser(
                 email: result.email,
             };
             const jwt = sign(claims, <string>process.env.JWT_SECRET, {
-                expiresIn: '1h',
+                // expiresIn: '1h',
+                expiresIn: '10h',
             });
 
             res.setHeader(
@@ -47,7 +48,8 @@ async function loginUser(
                     httpOnly: true,
                     secure: process.env.NODE_ENV !== 'development',
                     sameSite: 'strict',
-                    maxAge: 3600,
+                    // maxAge: 3600,
+                    maxAge: 3600 * 10,
                     path: '/',
                 }),
             );

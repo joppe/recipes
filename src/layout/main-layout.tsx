@@ -4,8 +4,8 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { Header } from '../component/Header';
-import { Nav } from '../component/Nav';
+import { Header } from '../component/header';
+import { Nav } from '../component/nav';
 
 const drawerWidth = 240;
 
