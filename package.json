@@ -1,54 +1,53 @@
 {
-    "name": "@apestaartje/recipes",
-    "private": true,
-    "description": "Plan your meals",
+    "name": "learn-starter",
     "version": "0.1.0",
-    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "mongo:setup": "docker-compose up -d",
+        "mongo:start": "docker-compose start",
+        "mongo:stop": "docker-compose stop"
+    },
     "importSort": {
         ".js, .jsx, .ts, .tsx": {
             "style": "module",
             "parser": "typescript"
         }
     },
-    "scripts": {
-        "build": "webpack --mode production",
-        "dev": "webpack-dev-server --port 1234 --content-base public/",
-        "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-        "type-check": "tsc --noEmit",
-        "lint": "eslint --ext ts,tsx src/*",
-        "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/joppe/recipes"
-    },
-    "bugs": {
-        "url": "https://github.com/joppe/recipes/issues"
-    },
     "dependencies": {
+        "@google-cloud/storage": "^5.3.0",
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
-        "firebase": "^7.15.5",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "react-firebaseui": "^4.1.0"
+        "@material-ui/lab": "^4.0.0-alpha.56",
+        "bcrypt": "^5.0.0",
+        "cookie": "^0.4.1",
+        "formidable-serverless": "^1.0.3",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.10.7",
+        "next": "^9.5.4",
+        "react": "16.13.1",
+        "react-dom": "16.13.1"
     },
     "devDependencies": {
-        "@types/react": "^16.9.41",
-        "@types/react-dom": "^16.9.8",
-        "@typescript-eslint/eslint-plugin": "^3.5.0",
-        "@typescript-eslint/parser": "^3.5.0",
-        "eslint": "^7.3.1",
-        "eslint-config-prettier": "^6.11.0",
+        "@types/bcrypt": "^3.0.0",
+        "@types/cookie": "^0.4.0",
+        "@types/formidable": "^1.0.31",
+        "@types/jsonwebtoken": "^8.5.0",
+        "@types/mongodb": "^3.5.27",
+        "@types/mongoose": "^5.7.36",
+        "@types/node": "^14.11.2",
+        "@types/react": "^16.9.50",
+        "@typescript-eslint/eslint-plugin": "^4.3.0",
+        "@typescript-eslint/parser": "^4.3.0",
+        "eslint": "^7.10.0",
+        "eslint-config-prettier": "^6.12.0",
         "eslint-plugin-prettier": "^3.1.4",
-        "eslint-plugin-react": "^7.20.3",
+        "eslint-plugin-react": "^7.21.3",
         "import-sort-style-module": "^6.0.0",
-        "prettier": "^2.0.5",
-        "prettier-plugin-import-sort": "0.0.4",
-        "ts-loader": "^7.0.5",
-        "typescript": "^3.9.6",
-        "webpack": "^4.43.0",
-        "webpack-cli": "^3.3.12",
-        "webpack-dev-server": "^3.11.0"
+        "mongodb": "^3.6.2",
+        "prettier": "^2.1.2",
+        "prettier-plugin-import-sort": "0.0.6"
     }
 }

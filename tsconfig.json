@@ -1,18 +1,30 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "jsx": "react",
-        "module": "commonjs",
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "module": "esnext",
         "moduleResolution": "node",
-        "noImplicitAny": true,
-        "removeComments": true,
-        "sourceMap": true,
+        "noEmit": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
         "strict": true,
-        "target": "es6"
+        "target": "es5"
     },
+    "include": [
+        "next-env.d.ts",
+        "formidable-serverless.d.ts",
+        "**/*.ts",
+        "**/*.tsx"
+    ],
     "exclude": [
-        "node_modules",
-        "public",
+        "node_modules"
     ]
 }
