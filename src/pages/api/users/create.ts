@@ -32,7 +32,7 @@ async function createUser(
             password: req.body.password,
             role: <Role>req.body.role,
         };
-        const validateResult = validate(input);
+        const validateResult = await validate(input);
 
         if (!validateResult.isValid) {
             return res.json({
