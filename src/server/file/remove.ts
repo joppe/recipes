@@ -1,9 +1,8 @@
-import { Storage } from '@google-cloud/storage';
-
 import { BUCKET_NAME } from '../../config/cloud-storage';
+import { factory } from './storage';
 
 export async function remove(fileName: string): Promise<void> {
-    const storage = new Storage();
+    const storage = factory();
 
     await storage.bucket(BUCKET_NAME).file(fileName).delete();
 }
