@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { FileUpload } from '../../component/file-upload';
+import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
 
@@ -38,6 +39,8 @@ export default function CreateIngredient(): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
+        data.append('entity', JSON.stringify(hydrate(data)));
+
         const result = await fetch('/api/ingredients/create', {
             method: 'POST',
             body: data,

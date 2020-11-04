@@ -7,6 +7,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
@@ -53,6 +54,8 @@ export default function UpdateUnit(props: Props): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
+        data.append('entity', JSON.stringify(hydrate(data)));
+
         const result = await fetch('/api/units/update', {
             method: 'PUT',
             body: data,

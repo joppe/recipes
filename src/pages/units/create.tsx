@@ -6,6 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
 
@@ -37,6 +38,8 @@ export default function CreateUnit(): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
+        data.append('entity', JSON.stringify(hydrate(data)));
+
         const result = await fetch('/api/units/create', {
             method: 'POST',
             body: data,

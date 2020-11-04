@@ -37,6 +37,7 @@ function getImagePath(fileName: string): string {
 
 export function FileUpload(props: Props): JSX.Element {
     const classes = useStyles();
+    const [preview, setPreview] = useState<string | undefined>(props.value);
     const [value, setValue] = useState<string | undefined>(props.value);
     const [remove, setRemove] = useState(false);
     const registerField = props.registerField();
@@ -51,21 +52,22 @@ export function FileUpload(props: Props): JSX.Element {
         registerField(input.current);
     }, [input]);
 
-    function updateValue(files: FileList | null): void {
+    function handleFileSelect(files: FileList | null): void {
         setRemove(true);
+        setValue(`UPLOAD__${props.name}`);
 
         if (files === null || files.length === 0) {
-            return setValue('');
+            return setPreview('');
         }
 
         if (!props.isImage) {
-            return setValue(files[0].name);
+            return setPreview(files[0].name);
         }
 
         const reader = new FileReader();
 
         reader.onload = (): void => {
-            setValue(reader.result as string);
+            setPreview(reader.result as string);
         };
 
         reader.readAsDataURL(files[0]);
@@ -73,7 +75,7 @@ export function FileUpload(props: Props): JSX.Element {
 
     function renderImage(): JSX.Element {
         const src =
-            value === props.value ? getImagePath(value as string) : value;
+            preview === props.value ? getImagePath(preview as string) : preview;
 
         return (
             <img
@@ -85,19 +87,17 @@ export function FileUpload(props: Props): JSX.Element {
     }
 
     function renderPath(): JSX.Element {
-        return <span>{value}</span>;
+        return <span>{preview}</span>;
     }
 
     function renderPreview() {
-        if (!value) {
+        if (!preview) {
             return null;
         }
 
-        const preview = props.isImage ? renderImage() : renderPath();
-
         return (
             <div className={classes.preview}>
-                {preview}
+                {props.isImage ? renderImage() : renderPath()}
 
                 <IconButton
                     aria-label="delete"
@@ -106,8 +106,9 @@ export function FileUpload(props: Props): JSX.Element {
                             input.current.value = '';
                         }
 
-                        setValue(undefined);
+                        setPreview(undefined);
                         setRemove(true);
+                        setValue('');
                     }}
                 >
                     <DeleteIcon />
@@ -116,35 +117,31 @@ export function FileUpload(props: Props): JSX.Element {
         );
     }
 
-    function renderHiddenFields(): JSX.Element | null {
-        if (!props.value) {
-            return null;
-        }
-
-        if (remove) {
+    function renderRemoveOldFile(): JSX.Element | null {
+        if (remove && props.value) {
             return (
                 <input
                     type="hidden"
                     name={`DELETE__${props.name}`}
-                    value={props.value}
+                    defaultValue={props.value}
                     ref={props.registerField()}
                 />
             );
         }
 
-        return (
-            <input
-                type="hidden"
-                name={props.name}
-                value={props.value}
-                ref={props.registerField()}
-            />
-        );
+        return null;
     }
 
     return (
         <>
-            {renderHiddenFields()}
+            <input
+                type="hidden"
+                name={props.name}
+                defaultValue={value}
+                ref={props.registerField()}
+            />
+
+            {renderRemoveOldFile()}
             {renderPreview()}
 
             <TextField
@@ -159,7 +156,7 @@ export function FileUpload(props: Props): JSX.Element {
                 fullWidth
                 required={true}
                 onChange={(value) => {
-                    updateValue((value.target as HTMLInputElement).files);
+                    handleFileSelect((value.target as HTMLInputElement).files);
                 }}
                 inputProps={inputProps}
                 inputRef={input}
