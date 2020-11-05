@@ -9,16 +9,8 @@ import { IngredientModel } from '../../../server/type/ingredient/model';
 import { validate } from '../../../server/type/ingredient/validate';
 import { Ingredient } from '../../../types/ingredient.type';
 
-interface UpdateIngredientRequest extends NextApiRequest {
-    body: {
-        _id: string;
-        name: string;
-        image: string;
-    };
-}
-
 async function updateIngredient(
-    req: UpdateIngredientRequest,
+    req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {

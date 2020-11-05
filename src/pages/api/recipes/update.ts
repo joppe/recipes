@@ -5,18 +5,18 @@ import { options, url } from '../../../config/mongoose';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/type/ingredient/model';
-import { validate } from '../../../server/type/ingredient/validate';
-import { Ingredient } from '../../../types/ingredient.type';
+import { RecipeModel } from '../../../server/type/recipe/model';
+import { validate } from '../../../server/type/recipe/validate';
+import { Recipe } from '../../../types/recipe.type';
 
-async function createIngredient(
+async function updateRecipe(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
         await connect(url, options);
 
-        const input: Ingredient = await handle(req);
+        const input: Recipe = await handle(req);
         const validateResult = await validate(input);
 
         if (!validateResult.isValid) {
@@ -26,11 +26,17 @@ async function createIngredient(
             });
         }
 
-        const ingredient = new IngredientModel(input);
+        const filter = { _id: input._id };
+        const result = await RecipeModel.updateOne(filter, input);
 
-        await ingredient.save();
-
-        res.json({ success: true });
+        if (result.nModified === 1) {
+            res.json({ success: true });
+        } else {
+            res.json({
+                success: false,
+                msg: `Recipes updated ${result.nModified}`,
+            });
+        }
     } catch (err) {
         res.status(500).json({ success: false, msg: err.message });
     }
@@ -42,7 +48,4 @@ export const config = {
     },
 };
 
-export default authenticated(
-    'user',
-    forceRequestMethod('POST', createIngredient),
-);
+export default authenticated('user', forceRequestMethod('PUT', updateRecipe));

@@ -103,28 +103,26 @@ export default function UpdateUnit(props: Props): JSX.Element {
                     className={classes.textField}
                     autoFocus
                     margin="dense"
-                    id="name"
                     name="name"
                     label="Naam"
                     defaultValue={props.result.unit.name}
                     type="text"
                     error={errors['name'] !== undefined}
                     fullWidth
-                    required={true}
+                    required
                     inputRef={registerField()}
                 />
 
                 <TextField
                     className={classes.textField}
                     margin="dense"
-                    id="abbreviation"
                     name="abbreviation"
                     label="Afkorting"
                     defaultValue={props.result.unit.abbreviation}
                     type="text"
                     error={errors['abbreviation'] !== undefined}
                     fullWidth
-                    required={true}
+                    required
                     inputRef={registerField()}
                 />
 

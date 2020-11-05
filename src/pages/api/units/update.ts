@@ -9,16 +9,8 @@ import { UnitModel } from '../../../server/type/unit/model';
 import { validate } from '../../../server/type/unit/validate';
 import { Unit } from '../../../types/unit.type';
 
-interface UpdateUnitRequest extends NextApiRequest {
-    body: {
-        id: string;
-        name: string;
-        abbreviation: string;
-    };
-}
-
 async function updateUnit(
-    req: UpdateUnitRequest,
+    req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {

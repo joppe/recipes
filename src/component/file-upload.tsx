@@ -8,7 +8,6 @@ import { BASE_URL, BUCKET_NAME } from '../config/cloud-storage';
 import { RegisterReference } from '../hook/use-form';
 
 type Props = {
-    id: string;
     name: string;
     label: string;
     value?: string | undefined;
@@ -146,15 +145,12 @@ export function FileUpload(props: Props): JSX.Element {
 
             <TextField
                 className={props.className}
-                autoFocus
                 margin="dense"
-                id={props.id}
                 name={`UPLOAD__${props.name}`}
                 label={props.label}
                 type="file"
                 error={props.error !== undefined}
                 fullWidth
-                required={true}
                 onChange={(value) => {
                     handleFileSelect((value.target as HTMLInputElement).files);
                 }}

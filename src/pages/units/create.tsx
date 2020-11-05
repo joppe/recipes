@@ -80,26 +80,24 @@ export default function CreateUnit(): JSX.Element {
                             className={classes.textField}
                             autoFocus
                             margin="dense"
-                            id="name"
                             name="name"
                             label="Naam"
                             type="text"
                             error={errors['name'] !== undefined}
                             fullWidth
-                            required={true}
+                            required
                             inputRef={registerField()}
                         />
 
                         <TextField
                             className={classes.textField}
                             margin="dense"
-                            id="abbreviation"
                             name="abbreviation"
                             label="Afkorting"
                             type="text"
                             error={errors['abbreviation'] !== undefined}
                             fullWidth
-                            required={true}
+                            required
                             inputRef={registerField()}
                         />
 

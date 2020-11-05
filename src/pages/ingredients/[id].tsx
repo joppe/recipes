@@ -106,19 +106,17 @@ export default function UpdateIngredient(props: Props): JSX.Element {
                     className={classes.textField}
                     autoFocus
                     margin="dense"
-                    id="name"
                     name="name"
                     label="Naam"
                     defaultValue={props.result.ingredient.name}
                     type="text"
                     error={errors['name'] !== undefined}
                     fullWidth
-                    required={true}
+                    required
                     inputRef={registerField()}
                 />
 
                 <FileUpload
-                    id="image"
                     name="image"
                     label="Afbeelding"
                     value={props.result.ingredient.image}

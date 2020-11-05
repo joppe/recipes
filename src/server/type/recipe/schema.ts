@@ -7,13 +7,13 @@ export const recipeSchema = new Schema({
     },
     description: String,
     source: String,
-    images: [String],
+    image: String,
     vegetarian: Boolean,
     vegan: Boolean,
-    difficulty: Boolean,
+    difficulty: Number,
     course: String,
     servings: Number,
-    preparation_time: Boolean,
+    preparation_time: Number,
     preparation: [String],
     ingredients: [
         {
