@@ -189,6 +189,12 @@ export default function CreateRecipe(): JSX.Element {
                             registerField={registerField}
                         />
 
+                        <InputPreparation
+                            className={classes.textField}
+                            registerField={registerField}
+                            steps={['a', 'b']}
+                        />
+
                         <div className={classes.buttonGroup}>
                             <Button
                                 className={classes.button}
