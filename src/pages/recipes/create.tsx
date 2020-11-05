@@ -1,12 +1,4 @@
-import {
-    Button,
-    Card,
-    CardContent,
-    Checkbox,
-    FormControlLabel,
-    FormGroup,
-    TextField,
-} from '@material-ui/core';
+import { Button, Card, CardContent, TextField } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SaveIcon from '@material-ui/icons/Save';
@@ -14,8 +6,9 @@ import Alert from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { FileUpload } from '../../component/file-upload';
 import { InputCheckbox } from '../../component/input-checkbox';
+import { InputFile } from '../../component/input-file';
+import { InputPreparation } from '../../component/input-preparation';
 import { InputSlider } from '../../component/input-slider';
 import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
@@ -125,7 +118,7 @@ export default function CreateRecipe(): JSX.Element {
                             inputRef={registerField()}
                         />
 
-                        <FileUpload
+                        <InputFile
                             name="image"
                             label="Afbeelding"
                             value={undefined}

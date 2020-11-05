@@ -7,7 +7,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-import { FileUpload } from '../../component/file-upload';
+import { InputFile } from '../../component/input-file';
 import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
@@ -116,7 +116,7 @@ export default function UpdateIngredient(props: Props): JSX.Element {
                     inputRef={registerField()}
                 />
 
-                <FileUpload
+                <InputFile
                     name="image"
                     label="Afbeelding"
                     value={props.result.ingredient.image}
