@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export function InputPreparation(props: Props): JSX.Element {
     const classes = useStyles();
     const [steps, setSteps] = useState(
-        props.steps === undefined ? [] : props.steps,
+        props.steps === undefined ? [''] : props.steps,
     );
 
     function addStep() {
