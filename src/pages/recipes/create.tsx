@@ -8,11 +8,19 @@ import React, { useState } from 'react';
 
 import { InputCheckbox } from '../../component/input-checkbox';
 import { InputFile } from '../../component/input-file';
+import { InputIngredients } from '../../component/input-ingredients';
 import { InputPreparation } from '../../component/input-preparation';
 import { InputSlider } from '../../component/input-slider';
 import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
+import { Ingredient } from '../../types/ingredient.type';
+import { Unit } from '../../types/unit.type';
+
+type Props = {
+    units: Unit[];
+    ingredients: Ingredient[];
+};
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function CreateRecipe(): JSX.Element {
+export default function CreateRecipe(props: Props): JSX.Element {
     const classes = useStyles();
     const router = useRouter();
     const [message, setMessage] = useState(undefined);
@@ -192,7 +200,17 @@ export default function CreateRecipe(): JSX.Element {
                         <InputPreparation
                             className={classes.textField}
                             registerField={registerField}
-                            steps={['a', 'b']}
+                            steps={undefined}
+                        />
+
+                        <InputIngredients
+                            data={{
+                                ingredients: props.ingredients,
+                                units: props.units,
+                            }}
+                            ingredients={undefined}
+                            className={classes.textField}
+                            registerField={registerField}
                         />
 
                         <div className={classes.buttonGroup}>
@@ -222,3 +240,18 @@ export default function CreateRecipe(): JSX.Element {
         </MainLayout>
     );
 }
+
+CreateRecipe.getInitialProps = async (): Promise<{
+    ingredients: Ingredient[];
+    units: Unit[];
+}> => {
+    const [ingredientsResponse, unitsResponse] = await Promise.all([
+        fetch('http://localhost:3000/api/ingredients'),
+        fetch('http://localhost:3000/api/units'),
+    ]);
+
+    return {
+        ingredients: await ingredientsResponse.json(),
+        units: await unitsResponse.json(),
+    };
+};
