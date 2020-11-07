@@ -11,6 +11,7 @@ import { InputFile } from '../../component/input-file';
 import { InputIngredients } from '../../component/input-ingredients';
 import { InputPreparation } from '../../component/input-preparation';
 import { InputSlider } from '../../component/input-slider';
+import { BASE_URL } from '../../config/api';
 import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
@@ -56,7 +57,7 @@ export default function CreateRecipe(props: Props): JSX.Element {
     async function onSubmit(data: FormData): Promise<void> {
         data.append('entity', JSON.stringify(hydrate(data)));
 
-        const result = await fetch('/api/recipes/create', {
+        const result = await fetch(`${BASE_URL}/api/recipes/create`, {
             method: 'POST',
             body: data,
         });
@@ -246,8 +247,8 @@ CreateRecipe.getInitialProps = async (): Promise<{
     units: Unit[];
 }> => {
     const [ingredientsResponse, unitsResponse] = await Promise.all([
-        fetch('http://localhost:3000/api/ingredients'),
-        fetch('http://localhost:3000/api/units'),
+        fetch(`${BASE_URL}/api/ingredients`),
+        fetch(`${BASE_URL}/api/units`),
     ]);
 
     return {

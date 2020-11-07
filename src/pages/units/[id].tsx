@@ -7,6 +7,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
+import { BASE_URL } from '../../config/api';
 import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
@@ -56,7 +57,7 @@ export default function UpdateUnit(props: Props): JSX.Element {
     async function onSubmit(data: FormData): Promise<void> {
         data.append('entity', JSON.stringify(hydrate(data)));
 
-        const result = await fetch('/api/units/update', {
+        const result = await fetch(`${BASE_URL}/api/units/update`, {
             method: 'PUT',
             body: data,
         });
@@ -165,14 +166,11 @@ export default function UpdateUnit(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookie = ctx.req.headers.cookie;
-    const response = await fetch(
-        `http://localhost:3000/api/units/${ctx.params?.id}`,
-        {
-            headers: {
-                cookie: cookie as string,
-            },
+    const response = await fetch(`${BASE_URL}/api/units/${ctx.params?.id}`, {
+        headers: {
+            cookie: cookie as string,
         },
-    );
+    });
     const result = await response.json();
 
     return { props: { result } };

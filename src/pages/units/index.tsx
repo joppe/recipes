@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { ConfirmDelete } from '../../component/confirm-delete';
+import { BASE_URL } from '../../config/api';
 import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
 
@@ -42,7 +43,7 @@ export default function Units(props: Props): JSX.Element {
     const classes = useStyles();
 
     async function handleConfirmDelete(): Promise<void> {
-        const result = await fetch('/api/units/delete', {
+        const result = await fetch(`${BASE_URL}/api/units/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export default function Units(props: Props): JSX.Element {
         const json = await result.json();
 
         if (json.success) {
-            const response = await fetch('http://localhost:3000/api/units');
+            const response = await fetch(`${BASE_URL}/api/units`);
             const json = await response.json();
 
             setUnits(json);
@@ -150,7 +151,7 @@ export default function Units(props: Props): JSX.Element {
 }
 
 Units.getInitialProps = async (): Promise<{ units: Unit[] }> => {
-    const response = await fetch('http://localhost:3000/api/units');
+    const response = await fetch(`${BASE_URL}/api/units`);
     const json = await response.json();
 
     return { units: json };

@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { ConfirmDelete } from '../../component/confirm-delete';
+import { BASE_URL } from '../../config/api';
 import { MainLayout } from '../../layout/main-layout';
 import { Ingredient } from '../../types/ingredient.type';
 
@@ -42,7 +43,7 @@ export default function Ingredients(props: Props): JSX.Element {
     const classes = useStyles();
 
     async function handleConfirmDelete(): Promise<void> {
-        const result = await fetch('/api/ingredients/delete', {
+        const result = await fetch(`${BASE_URL}/api/ingredients/delete`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,9 +53,7 @@ export default function Ingredients(props: Props): JSX.Element {
         const json = await result.json();
 
         if (json.success) {
-            const response = await fetch(
-                'http://localhost:3000/api/ingredients',
-            );
+            const response = await fetch(`${BASE_URL}/api/ingredients`);
             const json = await response.json();
 
             setIngredients(json);
@@ -150,7 +149,7 @@ export default function Ingredients(props: Props): JSX.Element {
 Ingredients.getInitialProps = async (): Promise<{
     ingredients: Ingredient[];
 }> => {
-    const response = await fetch('http://localhost:3000/api/ingredients');
+    const response = await fetch(`${BASE_URL}/api/ingredients`);
     const json = await response.json();
 
     return { ingredients: json };

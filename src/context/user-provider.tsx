@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { BASE_URL } from '../config/api';
 import { Anonymous, UserInfo } from '../types/user.type';
 
 const anonymous: Anonymous = {
@@ -36,7 +37,7 @@ export function UserProvider(props: Props): JSX.Element {
 
     useEffect((): void => {
         async function whoAmI(): Promise<void> {
-            const result = await fetch('/api/who-am-i');
+            const result = await fetch(`${BASE_URL}/api/who-am-i`);
             const json = await result.json();
 
             if (json.user !== null) {

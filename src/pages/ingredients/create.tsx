@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { InputFile } from '../../component/input-file';
+import { BASE_URL } from '../../config/api';
 import { hydrate } from '../../data/hydrate';
 import { useForm } from '../../hook/use-form';
 import { MainLayout } from '../../layout/main-layout';
@@ -41,7 +42,7 @@ export default function CreateIngredient(): JSX.Element {
     async function onSubmit(data: FormData): Promise<void> {
         data.append('entity', JSON.stringify(hydrate(data)));
 
-        const result = await fetch('/api/ingredients/create', {
+        const result = await fetch(`${BASE_URL}/api/ingredients/create`, {
             method: 'POST',
             body: data,
         });
