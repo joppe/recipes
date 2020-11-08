@@ -118,7 +118,7 @@ export default function Recipes(props: Props): JSX.Element {
                                             aria-label="edit"
                                             onClick={() =>
                                                 router.push(
-                                                    `/ingredients/${recipe._id}`,
+                                                    `/recipes/${recipe._id}`,
                                                 )
                                             }
                                         >
