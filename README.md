@@ -67,8 +67,30 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 
 ## Todo
 
-- ~~use material ui~~
-- ~~use mongoose~~
-- ~~create middleware for api routes~~
-- ~~users (authentication/authorization)~~
-- ~~use environment variables for mongo user/pwd~~
+- [x] upload file
+  - [x] useForm rely on FormData
+  - [x] fix typing for `formidable-serverless`
+  - [x] upload file to firebase
+  - [x] create upload service
+  - [x] show preview
+  - [x] file upload component
+    - [x] preview
+    - [x] input
+    - [x] remove
+- [x] update entity
+- [ ] API CRUD simplify (more generic, maybe services?)
+- [x] connect to ~~mlab~~ atlas
+- [ ] redirect to login when accessing API route and logged in
+- [x] deploy to vercel/zeit
+  - [x] make urls flexible (localhost vs deployed)
+  - [x] google cloud key
+- [ ] crud for recipes
+  - [ ] update recipe
+  - [x] handle nested data
+    - [x] send data as json value of a single value
+    - [x] fix for file uploads?
+- [ ] planner
+  - [ ] list
+  - [ ] plan
+  - [ ] navigate
+- [ ] sort lists
