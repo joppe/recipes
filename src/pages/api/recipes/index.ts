@@ -12,7 +12,10 @@ async function listRecipes(
     try {
         await connect(url, options);
 
-        const result = await RecipeModel.find({});
+        const query = RecipeModel.find({});
+        query.sort({ name: 'asc' });
+
+        const result = await query.exec();
 
         res.json(result);
     } catch (err) {

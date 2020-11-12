@@ -12,7 +12,10 @@ async function listIngredients(
     try {
         await connect(url, options);
 
-        const result = await IngredientModel.find({});
+        const query = IngredientModel.find({});
+        query.sort({ name: 'asc' });
+
+        const result = await query.exec();
 
         res.json(result);
     } catch (err) {

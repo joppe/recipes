@@ -12,7 +12,10 @@ async function listUnits(
     try {
         await connect(url, options);
 
-        const result = await UnitModel.find({});
+        const query = UnitModel.find({});
+        query.sort({ name: 'asc' });
+
+        const result = await query.exec();
 
         res.json(result);
     } catch (err) {
