@@ -84,8 +84,8 @@ I use this project to learn new technologies/frameworks. It's just for fun.
 - [x] deploy to vercel/zeit
   - [x] make urls flexible (localhost vs deployed)
   - [x] google cloud key
-- [ ] crud for recipes
-  - [ ] update recipe
+- [x] crud for recipes
+  - [x] update recipe
   - [x] handle nested data
     - [x] send data as json value of a single value
     - [x] fix for file uploads?
@@ -93,4 +93,5 @@ I use this project to learn new technologies/frameworks. It's just for fun.
   - [ ] list
   - [ ] plan
   - [ ] navigate
-- [ ] sort lists
+- [x] sort lists
+- [ ] keep make it possible to confirm that a recipe is used, count the number of times a recipe is cooked

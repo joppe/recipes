@@ -23,6 +23,7 @@
         "@material-ui/lab": "^4.0.0-alpha.56",
         "bcrypt": "^5.0.0",
         "cookie": "^0.4.1",
+        "date-fns": "^2.16.1",
         "formidable-serverless": "^1.0.3",
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.20",
