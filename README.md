@@ -89,9 +89,10 @@ I use this project to learn new technologies/frameworks. It's just for fun.
   - [x] handle nested data
     - [x] send data as json value of a single value
     - [x] fix for file uploads?
-- [ ] planner
-  - [ ] list
-  - [ ] plan
-  - [ ] navigate
+- [x] planner
+  - [x] list
+  - [x] plan
+  - [x] navigate
 - [x] sort lists
-- [ ] keep make it possible to confirm that a recipe is used, count the number of times a recipe is cooked
+- [ ] make it possible to confirm that a recipe is used, count the number of times a recipe is cooked
+- [ ] use GraphQL

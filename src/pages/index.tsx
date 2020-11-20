@@ -1,5 +1,6 @@
 import {
     Avatar,
+    ButtonGroup,
     IconButton,
     List,
     ListItem,
@@ -9,6 +10,8 @@ import {
 } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import {
     addDays,
     eachDayOfInterval,
@@ -36,6 +39,8 @@ export default function Planner(props: Props): JSX.Element {
     const router = useRouter();
     const start = parseISO(props.start);
     const end = addDays(start, DAY_RANGE - 1);
+    const next = addDays(end, 1);
+    const previous = addDays(start, -(DAY_RANGE - 1));
     const days = eachDayOfInterval({ start, end });
 
     function getMeal(day: string): Meal | undefined {
@@ -57,6 +62,39 @@ export default function Planner(props: Props): JSX.Element {
             <Typography variant="subtitle1" noWrap>
                 {format(start, 'd MMMM')} - {format(end, 'd MMMM')}
             </Typography>
+
+            <ButtonGroup
+                color="primary"
+                aria-label="outlined primary button group"
+            >
+                <IconButton
+                    edge="end"
+                    aria-label="edit"
+                    onClick={() => {
+                        router.push(
+                            `/?from=${formatISO(previous, {
+                                representation: 'date',
+                            })}`,
+                        );
+                    }}
+                >
+                    <NavigateBeforeIcon />
+                </IconButton>
+                <IconButton
+                    edge="end"
+                    aria-label="edit"
+                    onClick={() => {
+                        router.push(
+                            `/?from=${formatISO(next, {
+                                representation: 'date',
+                            })}`,
+                        );
+                    }}
+                >
+                    <NavigateNextIcon />
+                </IconButton>
+            </ButtonGroup>
+
             <List>
                 {days.map((day) => {
                     const d = formatISO(day, {
