@@ -5,6 +5,7 @@ import { options, url } from '../../../config/mongoose';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { MealModel } from '../../../server/type/meal/model';
+import { RecipeModel } from '../../../server/type/recipe/model';
 
 async function readMeal(
     req: NextApiRequest,
@@ -13,9 +14,16 @@ async function readMeal(
     try {
         await connect(url, options);
 
-        const result = await MealModel.findById(req.query.id);
+        // This is needed for the populate.
+        RecipeModel.modelName;
 
-        res.json({ success: true, recipe: result });
+        const query = MealModel.findById(req.query.id);
+
+        query.populate('recipe');
+
+        const result = await query.exec();
+
+        res.json({ success: true, meal: result });
     } catch (err) {
         res.status(500).json({ success: false, msg: err.message });
     }

@@ -9,6 +9,10 @@ export const mealSchema = new Schema({
         type: String,
         required: true,
     },
+    chef: {
+        type: String,
+        required: false,
+    },
     recipe: {
         type: Schema.Types.ObjectId,
         ref: 'Recipe',

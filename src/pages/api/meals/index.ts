@@ -5,16 +5,20 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { options, url } from '../../../config/mongoose';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
 import { MealModel } from '../../../server/type/meal/model';
+import { RecipeModel } from '../../../server/type/recipe/model';
 
 async function listMeals(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        const from = parseISO(req.body.from);
-        const to = addDays(from, req.body.range);
+        const from = parseISO(<string>req.query.from);
+        const to = addDays(from, parseInt(<string>req.query.range, 10));
 
         await connect(url, options);
+
+        // This is needed for the populate.
+        RecipeModel.modelName;
 
         const query = MealModel.find({
             date: {

@@ -1,6 +1,9 @@
+import { Recipe } from './recipe.type';
+
 export type Meal = {
     _id?: string;
-    date: Date;
+    date: string;
     name: string;
-    recipe?: string;
+    chef?: string;
+    recipe?: Recipe;
 };
