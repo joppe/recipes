@@ -6,4 +6,5 @@ export const ingredientSchema = new Schema({
         required: true,
     },
     image: String,
+    description: String,
 });

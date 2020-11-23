@@ -50,6 +50,20 @@ export function IngredientForm(props: Props): JSX.Element {
                 error={errors['image']}
                 registerField={registerField}
             />
+
+            <TextField
+                className={classes.field}
+                margin="dense"
+                name="description"
+                label="Omschrijving"
+                defaultValue={
+                    props.ingredient ? props.ingredient.description : ''
+                }
+                rows={6}
+                fullWidth
+                multiline
+                inputRef={registerField()}
+            />
         </>
     );
 }
