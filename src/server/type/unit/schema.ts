@@ -9,4 +9,5 @@ export const unitSchema = new Schema({
         type: String,
         required: true,
     },
+    description: String,
 });

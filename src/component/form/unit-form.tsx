@@ -52,6 +52,19 @@ export function UnitForm(props: Props): JSX.Element {
                 required
                 inputRef={registerField()}
             />
+
+            <TextField
+                className={classes.field}
+                margin="dense"
+                name="description"
+                label="Omschrijving"
+                defaultValue={props.unit ? props.unit.description : ''}
+                error={errors['description'] !== undefined}
+                rows={6}
+                fullWidth
+                multiline
+                inputRef={registerField()}
+            />
         </>
     );
 }
