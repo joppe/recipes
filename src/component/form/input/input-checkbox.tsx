@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup } from '@material-ui/core';
 import React, { useState } from 'react';
 
-import { RegisterReference } from '../hook/use-form';
+import { RegisterReference } from '../../../hook/use-form';
 
 type Props = {
     label: string;

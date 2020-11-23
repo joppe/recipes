@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useState } from 'react';
 
-import { RegisterReference } from '../hook/use-form';
+import { RegisterReference } from '../../../hook/use-form';
 
 type Props = {
     steps?: string[];

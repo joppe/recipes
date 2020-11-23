@@ -13,10 +13,10 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useState } from 'react';
 
-import { RegisterReference } from '../hook/use-form';
-import { Ingredient } from '../types/ingredient.type';
-import { Recipe } from '../types/recipe.type';
-import { Unit } from '../types/unit.type';
+import { RegisterReference } from '../../../hook/use-form';
+import { Ingredient } from '../../../types/ingredient.type';
+import { Recipe } from '../../../types/recipe.type';
+import { Unit } from '../../../types/unit.type';
 
 type Props = {
     ingredients?: Recipe['ingredients'];

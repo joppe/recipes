@@ -4,8 +4,8 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { BASE_URL, BUCKET_NAME } from '../config/cloud-storage';
-import { RegisterReference } from '../hook/use-form';
+import { BASE_URL, BUCKET_NAME } from '../../../config/cloud-storage';
+import { RegisterReference } from '../../../hook/use-form';
 
 type Props = {
     name: string;
