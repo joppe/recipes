@@ -59,6 +59,7 @@ export function IngredientForm(props: Props): JSX.Element {
                 defaultValue={
                     props.ingredient ? props.ingredient.description : ''
                 }
+                error={errors['description'] !== undefined}
                 rows={6}
                 fullWidth
                 multiline

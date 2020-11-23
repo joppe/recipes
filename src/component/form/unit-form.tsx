@@ -59,6 +59,7 @@ export function UnitForm(props: Props): JSX.Element {
                 name="description"
                 label="Omschrijving"
                 defaultValue={props.unit ? props.unit.description : ''}
+                error={errors['description'] !== undefined}
                 rows={6}
                 fullWidth
                 multiline
