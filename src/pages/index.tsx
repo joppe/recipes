@@ -8,6 +8,7 @@ import {
     ListItemSecondaryAction,
     ListItemText,
 } from '@material-ui/core';
+import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
@@ -33,6 +34,15 @@ type Props = {
     meals: Meal[];
 };
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        header: {
+            display: 'flex',
+            alignItems: 'center',
+        },
+    }),
+);
+
 const DAY_RANGE = 7;
 
 export default function Planner(props: Props): JSX.Element {
@@ -42,6 +52,7 @@ export default function Planner(props: Props): JSX.Element {
     const next = addDays(end, 1);
     const previous = addDays(start, -(DAY_RANGE - 1));
     const days = eachDayOfInterval({ start, end });
+    const classes = useStyles();
 
     function getMeal(day: string): Meal | undefined {
         return props.meals.find((meal) => {
@@ -59,16 +70,9 @@ export default function Planner(props: Props): JSX.Element {
 
     return (
         <MainLayout title={'Weekplanner'}>
-            <Typography variant="subtitle1" noWrap>
-                {format(start, 'd MMMM')} - {format(end, 'd MMMM')}
-            </Typography>
-
-            <ButtonGroup
-                color="primary"
-                aria-label="outlined primary button group"
-            >
+            <div className={classes.header}>
                 <IconButton
-                    edge="end"
+                    edge="start"
                     aria-label="edit"
                     onClick={() => {
                         router.push(
@@ -80,6 +84,11 @@ export default function Planner(props: Props): JSX.Element {
                 >
                     <NavigateBeforeIcon />
                 </IconButton>
+
+                <Typography variant="subtitle1" noWrap>
+                    {format(start, 'd MMMM')} - {format(end, 'd MMMM')}
+                </Typography>
+
                 <IconButton
                     edge="end"
                     aria-label="edit"
@@ -93,7 +102,7 @@ export default function Planner(props: Props): JSX.Element {
                 >
                     <NavigateNextIcon />
                 </IconButton>
-            </ButtonGroup>
+            </div>
 
             <List>
                 {days.map((day) => {

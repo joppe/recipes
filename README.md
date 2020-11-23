@@ -62,37 +62,3 @@ I use this project to learn new technologies/frameworks. It's just for fun.
     ]
 }
 ```
-
-
-
-## Todo
-
-- [x] upload file
-  - [x] useForm rely on FormData
-  - [x] fix typing for `formidable-serverless`
-  - [x] upload file to firebase
-  - [x] create upload service
-  - [x] show preview
-  - [x] file upload component
-    - [x] preview
-    - [x] input
-    - [x] remove
-- [x] update entity
-- [ ] API CRUD simplify (more generic, maybe services?)
-- [x] connect to ~~mlab~~ atlas
-- [ ] redirect to login when accessing API route and logged in
-- [x] deploy to vercel/zeit
-  - [x] make urls flexible (localhost vs deployed)
-  - [x] google cloud key
-- [x] crud for recipes
-  - [x] update recipe
-  - [x] handle nested data
-    - [x] send data as json value of a single value
-    - [x] fix for file uploads?
-- [x] planner
-  - [x] list
-  - [x] plan
-  - [x] navigate
-- [x] sort lists
-- [ ] make it possible to confirm that a recipe is used, count the number of times a recipe is cooked
-- [ ] use GraphQL
