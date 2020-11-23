@@ -21,7 +21,7 @@ type SubmitHandler = (data: FormData) => void;
 
 type OnSubmit = (event: React.FormEvent) => void;
 
-type UseForm = {
+export type UseForm = {
     registerField(validator?: Validator): RegisterReference;
     handleSubmit(fn: SubmitHandler): OnSubmit;
     setErrors(err: FieldErrors): void;

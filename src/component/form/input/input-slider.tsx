@@ -1,7 +1,7 @@
 import { FormGroup, Slider, Typography } from '@material-ui/core';
 import { useState } from 'react';
 
-import { RegisterReference } from '../hook/use-form';
+import { RegisterReference } from '../../../hook/use-form';
 
 type Props = {
     min: number;
