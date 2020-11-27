@@ -1,6 +1,5 @@
 import {
     Avatar,
-    ButtonGroup,
     IconButton,
     List,
     ListItem,
@@ -39,6 +38,9 @@ const useStyles = makeStyles((theme: Theme) =>
         header: {
             display: 'flex',
             alignItems: 'center',
+        },
+        date: {
+            margin: '0 20px',
         },
     }),
 );
