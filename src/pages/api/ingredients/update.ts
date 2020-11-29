@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/type/ingredient/model';
-import { validate } from '../../../server/type/ingredient/validate';
+import { ingredientService } from '../../../server/type/ingredient/service';
 import { Ingredient } from '../../../types/ingredient.type';
 
 async function updateIngredient(
@@ -14,27 +11,22 @@ async function updateIngredient(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Ingredient = await handle(req);
-        const validateResult = await validate(input);
+        const result = await ingredientService.update(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
 
-        const filter = { _id: input._id };
-        const result = await IngredientModel.updateOne(filter, input);
-
-        if (result.nModified === 1) {
+        if (result) {
             res.json({ success: true });
         } else {
             res.json({
                 success: false,
-                msg: `Ingredients updated ${result.nModified}`,
+                msg: 'Ingredient not found',
             });
         }
     } catch (err) {
