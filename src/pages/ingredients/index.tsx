@@ -1,3 +1,4 @@
+import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
 import { Button, IconButton } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
@@ -149,8 +150,23 @@ export default function Ingredients(props: Props): JSX.Element {
 Ingredients.getInitialProps = async (): Promise<{
     ingredients: Ingredient[];
 }> => {
-    const response = await fetch(`${BASE_URL}/api/ingredients`);
-    const json = await response.json();
+    const query = gql`
+        query {
+            ingredients {
+                _id
+                name
+            }
+        }
+    `;
+    const client = new ApolloClient({
+        link: new HttpLink({
+            uri: `${BASE_URL}/api/graphql`,
+        }),
+        cache: new InMemoryCache(),
+    });
+    const result = await client.query({
+        query,
+    });
 
-    return { ingredients: json };
+    return { ingredients: result.data.ingredients };
 };
