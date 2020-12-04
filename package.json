@@ -8,7 +8,8 @@
         "start": "next start",
         "mongo:setup": "docker-compose up -d",
         "mongo:start": "docker-compose start",
-        "mongo:stop": "docker-compose stop"
+        "mongo:stop": "docker-compose stop",
+        "codegen": "./codegen.sh"
     },
     "importSort": {
         ".js, .jsx, .ts, .tsx": {
@@ -17,36 +18,42 @@
         }
     },
     "dependencies": {
+        "@apollo/client": "^3.2.9",
         "@apollo/react-hooks": "^4.0.0",
         "@google-cloud/storage": "^5.3.0",
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
         "@material-ui/pickers": "^3.2.10",
-        "apollo-boost": "^0.4.9",
         "apollo-server-micro": "^2.19.0",
         "bcrypt": "^5.0.0",
         "cookie": "^0.4.1",
         "date-fns": "^2.16.1",
         "formidable-serverless": "^1.0.3",
         "graphql": "^15.4.0",
+        "graphql-tools": "^7.0.2",
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.20",
         "mongoose": "^5.10.7",
         "next": "^10.0.1",
         "react": "16.13.1",
-        "react-dom": "16.13.1"
+        "react-dom": "16.13.1",
+        "uuid": "^8.3.1"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^1.19.4",
+        "@graphql-codegen/typescript": "^1.19.0",
+        "@graphql-codegen/typescript-resolvers": "^1.18.0",
         "@types/bcrypt": "^3.0.0",
         "@types/cookie": "^0.4.0",
         "@types/formidable": "^1.0.31",
         "@types/jsonwebtoken": "^8.5.0",
         "@types/lodash": "^4.14.164",
         "@types/mongodb": "^3.5.27",
-        "@types/mongoose": "^5.7.36",
+        "@types/mongoose": "^5.10.2",
         "@types/node": "^14.11.2",
         "@types/react": "^16.9.50",
+        "@types/uuid": "^8.3.0",
         "@typescript-eslint/eslint-plugin": "^4.3.0",
         "@typescript-eslint/parser": "^4.3.0",
         "eslint": "^7.10.0",

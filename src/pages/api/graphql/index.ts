@@ -1,26 +1,7 @@
-import { ApolloServer, gql } from 'apollo-server-micro';
+import { ApolloServer } from 'apollo-server-micro';
 
-import { ingredientService } from '../../../server/type/ingredient/service';
-
-const typeDefs = gql`
-    type Ingredient {
-        _id: ID!
-        name: String!
-        image: String
-        description: String
-    }
-    type Query {
-        ingredients: [Ingredient]
-    }
-`;
-
-const resolvers = {
-    Query: {
-        ingredients: async () => {
-            return ingredientService.getAll({ name: 'asc' });
-        },
-    },
-};
+import { resolvers } from '../../../server/graphql/resolvers';
+import { typeDefs } from '../../../server/graphql/schema';
 
 const server = new ApolloServer({
     typeDefs,

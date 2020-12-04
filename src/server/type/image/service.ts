@@ -1,32 +1,30 @@
 import { connect } from 'mongoose';
 
 import { options, url } from '../../../config/mongoose';
-import { Ingredient } from '../../../types/ingredient.type';
+import { Image } from '../../../types/image.type';
 import { ValidationError } from '../../../types/validation-error.type';
-import { IngredientModel } from './model';
+import { ImageModel } from './model';
 import { validate } from './validate';
 
 type SortBy = {
     [key: string]: 'asc' | 'desc';
 };
 
-export const ingredientService = {
-    async getById(id: string): Promise<Ingredient> {
+export const imageService = {
+    async getById(id: string): Promise<Image> {
         await connect(url, options);
 
-        return IngredientModel.findById(id);
+        return ImageModel.findById(id);
     },
-    async getAll(sortBy: SortBy): Promise<Ingredient[]> {
+    async getAll(sortBy: SortBy): Promise<Image[]> {
         await connect(url, options);
 
-        const query = IngredientModel.find({});
+        const query = ImageModel.find({});
         query.sort(sortBy);
 
         return query.exec();
     },
-    async create(
-        input: Ingredient,
-    ): Promise<ValidationError<Ingredient> | void> {
+    async create(input: Image): Promise<ValidationError<Image> | void> {
         await connect(url, options);
 
         const validateResult = await validate(input);
@@ -35,13 +33,11 @@ export const ingredientService = {
             return validateResult.error;
         }
 
-        const ingredient = new IngredientModel(input);
+        const ingredient = new ImageModel(input);
 
         await ingredient.save();
     },
-    async update(
-        input: Ingredient,
-    ): Promise<ValidationError<Ingredient> | boolean> {
+    async update(input: Image): Promise<ValidationError<Image> | boolean> {
         await connect(url, options);
 
         const validateResult = await validate(input);
@@ -51,7 +47,7 @@ export const ingredientService = {
         }
 
         const filter = { _id: input._id };
-        const result = await IngredientModel.updateOne(filter, input);
+        const result = await ImageModel.updateOne(filter, input);
 
         return result.nModified === 1;
     },
@@ -59,7 +55,7 @@ export const ingredientService = {
         await connect(url, options);
 
         const query = { _id: id };
-        const result = await IngredientModel.deleteOne(query);
+        const result = await ImageModel.deleteOne(query);
 
         return result.deletedCount === 1;
     },

@@ -1,0 +1,6 @@
+schema: http://localhost:4050/api/graphql
+generates:
+    ./src/server/graphql/resolvers-types.ts:
+        plugins:
+            - typescript
+            - typescript-resolvers
