@@ -1,7 +1,7 @@
 import { ingredientService } from '../../type/ingredient/service';
-import { Ingredient, Resolvers } from '../resolvers-types';
+import { Ingredient } from '../resolvers-types';
 
-export const resolvers: Resolvers = {
+export const resolvers = {
     Query: {
         ingredients: async (): Promise<Ingredient[]> => {
             return (await ingredientService.getAll({

@@ -29,7 +29,16 @@ export type Scalars = {
 
 export type Query = {
     __typename?: 'Query';
+    images?: Maybe<Array<Maybe<Image>>>;
     ingredients?: Maybe<Array<Maybe<Ingredient>>>;
+};
+
+export type Image = {
+    __typename?: 'Image';
+    _id: Scalars['ID'];
+    name: Scalars['String'];
+    fileName: Scalars['String'];
+    contentType: Scalars['String'];
 };
 
 export type Ingredient = {
@@ -179,9 +188,10 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
     Query: ResolverTypeWrapper<{}>;
-    Ingredient: ResolverTypeWrapper<Ingredient>;
+    Image: ResolverTypeWrapper<Image>;
     ID: ResolverTypeWrapper<Scalars['ID']>;
     String: ResolverTypeWrapper<Scalars['String']>;
+    Ingredient: ResolverTypeWrapper<Ingredient>;
     Mutation: ResolverTypeWrapper<{}>;
     SignedUrl: ResolverTypeWrapper<SignedUrl>;
     CacheControlScope: CacheControlScope;
@@ -192,9 +202,10 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
     Query: {};
-    Ingredient: Ingredient;
+    Image: Image;
     ID: Scalars['ID'];
     String: Scalars['String'];
+    Ingredient: Ingredient;
     Mutation: {};
     SignedUrl: SignedUrl;
     Upload: Scalars['Upload'];
@@ -205,11 +216,27 @@ export type QueryResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
+    images?: Resolver<
+        Maybe<Array<Maybe<ResolversTypes['Image']>>>,
+        ParentType,
+        ContextType
+    >;
     ingredients?: Resolver<
         Maybe<Array<Maybe<ResolversTypes['Ingredient']>>>,
         ParentType,
         ContextType
     >;
+};
+
+export type ImageResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['Image'] = ResolversParentTypes['Image']
+> = {
+    _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+    fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+    contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type IngredientResolvers<
@@ -256,6 +283,7 @@ export interface UploadScalarConfig
 
 export type Resolvers<ContextType = any> = {
     Query?: QueryResolvers<ContextType>;
+    Image?: ImageResolvers<ContextType>;
     Ingredient?: IngredientResolvers<ContextType>;
     Mutation?: MutationResolvers<ContextType>;
     SignedUrl?: SignedUrlResolvers<ContextType>;

@@ -7,6 +7,7 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import FaceIcon from '@material-ui/icons/Face';
 import FunctionsIcon from '@material-ui/icons/Functions';
+import ImageIcon from '@material-ui/icons/Image';
 import ListIcon from '@material-ui/icons/List';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import { useRouter } from 'next/router';
@@ -67,6 +68,17 @@ export function Nav(): JSX.Element {
                             <FunctionsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Eenheden" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        selected={router.pathname.indexOf('/images') === 0}
+                        key="afbeeldingen"
+                        onClick={() => router.push('/images/')}
+                    >
+                        <ListItemIcon>
+                            <ImageIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Afbeeldingen" />
                     </ListItem>
                 </List>
             </>

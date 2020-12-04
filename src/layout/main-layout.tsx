@@ -1,7 +1,6 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Header } from '../component/header';

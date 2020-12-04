@@ -6,7 +6,7 @@ import { Ingredient } from '../../types/ingredient.type';
 import { Recipe } from '../../types/recipe.type';
 import { Unit } from '../../types/unit.type';
 import { InputCheckbox } from './input/input-checkbox';
-import { InputFile } from './input/input-file';
+import { InputFileDeprecated } from './input/input-file-deprecated';
 import { InputIngredients } from './input/input-ingredients';
 import { InputPreparation } from './input/input-preparation';
 import { InputSlider } from './input/input-slider';
@@ -72,7 +72,7 @@ export function RecipeForm(props: Props): JSX.Element {
                 inputRef={registerField()}
             />
 
-            <InputFile
+            <InputFileDeprecated
                 name="image"
                 label="Afbeelding"
                 value={props.recipe?.image}

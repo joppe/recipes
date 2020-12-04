@@ -34,7 +34,7 @@ function getImagePath(fileName: string): string {
     return `${BASE_URL}/${BUCKET_NAME}/${fileName}`;
 }
 
-export function InputFile(props: Props): JSX.Element {
+export function InputFileDeprecated(props: Props): JSX.Element {
     const classes = useStyles();
     const [preview, setPreview] = useState<string | undefined>(props.value);
     const [value, setValue] = useState<string | undefined>(props.value);

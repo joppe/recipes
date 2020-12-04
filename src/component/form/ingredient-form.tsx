@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 
 import { FormContext, FormContextValue } from '../../context/form-context';
 import { Ingredient } from '../../types/ingredient.type';
-import { InputFile } from './input/input-file';
+import { InputFileDeprecated } from './input/input-file-deprecated';
 import { useStyles } from './style';
 
 type Props = {
@@ -41,7 +41,7 @@ export function IngredientForm(props: Props): JSX.Element {
                 inputRef={registerField()}
             />
 
-            <InputFile
+            <InputFileDeprecated
                 name="image"
                 label="Afbeelding"
                 value={props.ingredient ? props.ingredient.image : undefined}

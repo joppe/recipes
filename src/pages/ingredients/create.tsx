@@ -10,7 +10,7 @@ export default function CreateIngredient(): JSX.Element {
             path={`${BASE_URL}/api/ingredients/create`}
             returnPath="/ingredients"
             method="POST"
-            title="Ingredi&eumlnt aanmaken"
+            title="Ingredi&euml;nt aanmaken"
         >
             <IngredientForm />
         </EntityForm>
