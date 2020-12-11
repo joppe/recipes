@@ -17,6 +17,7 @@ type Props = {
     method: string;
     title: string;
     children: React.ReactNode;
+    onPreSubmit?(data: FormData): Promise<void>;
 };
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,6 +45,10 @@ export default function EntityForm(props: Props): JSX.Element {
     const { registerField, handleSubmit, errors, setErrors } = useForm();
 
     async function onSubmit(data: FormData): Promise<void> {
+        if (props.onPreSubmit) {
+            await props.onPreSubmit(data);
+        }
+
         data.append('entity', JSON.stringify(hydrate(data)));
 
         const result = await fetch(props.path, {

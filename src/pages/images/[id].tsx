@@ -2,6 +2,7 @@ import Alert from '@material-ui/lab/Alert';
 import { GetServerSideProps } from 'next';
 import React from 'react';
 
+import EntityForm from '../../component/form/entity-form';
 import { ImageForm } from '../../component/form/image-form';
 import { BASE_URL } from '../../config/api';
 import { Image } from '../../types/image.type';
@@ -26,13 +27,14 @@ export default function UpdateImage(props: Props): JSX.Element {
     }
 
     return (
-        <ImageForm
+        <EntityForm
             path={`${BASE_URL}/api/images/update`}
             returnPath="/images"
-            method="POST"
+            method="PUT"
             title="Afbeelding bewerken"
-            image={props.result.image}
-        />
+        >
+            <ImageForm image={props.result.image} />
+        </EntityForm>
     );
 }
 
