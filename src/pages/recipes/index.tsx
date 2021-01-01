@@ -11,11 +11,12 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Alert from '@material-ui/lab/Alert';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { ConfirmDelete } from '../../component/confirm-delete';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { MainLayout } from '../../layout/main-layout';
 import { Recipe } from '../../types/recipe.type';
 
@@ -42,7 +43,7 @@ export default function Recipes(props: Props): JSX.Element {
     const classes = useStyles();
 
     async function handleConfirmDelete(): Promise<void> {
-        const result = await fetch(`${BASE_URL}/api/recipes/delete`, {
+        const result = await fetch('/api/recipes/delete', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export default function Recipes(props: Props): JSX.Element {
         const json = await result.json();
 
         if (json.success) {
-            const response = await fetch(`${BASE_URL}/api/recipes`);
+            const response = await fetch('/api/recipes');
             const json = await response.json();
 
             setRecipes(json);
@@ -145,11 +146,10 @@ export default function Recipes(props: Props): JSX.Element {
     );
 }
 
-Recipes.getInitialProps = async (): Promise<{
-    recipes: Recipe[];
-}> => {
-    const response = await fetch(`${BASE_URL}/api/recipes`);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
+    const response = await fetch(`${baseUrl}/api/recipes`);
     const json = await response.json();
 
-    return { recipes: json };
+    return { props: { recipes: json } };
 };

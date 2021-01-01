@@ -4,7 +4,6 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
 
-import { BASE_URL } from '../config/api';
 import { UserContext } from '../context/user-provider';
 import { useForm } from '../hook/use-form';
 import { MainLayout } from '../layout/main-layout';
@@ -38,7 +37,7 @@ export default function Login(): JSX.Element {
             email: data.get('email'),
             password: data.get('password'),
         };
-        const result = await fetch(`${BASE_URL}/api/login`, {
+        const result = await fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

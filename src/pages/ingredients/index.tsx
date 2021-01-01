@@ -11,11 +11,12 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Alert from '@material-ui/lab/Alert';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { ConfirmDelete } from '../../component/confirm-delete';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { MainLayout } from '../../layout/main-layout';
 import { Ingredient } from '../../types/ingredient.type';
 
@@ -43,7 +44,7 @@ export default function Ingredients(props: Props): JSX.Element {
     const classes = useStyles();
 
     async function handleConfirmDelete(): Promise<void> {
-        const result = await fetch(`${BASE_URL}/api/ingredients/delete`, {
+        const result = await fetch('/api/ingredients/delete', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ export default function Ingredients(props: Props): JSX.Element {
         const json = await result.json();
 
         if (json.success) {
-            const response = await fetch(`${BASE_URL}/api/ingredients`);
+            const response = await fetch('/api/ingredients');
             const json = await response.json();
 
             setIngredients(json);
@@ -146,11 +147,10 @@ export default function Ingredients(props: Props): JSX.Element {
     );
 }
 
-Ingredients.getInitialProps = async (): Promise<{
-    ingredients: Ingredient[];
-}> => {
-    const response = await fetch(`${BASE_URL}/api/ingredients`);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
+    const response = await fetch(`${baseUrl}/api/ingredients`);
     const json = await response.json();
 
-    return { ingredients: json };
+    return { props: { ingredients: json } };
 };

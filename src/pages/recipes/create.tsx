@@ -1,8 +1,9 @@
+import { GetServerSideProps } from 'next';
 import React from 'react';
 
 import EntityForm from '../../component/form/entity-form';
 import { RecipeForm } from '../../component/form/recipe-form';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { Ingredient } from '../../types/ingredient.type';
 import { Unit } from '../../types/unit.type';
 
@@ -14,7 +15,7 @@ type Props = {
 export default function CreateRecipe(props: Props): JSX.Element {
     return (
         <EntityForm
-            path={`${BASE_URL}/api/recipes/create`}
+            path={'/api/recipes/create'}
             returnPath="/recipes"
             method="POST"
             title="Recept aanmaken"
@@ -24,17 +25,17 @@ export default function CreateRecipe(props: Props): JSX.Element {
     );
 }
 
-CreateRecipe.getInitialProps = async (): Promise<{
-    ingredients: Ingredient[];
-    units: Unit[];
-}> => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
     const [ingredientsResponse, unitsResponse] = await Promise.all([
-        fetch(`${BASE_URL}/api/ingredients`),
-        fetch(`${BASE_URL}/api/units`),
+        fetch(`${baseUrl}/api/ingredients`),
+        fetch(`${baseUrl}/api/units`),
     ]);
 
     return {
-        ingredients: await ingredientsResponse.json(),
-        units: await unitsResponse.json(),
+        props: {
+            ingredients: await ingredientsResponse.json(),
+            units: await unitsResponse.json(),
+        },
     };
 };

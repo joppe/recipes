@@ -11,11 +11,12 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Alert from '@material-ui/lab/Alert';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 import { ConfirmDelete } from '../../component/confirm-delete';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { MainLayout } from '../../layout/main-layout';
 import { Unit } from '../../types/unit.type';
 
@@ -43,7 +44,7 @@ export default function Units(props: Props): JSX.Element {
     const classes = useStyles();
 
     async function handleConfirmDelete(): Promise<void> {
-        const result = await fetch(`${BASE_URL}/api/units/delete`, {
+        const result = await fetch('/api/units/delete', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ export default function Units(props: Props): JSX.Element {
         const json = await result.json();
 
         if (json.success) {
-            const response = await fetch(`${BASE_URL}/api/units`);
+            const response = await fetch('/api/units');
             const json = await response.json();
 
             setUnits(json);
@@ -150,9 +151,10 @@ export default function Units(props: Props): JSX.Element {
     );
 }
 
-Units.getInitialProps = async (): Promise<{ units: Unit[] }> => {
-    const response = await fetch(`${BASE_URL}/api/units`);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
+    const response = await fetch(`${baseUrl}/api/units`);
     const json = await response.json();
 
-    return { units: json };
+    return { props: { units: json } };
 };

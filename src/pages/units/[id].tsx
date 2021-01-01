@@ -4,7 +4,7 @@ import React from 'react';
 
 import EntityForm from '../../component/form/entity-form';
 import { UnitForm } from '../../component/form/unit-form';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { Unit } from '../../types/unit.type';
 
 type SuccessResult = {
@@ -28,7 +28,7 @@ export default function UpdateUnit(props: Props): JSX.Element {
 
     return (
         <EntityForm
-            path={`${BASE_URL}/api/units/update`}
+            path={'/api/units/update'}
             returnPath="/units"
             method="PUT"
             title="Eenheid bewerken"
@@ -40,7 +40,8 @@ export default function UpdateUnit(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookie = ctx.req.headers.cookie;
-    const response = await fetch(`${BASE_URL}/api/units/${ctx.params?.id}`, {
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
+    const response = await fetch(`${baseUrl}/api/units/${ctx.params?.id}`, {
         headers: {
             cookie: cookie as string,
         },

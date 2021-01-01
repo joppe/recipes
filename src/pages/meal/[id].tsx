@@ -4,7 +4,7 @@ import React from 'react';
 
 import EntityForm from '../../component/form/entity-form';
 import { MealForm } from '../../component/form/meal-form';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { Meal } from '../../types/meal.type';
 import { Recipe } from '../../types/recipe.type';
 
@@ -34,7 +34,7 @@ export default function UpdateMeal(props: Props): JSX.Element {
 
     return (
         <EntityForm
-            path={`${BASE_URL}/api/meals/${path}`}
+            path={`/api/meals/${path}`}
             returnPath="/"
             method={method}
             title="Maaltijd bewerken"
@@ -46,7 +46,8 @@ export default function UpdateMeal(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookie = ctx.req.headers.cookie;
-    const recipesResponse = await fetch(`${BASE_URL}/api/recipes`, {
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
+    const recipesResponse = await fetch(`${baseUrl}/api/recipes`, {
         headers: {
             cookie: cookie as string,
         },
@@ -67,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         };
     }
 
-    const response = await fetch(`${BASE_URL}/api/meals/${ctx.params?.id}`, {
+    const response = await fetch(`${baseUrl}/api/meals/${ctx.params?.id}`, {
         headers: {
             cookie: cookie as string,
         },

@@ -4,7 +4,7 @@ import React from 'react';
 
 import EntityForm from '../../component/form/entity-form';
 import { IngredientForm } from '../../component/form/ingredient-form';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { Ingredient } from '../../types/ingredient.type';
 
 type SuccessResult = {
@@ -28,7 +28,7 @@ export default function UpdateIngredient(props: Props): JSX.Element {
 
     return (
         <EntityForm
-            path={`${BASE_URL}/api/ingredients/update`}
+            path={'/api/ingredients/update'}
             returnPath="/ingredients"
             method="PUT"
             title="Ingredi&euml;nt bewerken"
@@ -40,8 +40,9 @@ export default function UpdateIngredient(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookie = ctx.req.headers.cookie;
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
     const response = await fetch(
-        `${BASE_URL}/api/ingredients/${ctx.params?.id}`,
+        `${baseUrl}/api/ingredients/${ctx.params?.id}`,
         {
             headers: {
                 cookie: cookie as string,

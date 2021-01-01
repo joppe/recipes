@@ -7,7 +7,7 @@ import {
     ListItemSecondaryAction,
     ListItemText,
 } from '@material-ui/core';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import EditIcon from '@material-ui/icons/Edit';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
@@ -24,7 +24,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { BASE_URL } from '../config/api';
+import { protocol } from '../config/api';
 import { MainLayout } from '../layout/main-layout';
 import { Meal } from '../types/meal.type';
 
@@ -33,7 +33,7 @@ type Props = {
     meals: Meal[];
 };
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         header: {
             display: 'flex',
@@ -156,8 +156,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const from = formatISO(start, {
         representation: 'date',
     });
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
     const response = await fetch(
-        `${BASE_URL}/api/meals/?from=${from}&range=${DAY_RANGE}`,
+        `${baseUrl}/api/meals/?from=${from}&range=${DAY_RANGE}`,
         {
             headers: {
                 cookie: cookie as string,

@@ -4,7 +4,7 @@ import React from 'react';
 
 import EntityForm from '../../component/form/entity-form';
 import { RecipeForm } from '../../component/form/recipe-form';
-import { BASE_URL } from '../../config/api';
+import { protocol } from '../../config/api';
 import { Ingredient } from '../../types/ingredient.type';
 import { Recipe } from '../../types/recipe.type';
 import { Unit } from '../../types/unit.type';
@@ -32,7 +32,7 @@ export default function UpdateRecipe(props: Props): JSX.Element {
 
     return (
         <EntityForm
-            path={`${BASE_URL}/api/recipes/update`}
+            path={'/api/recipes/update'}
             returnPath="/recipes"
             method="PUT"
             title="Recept bewerken"
@@ -48,22 +48,23 @@ export default function UpdateRecipe(props: Props): JSX.Element {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookie = ctx.req.headers.cookie;
+    const baseUrl = `${protocol}://${ctx.req.headers.host}`;
     const [
         recipeResponse,
         ingredientsResponse,
         unitsResponse,
     ] = await Promise.all([
-        fetch(`${BASE_URL}/api/recipes/${ctx.params?.id}`, {
+        fetch(`${baseUrl}/api/recipes/${ctx.params?.id}`, {
             headers: {
                 cookie: cookie as string,
             },
         }),
-        fetch(`${BASE_URL}/api/ingredients`, {
+        fetch(`${baseUrl}/api/ingredients`, {
             headers: {
                 cookie: cookie as string,
             },
         }),
-        fetch(`${BASE_URL}/api/units`, {
+        fetch(`${baseUrl}/api/units`, {
             headers: {
                 cookie: cookie as string,
             },
