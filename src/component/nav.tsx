@@ -99,7 +99,6 @@ export function Nav(): JSX.Element {
     }
     return (
         <>
-            <div className={classes.toolbar} />
             <Divider />
             <List>
                 <ListItem
