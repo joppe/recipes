@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { mealService } from '../../../server/entity/meal/service';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { MealModel } from '../../../server/type/meal/model';
-import { validate } from '../../../server/type/meal/validate';
 import { Meal } from '../../../types/meal.type';
 
 async function updateMeal(
@@ -14,27 +11,21 @@ async function updateMeal(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Meal = await handle(req);
-        const validateResult = await validate(input);
+        const result = await mealService.update(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
-
-        const filter = { _id: input._id };
-        const result = await MealModel.updateOne(filter, input);
-
-        if (result.nModified === 1) {
+        if (result) {
             res.json({ success: true });
         } else {
             res.json({
                 success: false,
-                msg: `Meals updated ${result.nModified}`,
+                msg: 'Meals not found',
             });
         }
     } catch (err) {

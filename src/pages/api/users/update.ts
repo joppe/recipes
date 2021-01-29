@@ -3,11 +3,11 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../../config/mongoose';
+import { UserModel } from '../../../server/entity/user/model';
+import { validate } from '../../../server/entity/user/validate';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { exists } from '../../../server/type/user/exists';
-import { UserModel } from '../../../server/type/user/model';
-import { validate } from '../../../server/type/user/validate';
+import { alreadyExists } from '../../../server/validator/already-exists';
 import { Role } from '../../../types/user.type';
 
 interface UpdateUserRequest extends NextApiRequest {
@@ -43,7 +43,12 @@ async function updateUser(
             });
         }
 
-        const userExists = await exists(input.email, input._id);
+        const userExists = await alreadyExists(
+            UserModel,
+            'email',
+            input.email,
+            input._id,
+        );
 
         if (userExists) {
             return res.json({ msg: 'E-mail must be unique' });

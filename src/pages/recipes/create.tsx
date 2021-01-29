@@ -26,16 +26,31 @@ export default function CreateRecipe(props: Props): JSX.Element {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const cookie = ctx.req.headers.cookie;
     const baseUrl = `${protocol}://${ctx.req.headers.host}`;
     const [ingredientsResponse, unitsResponse] = await Promise.all([
-        fetch(`${baseUrl}/api/ingredients`),
-        fetch(`${baseUrl}/api/units`),
+        fetch(`${baseUrl}/api/ingredients`, {
+            headers: {
+                cookie: cookie as string,
+            },
+        }),
+        fetch(`${baseUrl}/api/units`, {
+            headers: {
+                cookie: cookie as string,
+            },
+        }),
     ]);
+    const ingredientsResult = await ingredientsResponse.json();
+    const ingredients = ingredientsResult.success
+        ? ingredientsResult.ingredients
+        : [];
+    const unitsResult = await unitsResponse.json();
+    const units = unitsResult.success ? unitsResult.units : [];
 
     return {
         props: {
-            ingredients: await ingredientsResponse.json(),
-            units: await unitsResponse.json(),
+            ingredients,
+            units,
         },
     };
 };

@@ -1,10 +1,8 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { ingredientService } from '../../../server/entity/ingredient/service';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/type/ingredient/model';
 
 interface DeleteIngredientRequest extends NextApiRequest {
     body: {
@@ -17,17 +15,14 @@ async function deleteIngredient(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
+        const success = await ingredientService.delete(req.body.id);
 
-        const query = { _id: req.body.id };
-        const result = await IngredientModel.deleteOne(query);
-
-        if (result.deletedCount === 1) {
+        if (success) {
             res.json({ success: true });
         } else {
             res.json({
                 success: false,
-                msg: `Ingredients deleted ${result.deletedCount}`,
+                msg: 'Ingredient not found',
             });
         }
     } catch (err) {

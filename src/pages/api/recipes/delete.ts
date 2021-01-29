@@ -1,10 +1,8 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { recipeService } from '../../../server/entity/recipe/service';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { RecipeModel } from '../../../server/type/recipe/model';
 
 interface DeleteRecipeRequest extends NextApiRequest {
     body: {
@@ -17,17 +15,14 @@ async function deleteRecipe(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
+        const success = await recipeService.delete(req.body.id);
 
-        const query = { _id: req.body.id };
-        const result = await RecipeModel.deleteOne(query);
-
-        if (result.deletedCount === 1) {
+        if (success) {
             res.json({ success: true });
         } else {
             res.json({
                 success: false,
-                msg: `Recipes deleted ${result.deletedCount}`,
+                msg: 'Recipe not found',
             });
         }
     } catch (err) {

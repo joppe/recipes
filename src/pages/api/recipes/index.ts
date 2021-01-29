@@ -1,25 +1,18 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { recipeService } from '../../../server/entity/recipe/service';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { RecipeModel } from '../../../server/type/recipe/model';
 
 async function listRecipes(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
+        const result = await recipeService.getAll({ name: 'asc' });
 
-        const query = RecipeModel.find({});
-        query.sort({ name: 'asc' });
-
-        const result = await query.exec();
-
-        res.json(result);
+        res.json({ success: true, recipes: result });
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 

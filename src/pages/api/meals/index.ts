@@ -1,11 +1,8 @@
 import { addDays, parseISO } from 'date-fns';
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { mealService } from '../../../server/entity/meal/service';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { MealModel } from '../../../server/type/meal/model';
-import { RecipeModel } from '../../../server/type/recipe/model';
 
 async function listMeals(
     req: NextApiRequest,
@@ -14,26 +11,11 @@ async function listMeals(
     try {
         const from = parseISO(<string>req.query.from);
         const to = addDays(from, parseInt(<string>req.query.range, 10));
+        const result = await mealService.getForPeriod(from, to);
 
-        await connect(url, options);
-
-        // This is needed for the populate.
-        RecipeModel.modelName;
-
-        const query = MealModel.find({
-            date: {
-                $gte: from,
-                $lte: to,
-            },
-        });
-        query.populate('recipe');
-        query.sort({ date: 'asc' });
-
-        const result = await query.exec();
-
-        res.json(result);
+        res.json({ success: true, meals: result });
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 

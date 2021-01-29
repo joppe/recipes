@@ -154,7 +154,8 @@ export default function Units(props: Props): JSX.Element {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const baseUrl = `${protocol}://${ctx.req.headers.host}`;
     const response = await fetch(`${baseUrl}/api/units`);
-    const json = await response.json();
+    const result = await response.json();
+    const units = result.success ? result.units : [];
 
-    return { props: { units: json } };
+    return { props: { units } };
 };

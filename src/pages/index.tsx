@@ -166,10 +166,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         },
     );
     const result = await response.json();
+    const meals = result.success ? result.meals : [];
 
     return {
         props: {
-            meals: result,
+            meals,
             start: from,
         },
     };
