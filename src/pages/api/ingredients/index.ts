@@ -1,25 +1,18 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { ingredientService } from '../../../server/entity/ingredient/service';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/type/ingredient/model';
 
 async function listIngredients(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
+        const result = await ingredientService.getAll({ name: 'asc' });
 
-        const query = IngredientModel.find({});
-        query.sort({ name: 'asc' });
-
-        const result = await query.exec();
-
-        res.json(result);
+        res.json({ success: true, ingredients: result });
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: true, msg: err.message });
     }
 }
 

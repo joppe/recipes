@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { recipeService } from '../../../server/entity/recipe/service';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { RecipeModel } from '../../../server/type/recipe/model';
-import { validate } from '../../../server/type/recipe/validate';
 import { Recipe } from '../../../types/recipe.type';
 
 async function updateRecipe(
@@ -14,27 +11,22 @@ async function updateRecipe(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Recipe = await handle(req);
-        const validateResult = await validate(input);
+        const result = await recipeService.update(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
 
-        const filter = { _id: input._id };
-        const result = await RecipeModel.updateOne(filter, input);
-
-        if (result.nModified === 1) {
+        if (result) {
             res.json({ success: true });
         } else {
             res.json({
                 success: false,
-                msg: `Recipes updated ${result.nModified}`,
+                msg: 'Recipe not found',
             });
         }
     } catch (err) {

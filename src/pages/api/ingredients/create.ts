@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { ingredientService } from '../../../server/entity/ingredient/service';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { IngredientModel } from '../../../server/type/ingredient/model';
-import { validate } from '../../../server/type/ingredient/validate';
 import { Ingredient } from '../../../types/ingredient.type';
 
 async function createIngredient(
@@ -14,21 +11,15 @@ async function createIngredient(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Ingredient = await handle(req);
-        const validateResult = await validate(input);
+        const result = await ingredientService.create(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
-
-        const ingredient = new IngredientModel(input);
-
-        await ingredient.save();
 
         res.json({ success: true });
     } catch (err) {

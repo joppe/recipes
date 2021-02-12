@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { unitService } from '../../../server/entity/unit/service';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/type/unit/model';
-import { validate } from '../../../server/type/unit/validate';
 import { Unit } from '../../../types/unit.type';
 
 async function createUnit(
@@ -14,21 +11,15 @@ async function createUnit(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Unit = await handle(req);
-        const validateResult = await validate(input);
+        const result = await unitService.create(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
-
-        const unit = new UnitModel(input);
-
-        await unit.save();
 
         res.json({ success: true });
     } catch (err) {

@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { unitService } from '../../../server/entity/unit/service';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/type/unit/model';
-import { validate } from '../../../server/type/unit/validate';
 import { Unit } from '../../../types/unit.type';
 
 async function updateUnit(
@@ -14,27 +11,22 @@ async function updateUnit(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Unit = await handle(req);
-        const validateResult = await validate(input);
+        const result = await unitService.update(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
 
-        const filter = { _id: input._id };
-        const result = await UnitModel.updateOne(filter, input);
-
-        if (result.nModified === 1) {
+        if (result) {
             res.json({ success: true });
         } else {
             res.json({
                 success: false,
-                msg: `Units updated ${result.nModified}`,
+                msg: 'Unit not found',
             });
         }
     } catch (err) {

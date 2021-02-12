@@ -1,25 +1,18 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { unitService } from '../../../server/entity/unit/service';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { UnitModel } from '../../../server/type/unit/model';
 
 async function listUnits(
     req: NextApiRequest,
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
+        const result = await unitService.getAll({ name: 'asc' });
 
-        const query = UnitModel.find({});
-        query.sort({ name: 'asc' });
-
-        const result = await query.exec();
-
-        res.json(result);
+        res.json({ success: true, units: result });
     } catch (err) {
-        res.status(500).json({ msg: err.message });
+        res.status(500).json({ success: false, msg: err.message });
     }
 }
 

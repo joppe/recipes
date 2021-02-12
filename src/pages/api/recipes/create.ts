@@ -1,12 +1,9 @@
-import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { options, url } from '../../../config/mongoose';
+import { recipeService } from '../../../server/entity/recipe/service';
 import { handle } from '../../../server/form/handle';
 import { authenticated } from '../../../server/middleware/authenticated';
 import { forceRequestMethod } from '../../../server/middleware/force-request-method';
-import { RecipeModel } from '../../../server/type/recipe/model';
-import { validate } from '../../../server/type/recipe/validate';
 import { Recipe } from '../../../types/recipe.type';
 
 async function createRecipe(
@@ -14,21 +11,15 @@ async function createRecipe(
     res: NextApiResponse,
 ): Promise<void> {
     try {
-        await connect(url, options);
-
         const input: Recipe = await handle(req);
-        const validateResult = await validate(input);
+        const result = await recipeService.create(input);
 
-        if (!validateResult.isValid) {
+        if (typeof result === 'object') {
             return res.json({
                 success: false,
-                error: validateResult.error,
+                error: result,
             });
         }
-
-        const recipe = new RecipeModel(input);
-
-        await recipe.save();
 
         res.json({ success: true });
     } catch (err) {

@@ -148,9 +148,15 @@ export default function Ingredients(props: Props): JSX.Element {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+    const cookie = ctx.req.headers.cookie;
     const baseUrl = `${protocol}://${ctx.req.headers.host}`;
-    const response = await fetch(`${baseUrl}/api/ingredients`);
-    const json = await response.json();
+    const response = await fetch(`${baseUrl}/api/ingredients`, {
+        headers: {
+            cookie: cookie as string,
+        },
+    });
+    const result = await response.json();
+    const ingredients = result.success ? result.ingredients : [];
 
-    return { props: { ingredients: json } };
+    return { props: { ingredients } };
 };

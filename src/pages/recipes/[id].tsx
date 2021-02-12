@@ -70,12 +70,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             },
         }),
     ]);
+    const ingredientsResult = await ingredientsResponse.json();
+    const ingredients = ingredientsResult.success
+        ? ingredientsResult.ingredients
+        : [];
+    const unitsResult = await unitsResponse.json();
+    const units = unitsResult.success ? unitsResult.units : [];
 
     return {
         props: {
             result: await recipeResponse.json(),
-            ingredients: await ingredientsResponse.json(),
-            units: await unitsResponse.json(),
+            ingredients,
+            units,
         },
     };
 };

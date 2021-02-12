@@ -3,8 +3,8 @@ import { connect } from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { options, url } from '../../config/mongoose';
+import { UserModel } from '../../server/entity/user/model';
 import { forceRequestMethod } from '../../server/middleware/force-request-method';
-import { UserModel } from '../../server/type/user/model';
 import { JSONWebToken } from '../../types/user.type';
 
 async function whoAmI(

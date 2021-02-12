@@ -52,13 +52,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
             cookie: cookie as string,
         },
     });
+    const recipesResult = await recipesResponse.json();
+    const recipes = recipesResult.success ? recipesResult.recipes : [];
 
     if (ctx.params?.id === 'new') {
         return {
             props: {
                 result: {
                     success: true,
-                    recipes: await recipesResponse.json(),
+                    recipes,
                     meal: {
                         date: ctx.query.date,
                         name: '',
@@ -79,7 +81,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         props: {
             result: {
                 ...result,
-                recipes: await recipesResponse.json(),
+                recipes,
             },
         },
     };
