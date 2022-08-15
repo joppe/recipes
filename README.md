@@ -1,64 +1,38 @@
-# Recipes
+# create-svelte
 
-I use this project to learn new technologies/frameworks. It's just for fun.
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-## Routes
+## Creating a project
 
-- home -> weekmenu (CRUD)
-- recipes (CRUD)
-- units (CRUD)
-- ingredients (CRUD)
+If you're seeing this, you've probably already done this step. Congrats!
 
-## Data Structure
+```bash
+# create a new project in the current directory
+npm create svelte@latest
 
-### Ingredients
-
-```json
-{
-    "name": "Rode ui",
-    "image": "/img/rode-ui.png"
-}
+# create a new project in my-app
+npm create svelte@latest my-app
 ```
 
-### Unit
+## Developing
 
-```json
-{
-    "name": "Theelepel",
-    "abreviation": "tl"
-}
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-### Recipe
+## Building
 
-```json
-{
-    "name": "Chili sin carne",
-    "description": "De vegetarische variant op de Mexicaanse chili con carne: chili sin carne. Het bekende recept voor chili, maar dan zonder vlees! Een lekker en snel gerecht voor doordeweeks. Eet smakelijk!",
-    "source": "https://www.boodschappen.nl/recept/chili-sin-carne/",
-    "images": [ "https://www.boodschappen.nl/app/uploads/recipe_images/4by3_header/7179.jpg"
-    ],
-    "vegetarian": true,
-    "vegan": true,
-    "difficulty": 3, // 0 - 5
-    "course": "hoofdgerecht",
-    "servings" 4,
-    "preparation-time": 30,
-    "ingredients": [
-        {
-            "name": "zonnebloemolie",
-            "unit": "el",
-            "amount" 3
-        },
-        {
-            "name": "rode uien",
-            "unit": "unit",
-            "amount" 2,
-            "shape": "gesnipperd"
-        }
-    ],
-    "preparation": [
-        "Verhit de olie in een grote pan. Voeg de helft van de ui, de wortel en de bleekselderij toe en bak de groenten een paar minuten op een hoge stand tot ze zachter zijn. Voeg de paprika, knoflook en kruidenmix toe en bak circa 2 minuten.",
-    ]
-}
+To create a production version of your app:
+
+```bash
+npm run build
 ```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
