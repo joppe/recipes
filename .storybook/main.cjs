@@ -13,7 +13,7 @@ module.exports = {
     "builder": "@storybook/builder-vite"
   },
   "svelteOptions": {
-    "preprocess": require("../svelte.config.js").preprocess
+    "preprocess": import("../svelte.config.js").preprocess
   },
   "features": {
     "storyStoreV7": true
