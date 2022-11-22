@@ -1,0 +1,80 @@
+#+title: Recipes
+
+* Table of contents :toc:
+  - [[#database][Database]]
+  - [[#03-things-to-do][Things to do]]
+
+** Database
+#+begin_src plantuml :results output :file entities.png :output-dir image
+hide circle
+
+entity "Chef" as chef {
+  name: text
+  skill: int
+}
+
+entity "Media" as media {
+  title: text
+  type: text
+  url: text
+}
+
+entity "Meal" as meal {
+  date: date
+  score: int
+}
+
+entity "Tag" as tag {
+  title: text
+}
+
+entity "Recipe" as recipe {
+  name: text
+  preparation_time: int
+  cooking_time: int
+  difficulty: int
+  course: text
+  servings: int
+  source: text
+}
+
+entity "Unit" as unit {
+  name: string
+  abbreviation: string
+}
+
+entity "Product" as product {
+  name: string
+  description: string
+}
+
+entity "Instruction" as instruction {
+  order: int
+  text: string
+}
+
+entity "Ingredient" as ingredient {
+  amount: int
+  preraration: text
+}
+
+chef        |o--o{ media
+meal        ||--o{ recipe
+meal        ||--o{ chef
+recipe      |o--o{ media
+recipe      }o--o{ tag
+product     |o--o{ media
+instruction ||--o{ recipe
+instruction |o--o{ media
+ingredient  ||--o{ recipe
+ingredient  ||--o{ product
+ingredient  ||--o{ unit
+#+end_src
+
+#+RESULTS:
+[[file:image/entities.png]]
+
+** TODO [0/3] Things to do
+- [ ] Create application for the database
+- [ ] Fix database sql scripts, align with this document
+- [ ] Remove draw.io database diagram
