@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Chef {
+  id                String    @id @default(uuid())
+  name              String    @db.VarChar(255)
+  skill             Int
+  media             Media     @relation(fields: [media_id], references: [id])
+  media_id          String
+  meals             Meal[]
+}
+
+model Media {
+  id                String    @id @default(uuid())
+  type              String    @db.VarChar(255)
+  title             String    @db.VarChar(255)
+  url               String    @db.VarChar(255)
+  chefs             Chef[]
+  recipes           Recipe[]
+  products          Product[]
+  instructions      Instruction[]
+}
+
+model Meal {
+  id                String    @id @default(uuid())
+  date              DateTime  @default(now())
+  score             Int?
+  chef              Chef      @relation(fields: [chef_id], references: [id])
+  chef_id           String
+  recipe            Recipe    @relation(fields: [recipe_id], references: [id])
+  recipe_id         String
+}
+
+model Recipe {
+  id                String    @id @default(uuid())
+  name              String    @db.VarChar(255)
+  preparation_time  Int?
+  cooking_time      Int?
+  difficulty        Int
+  course            String?
+  servings          Int
+  source            String?
+  media             Media     @relation(fields: [media_id], references: [id])
+  media_id          String
+  meals             Meal[]
+  instructions      Instruction[]
+  ingredients       Ingredient[]
+}
+
+model Unit {
+  id                String    @id @default(uuid())
+  name              String
+  abbreviation      String
+  ingredients       Ingredient[]
+}
+
+model Product {
+  id                String    @id @default(uuid())
+  name              String
+  description       String
+  media             Media     @relation(fields: [media_id], references: [id])
+  media_id          String
+  ingredients       Ingredient[]
+}
+
+model Instruction {
+  id                String    @id @default(uuid())
+  order             Int
+  text              String
+  media             Media     @relation(fields: [media_id], references: [id])
+  media_id          String
+  recipe            Recipe    @relation(fields: [recipe_id], references: [id])
+  recipe_id         String
+}
+
+model Ingredient {
+  id                String    @id @default(uuid())
+  amount            String
+  preperation       String
+  recipe            Recipe    @relation(fields: [recipe_id], references: [id])
+  recipe_id         String
+  product           Product   @relation(fields: [product_id], references: [id])
+  product_id        String
+  unit              Unit      @relation(fields: [unit_id], references: [id])
+  unit_id           String
+}
