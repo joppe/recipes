@@ -38,6 +38,8 @@ export const updateChef = {
       id: String(Math.random()),
       name,
       skill,
+      media: null,
+      meals: [],
     };
   },
 };

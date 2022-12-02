@@ -35,6 +35,8 @@ export const createChef = {
       id: String(Math.random()),
       name,
       skill,
+      media: null,
+      meals: [],
     };
   },
 };

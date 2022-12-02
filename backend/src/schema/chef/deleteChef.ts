@@ -17,6 +17,8 @@ export const deleteChef = {
       id,
       name: 'test',
       skill: 0,
+      media: null,
+      meals: [],
     };
   },
 };
