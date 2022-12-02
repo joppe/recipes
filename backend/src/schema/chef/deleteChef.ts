@@ -7,7 +7,7 @@ type ResolveArgs = {
   id: string;
 };
 
-export const chef = {
+export const deleteChef = {
   type: ChefType,
   args: {
     id: { type: new GraphQLNonNull(GraphQLID) },
@@ -15,8 +15,8 @@ export const chef = {
   resolve: (_: unknown, { id }: ResolveArgs): Chef => {
     return {
       id,
-      name: 'Joppe',
-      skill: 5,
+      name: 'test',
+      skill: 0,
     };
   },
 };

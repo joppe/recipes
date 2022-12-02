@@ -1,10 +1,10 @@
 import { GraphQLList } from 'graphql';
 
 import { Chef } from '../../types/Chef';
-import { chef } from './chef';
+import { ChefType } from './ChefType';
 
-export const getChefs = {
-  type: new GraphQLList(chef),
+export const chefs = {
+  type: new GraphQLList(ChefType),
   resolve: (): Chef[] => {
     return [
       {

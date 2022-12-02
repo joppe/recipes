@@ -1,10 +1,12 @@
 import { GraphQLObjectType } from 'graphql';
 
-import { getChefs } from './chef/getChefs';
+import { chef } from './chef/chef';
+import { chefs } from './chef/chefs';
 
 export const query = new GraphQLObjectType({
   name: 'Query',
   fields: {
-    getChefs,
+    chef,
+    chefs,
   },
 });
