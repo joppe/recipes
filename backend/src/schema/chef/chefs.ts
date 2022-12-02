@@ -11,6 +11,8 @@ export const chefs = {
         id: '123',
         name: 'Joppe',
         skill: 5,
+        media: null,
+        meals: [],
       },
     ];
   },
