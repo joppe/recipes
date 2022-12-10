@@ -2,8 +2,9 @@
   "name": "@recipes/backend",
   "version": "0.0.0",
   "scripts": {
-    "graphql:dev": "ts-node-dev ./src/server.ts",
-    "postgres:dev": "docker-compose up"
+    "graphql:start": "ts-node-dev ./src/server.ts",
+    "postgres:start": "docker-compose up --detach",
+    "postgres:stop": "docker-compose down"
   },
   "devDependencies": {
     "@types/node": "^18.11.10",
