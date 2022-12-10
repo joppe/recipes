@@ -10,12 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id                String    @id @default(uuid())
+  name              String    @db.VarChar(255)
+  email             String    @db.VarChar(255)
+  password          String    @db.VarChar(255)
+}
+
 model Chef {
   id                String    @id @default(uuid())
   name              String    @db.VarChar(255)
   skill             Int
-  media             Media     @relation(fields: [media_id], references: [id])
-  media_id          String
+  media             Media?    @relation(fields: [media_id], references: [id])
+  media_id          String?
   meals             Meal[]
 }
 
@@ -49,8 +56,8 @@ model Recipe {
   course            String?
   servings          Int
   source            String?
-  media             Media     @relation(fields: [media_id], references: [id])
-  media_id          String
+  media             Media?    @relation(fields: [media_id], references: [id])
+  media_id          String?
   meals             Meal[]
   instructions      Instruction[]
   ingredients       Ingredient[]
@@ -67,8 +74,8 @@ model Product {
   id                String    @id @default(uuid())
   name              String
   description       String
-  media             Media     @relation(fields: [media_id], references: [id])
-  media_id          String
+  media             Media?    @relation(fields: [media_id], references: [id])
+  media_id          String?
   ingredients       Ingredient[]
 }
 
@@ -76,8 +83,8 @@ model Instruction {
   id                String    @id @default(uuid())
   order             Int
   text              String
-  media             Media     @relation(fields: [media_id], references: [id])
-  media_id          String
+  media             Media?    @relation(fields: [media_id], references: [id])
+  media_id          String?
   recipe            Recipe    @relation(fields: [recipe_id], references: [id])
   recipe_id         String
 }
