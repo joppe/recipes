@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "graphql:start": "ts-node-dev ./src/server.ts",
-    "postgres:start": "docker-compose up --detach",
-    "postgres:stop": "docker-compose down"
+    "postgres:start": "docker-compose up --detach"
   },
   "devDependencies": {
     "@types/node": "^18.11.10",
