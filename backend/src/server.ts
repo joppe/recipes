@@ -1,5 +1,6 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import { PrismaClient } from '@prisma/client';
 
 import { schema } from './schema/schema';
 
@@ -14,13 +15,22 @@ import { schema } from './schema/schema';
  * https://blog.logrocket.com/complete-guide-to-graphql-playground/
  */
 
+export type Context = {
+  prisma: PrismaClient;
+};
+
 async function start() {
+  const prisma = new PrismaClient();
+
   const server = new ApolloServer({
     schema,
   });
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
+    context: async ({ req, res }): Promise<Context> => ({
+      prisma,
+    }),
   });
 
   console.log(`🚀  Server ready at: ${url}`);
