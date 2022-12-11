@@ -1,7 +1,7 @@
 import { GraphQLList } from 'graphql';
 
 import { Context } from '../../server';
-import { Unit } from '../../types/Unit';
+import { Unit } from '../../types';
 import { UnitType } from './UnitType';
 
 export const units = {

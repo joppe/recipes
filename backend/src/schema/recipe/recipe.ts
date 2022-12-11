@@ -1,7 +1,7 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server';
-import { Recipe } from '../../types/Recipe';
+import { Recipe } from '../../types';
 import { RecipeType } from './RecipeType';
 
 type ResolveArgs = {

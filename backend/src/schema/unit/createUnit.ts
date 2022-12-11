@@ -1,6 +1,7 @@
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 import { Context } from '../../server';
+import { Unit } from '../../types';
 import { UnitMutationResult } from './UnitMutationResult';
 import { UnitResultType } from './UnitResultType';
 
@@ -46,8 +47,10 @@ export const createUnit = {
       };
     }
 
+    const payloadUnit = { name, abbreviation };
+
     const newUnit = await prisma.unit.create({
-      data: { name, abbreviation },
+      data: payloadUnit as Unit,
     });
 
     return {

@@ -1,7 +1,7 @@
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 import { Context } from '../../server';
-import { Product } from '../../types/Product';
+import { Product } from '../../types';
 import { ProductMutationResult } from './ProductMutationResult';
 import { ProductResultType } from './ProductResultType';
 

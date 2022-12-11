@@ -6,7 +6,7 @@ import {
 } from 'graphql';
 
 import { Context } from '../../server';
-import { Recipe } from '../../types/Recipe';
+import { Recipe } from '../../types';
 import { RecipeMutationResult } from './RecipeMutationResult';
 import { RecipeResultType } from './RecipeResultType';
 

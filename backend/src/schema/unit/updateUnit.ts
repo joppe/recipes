@@ -6,6 +6,7 @@ import {
 } from 'graphql';
 
 import { Context } from '../../server';
+import { Unit } from '../../types';
 import { UnitMutationResult } from './UnitMutationResult';
 import { UnitResultType } from './UnitResultType';
 
@@ -47,12 +48,14 @@ export const updateUnit = {
       };
     }
 
+    const payloadUnit = {
+      name,
+      abbreviation,
+    };
+
     const newUnit = await prisma.unit.update({
       where: { id },
-      data: {
-        name,
-        abbreviation,
-      },
+      data: payloadUnit as Unit,
     });
 
     return {

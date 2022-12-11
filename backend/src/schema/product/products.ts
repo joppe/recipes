@@ -1,7 +1,7 @@
 import { GraphQLList } from 'graphql';
 
 import { Context } from '../../server';
-import { Product } from '../../types/Product';
+import { Product } from '../../types';
 import { ProductType } from './ProductType';
 
 export const products = {

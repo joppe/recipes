@@ -1,7 +1,7 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server';
-import { Unit } from '../../types/Unit';
+import { Unit } from '../../types';
 import { UnitType } from './UnitType';
 
 type ResolveArgs = {
