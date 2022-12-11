@@ -22,7 +22,7 @@ export const ProductType: GraphQLObjectType = new GraphQLObjectType({
       description: 'The name of the product.',
     },
     description: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
       description: 'The description of the product.',
     },
     media: {
