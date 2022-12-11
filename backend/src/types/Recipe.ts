@@ -15,5 +15,5 @@ export type Recipe = {
   media: Media | null;
   meals: Meal[];
   instructions: Instruction[];
-  ingredient: Ingredient[];
+  ingredients: Ingredient[];
 };
