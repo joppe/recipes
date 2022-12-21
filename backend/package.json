@@ -1,0 +1,21 @@
+{
+  "name": "@recipes/backend",
+  "version": "0.0.0",
+  "scripts": {
+    "graphql:start": "ts-node-dev ./src/server.ts",
+    "postgres:start": "docker-compose up --detach",
+    "postgres:stop": "docker-compose down"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.2.2",
+    "@prisma/client": "^4.7.0",
+    "dataloader": "^2.1.0",
+    "graphql": "^16.6.0",
+    "prisma": "^4.7.0"
+  }
+}
