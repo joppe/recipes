@@ -24,11 +24,6 @@
   $: style = backgroundColor ? `background-color: ${backgroundColor}` : '';
 </script>
 
-<button
-  type="button"
-  class={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-  {style}
-  on:click
->
+<button type="button" class="bg-sky-500" {style} on:click>
   {label}
 </button>
