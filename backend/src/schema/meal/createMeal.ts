@@ -37,8 +37,17 @@ export const createMeal = {
   resolve: async (
     _: unknown,
     { input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<MealMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        meal: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { date, score, chefId, recipeId } = input;
 
     const existingMeal = await prisma.meal.findFirst({

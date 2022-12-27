@@ -9,8 +9,12 @@ export const recipes = {
   resolve: async (
     _: unknown,
     __: unknown,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Recipe[]> => {
+    if (userInfo?.userId === undefined) {
+      return [];
+    }
+
     return await prisma.recipe.findMany();
   },
 };

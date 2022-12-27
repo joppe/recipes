@@ -16,8 +16,12 @@ export const recipe = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Recipe | null> => {
+    if (userInfo?.userId === undefined) {
+      return null;
+    }
+
     return await prisma.recipe.findUnique({ where: { id } });
   },
 };

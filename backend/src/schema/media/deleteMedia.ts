@@ -16,8 +16,17 @@ export const deleteMedia = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<MediaMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        media: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const media = await prisma.media.findUnique({
       where: {
         id,

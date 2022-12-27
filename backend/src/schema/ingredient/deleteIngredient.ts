@@ -16,8 +16,17 @@ export const deleteIngredient = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<IngredientMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        ingredient: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const ingredient = await prisma.ingredient.findUnique({ where: { id } });
 
     if (ingredient === null) {

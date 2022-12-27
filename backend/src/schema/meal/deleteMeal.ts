@@ -16,8 +16,17 @@ export const deleteMeal = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<MealMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        meal: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const meal = await prisma.meal.findUnique({ where: { id } });
 
     if (meal === null) {

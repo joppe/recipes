@@ -16,8 +16,12 @@ export const product = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Product | null> => {
+    if (userInfo?.userId === undefined) {
+      return null;
+    }
+
     return await prisma.product.findUnique({ where: { id } });
   },
 };

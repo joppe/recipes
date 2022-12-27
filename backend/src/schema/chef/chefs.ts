@@ -9,8 +9,12 @@ export const chefs = {
   resolve: async (
     _: unknown,
     __: unknown,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Chef[]> => {
+    if (userInfo?.userId === undefined) {
+      return [];
+    }
+
     return await prisma.chef.findMany();
   },
 };

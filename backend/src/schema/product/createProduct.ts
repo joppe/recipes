@@ -34,8 +34,17 @@ export const createProduct = {
   resolve: async (
     _: unknown,
     { input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<ProductMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        product: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { name, description, mediaId } = input;
 
     const existingProduct = await prisma.product.findFirst({

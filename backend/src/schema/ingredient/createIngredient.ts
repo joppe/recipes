@@ -39,8 +39,17 @@ export const createIngredient = {
   resolve: async (
     _: unknown,
     { input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<IngredientMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        ingredient: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { amount, preparation, recipeId, productId, unitId } = input;
 
     const recipe = await prisma.recipe.findUnique({

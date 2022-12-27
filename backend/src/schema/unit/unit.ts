@@ -16,8 +16,12 @@ export const unit = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Unit | null> => {
+    if (userInfo?.userId === undefined) {
+      return null;
+    }
+
     return await prisma.unit.findUnique({ where: { id } });
   },
 };

@@ -16,8 +16,12 @@ export const chef = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Chef | null> => {
+    if (userInfo?.userId === undefined) {
+      return null;
+    }
+
     return await prisma.chef.findUnique({ where: { id } });
   },
 };

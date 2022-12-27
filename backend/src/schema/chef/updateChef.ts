@@ -35,8 +35,17 @@ export const updateChef = {
   resolve: async (
     _: unknown,
     { id, input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<ChefMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        chef: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { name, skill } = input;
 
     const chef = await prisma.chef.findUnique({ where: { id } });

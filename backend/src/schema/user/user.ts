@@ -16,8 +16,12 @@ export const user = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<User | null> => {
+    if (userInfo?.userId === undefined) {
+      return null;
+    }
+
     return await prisma.user.findUnique({ where: { id } });
   },
 };

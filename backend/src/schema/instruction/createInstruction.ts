@@ -37,8 +37,17 @@ export const createInstruction = {
   resolve: async (
     _: unknown,
     { input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<InstructionMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        instruction: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { order, text, recipeId, mediaId } = input;
 
     const recipe = await prisma.recipe.findUnique({

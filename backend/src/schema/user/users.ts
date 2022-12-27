@@ -9,8 +9,12 @@ export const users = {
   resolve: async (
     _: unknown,
     __: unknown,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<User[]> => {
+    if (userInfo?.userId === undefined) {
+      return [];
+    }
+
     return await prisma.user.findMany();
   },
 };

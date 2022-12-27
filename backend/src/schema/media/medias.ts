@@ -9,8 +9,12 @@ export const medias = {
   resolve: async (
     _: unknown,
     __: unknown,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Media[]> => {
+    if (userInfo?.userId === undefined) {
+      return [];
+    }
+
     return await prisma.media.findMany();
   },
 };

@@ -27,8 +27,17 @@ export const createUnit = {
   resolve: async (
     _: unknown,
     { input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<UnitMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        unit: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { name, abbreviation } = input;
 
     const existingUnit = await prisma.unit.findUnique({

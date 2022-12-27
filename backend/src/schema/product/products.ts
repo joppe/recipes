@@ -9,8 +9,12 @@ export const products = {
   resolve: async (
     _: unknown,
     __: unknown,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Product[]> => {
+    if (userInfo?.userId === undefined) {
+      return [];
+    }
+
     return await prisma.product.findMany();
   },
 };

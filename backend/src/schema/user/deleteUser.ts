@@ -16,8 +16,17 @@ export const deleteUser = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<UserMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        user: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const user = await prisma.user.findUnique({
       where: {
         id,

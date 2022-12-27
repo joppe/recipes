@@ -16,8 +16,12 @@ export const ingredient = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Ingredient | null> => {
+    if (userInfo?.userId === undefined) {
+      return null;
+    }
+
     return await prisma.ingredient.findUnique({ where: { id } });
   },
 };

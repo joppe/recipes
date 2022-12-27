@@ -37,8 +37,17 @@ export const updateUser = {
   resolve: async (
     _: unknown,
     { id, input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<UserMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        user: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { name, email, password } = input;
 
     const user = await prisma.user.findUnique({ where: { id } });

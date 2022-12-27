@@ -47,8 +47,17 @@ export const updateRecipe = {
   resolve: async (
     _: unknown,
     { id, input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<RecipeMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        recipe: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const {
       name,
       preparationTime,

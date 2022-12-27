@@ -29,8 +29,17 @@ export const createMedia = {
   resolve: async (
     _: unknown,
     { input }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<MediaMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        media: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const { type, title, url } = input;
 
     const existingMedia = await prisma.media.findFirst({

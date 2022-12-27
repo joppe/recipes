@@ -16,8 +16,17 @@ export const deleteInstruction = {
   resolve: async (
     _: unknown,
     { id }: ResolveArgs,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<InstructionMutationResult> => {
+    if (userInfo?.userId === undefined) {
+      return {
+        instruction: null,
+        errors: [
+          { message: 'User must be logged in to be able to do this action' },
+        ],
+      };
+    }
+
     const instruction = await prisma.instruction.findUnique({ where: { id } });
 
     if (instruction === null) {

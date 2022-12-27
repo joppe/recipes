@@ -9,8 +9,12 @@ export const meals = {
   resolve: async (
     _: unknown,
     __: unknown,
-    { prisma }: Context,
+    { prisma, userInfo }: Context,
   ): Promise<Meal[]> => {
+    if (userInfo?.userId === undefined) {
+      return [];
+    }
+
     return await prisma.meal.findMany();
   },
 };
