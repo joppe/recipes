@@ -5,8 +5,7 @@
     "backend",
     "frontend",
     "packages/config/*",
-    "packages/ui",
-    "storybook"
+    "packages/ui"
   ],
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
