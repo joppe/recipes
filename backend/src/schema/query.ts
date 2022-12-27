@@ -8,6 +8,7 @@ import { media, medias } from './media';
 import { product, products } from './product';
 import { recipe, recipes } from './recipe';
 import { unit, units } from './unit';
+import { me, user, users } from './user';
 
 export const query = new GraphQLObjectType({
   name: 'Query',
@@ -18,6 +19,7 @@ export const query = new GraphQLObjectType({
     ingredients,
     instruction,
     instructions,
+    me,
     meals,
     media,
     medias,
@@ -27,5 +29,7 @@ export const query = new GraphQLObjectType({
     recipes,
     unit,
     units,
+    user,
+    users,
   },
 });

@@ -6,7 +6,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
-} from 'graphql/index';
+} from 'graphql';
 
 import { Context } from '../../server';
 import { IngredientType } from '../ingredient/IngredientType';

@@ -12,6 +12,7 @@ import {
 } from '@prisma/client';
 import DataLoader from 'dataloader';
 
+import { getUserInfoFromToken } from './auth/getUserInfoFromToken';
 import { chefsLoader } from './loaders/chefsLoader';
 import { ingredientsLoader } from './loaders/ingredientsLoader';
 import { mealsLoader } from './loaders/mealsLoader';
@@ -22,16 +23,9 @@ import { unitsLoader } from './loaders/unitsLoader';
 import { prisma } from './prisma/client';
 import { schema } from './schema/schema';
 
-/**
- * https://github.com/harblaith7/GraphQL-Course-Udemy
- * https://github.com/arcticmatt/graphql_server_reference_codegen
- * https://github.com/arcticmatt/graphql_server_reference
- * https://medium.com/swlh/graphql-js-vs-typegraphql-vs-graphql-nexus-2a8036deb851
- * https://www.apollographql.com/docs/apollo-server/getting-started
- * https://adityasridhar.com/posts/what-is-a-mutation-in-graphql-and-how-to-use-it
- * https://github.com/aditya-sridhar/graphql-mutations-with-nodejs
- * https://blog.logrocket.com/complete-guide-to-graphql-playground/
- */
+export type UserInfo = {
+  userId: string;
+};
 
 export type Context = {
   prisma: PrismaClient;
@@ -42,6 +36,7 @@ export type Context = {
   chefsLoader: DataLoader<string, Chef>;
   mealsLoader: DataLoader<string, Meal>;
   productsLoader: DataLoader<string, Product>;
+  userInfo: null | UserInfo;
 };
 
 async function start() {
@@ -51,16 +46,21 @@ async function start() {
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: 4000 },
-    context: async ({ req, res }): Promise<Context> => ({
-      prisma,
-      mediaLoader: mediaLoader(prisma),
-      ingredientsLoader: ingredientsLoader(prisma),
-      unitsLoader: unitsLoader(prisma),
-      recipesLoader: recipesLoader(prisma),
-      chefsLoader: chefsLoader(prisma),
-      mealsLoader: mealsLoader(prisma),
-      productsLoader: productsLoader(prisma),
-    }),
+    context: async ({ req, res }): Promise<Context> => {
+      const userInfo = getUserInfoFromToken(req.headers.authorization);
+
+      return {
+        prisma,
+        mediaLoader: mediaLoader(prisma),
+        ingredientsLoader: ingredientsLoader(prisma),
+        unitsLoader: unitsLoader(prisma),
+        recipesLoader: recipesLoader(prisma),
+        chefsLoader: chefsLoader(prisma),
+        mealsLoader: mealsLoader(prisma),
+        productsLoader: productsLoader(prisma),
+        userInfo,
+      };
+    },
   });
 
   console.log(`🚀  Server ready at: ${url}`);

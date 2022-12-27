@@ -3,7 +3,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
-} from 'graphql/index';
+} from 'graphql';
 
 export const MediaType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Media',

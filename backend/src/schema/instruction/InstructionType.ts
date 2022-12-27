@@ -5,7 +5,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
-} from 'graphql/index';
+} from 'graphql';
 
 import { Context } from '../../server';
 import { MediaType } from '../media/MediaType';

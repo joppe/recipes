@@ -47,7 +47,7 @@ export const updateUnit = {
       };
     }
 
-    const newUnit = await prisma.unit.update({
+    const updatedUnit = await prisma.unit.update({
       where: { id },
       data: {
         name,
@@ -56,7 +56,7 @@ export const updateUnit = {
     });
 
     return {
-      unit: newUnit,
+      unit: updatedUnit,
       errors: [],
     };
   },
