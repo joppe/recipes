@@ -4,8 +4,6 @@ export const Notification = () => {
   const { errors } = useForm();
   const fieldNames = Object.keys(errors);
 
-  console.log(errors);
-
   if (fieldNames.length === 0) {
     return null;
   }

@@ -1,7 +1,7 @@
 import { Chef } from '@prisma/client';
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { ChefType } from './ChefType';
 
 type ResolveArgs = {

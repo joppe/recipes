@@ -1,6 +1,7 @@
 import { GraphQLObjectType } from 'graphql';
 
 import { createChef, deleteChef, updateChef } from './chef';
+import { createUploadUrl } from './image';
 import {
   createIngredient,
   deleteIngredient,
@@ -45,6 +46,7 @@ export const mutation = new GraphQLObjectType({
     createUnit,
     deleteUnit,
     updateUnit,
+    createUploadUrl,
     createUser,
     deleteUser,
     login,

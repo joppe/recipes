@@ -7,9 +7,9 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
-import { IngredientType } from '../ingredient/IngredientType';
-import { MediaType } from '../media/MediaType';
+import { Context } from '../../server/Context';
+import { IngredientType } from '../ingredient';
+import { MediaType } from '../media';
 
 export const ProductType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Product',

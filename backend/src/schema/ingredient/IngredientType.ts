@@ -7,10 +7,10 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
-import { ProductType } from '../product/ProductType';
-import { RecipeType } from '../recipe/RecipeType';
-import { UnitType } from '../unit/UnitType';
+import { Context } from '../../server/Context';
+import { ProductType } from '../product';
+import { RecipeType } from '../recipe';
+import { UnitType } from '../unit';
 
 export const IngredientType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Ingredient',

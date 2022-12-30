@@ -1,7 +1,7 @@
 import { Meal } from '@prisma/client';
 import { GraphQLList } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { MealType } from './MealType';
 
 export const meals = {

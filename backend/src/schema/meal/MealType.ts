@@ -7,9 +7,9 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
-import { ChefType } from '../chef/ChefType';
-import { RecipeType } from '../recipe/RecipeType';
+import { Context } from '../../server/Context';
+import { ChefType } from '../chef';
+import { RecipeType } from '../recipe';
 
 export const MealType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Meal',

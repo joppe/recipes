@@ -1,1 +1,1 @@
-export const JWT_SECRET = 'x&7GtJlp&l^DQ1Y$UAHLgz^qvCD]FH';
+export const JWT_SECRET = process.env.JWT_SECRET as string;

@@ -8,11 +8,11 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
-import { IngredientType } from '../ingredient/IngredientType';
-import { InstructionType } from '../instruction/InstructionType';
-import { MealType } from '../meal/MealType';
-import { MediaType } from '../media/MediaType';
+import { Context } from '../../server/Context';
+import { IngredientType } from '../ingredient';
+import { InstructionType } from '../instruction';
+import { MealType } from '../meal';
+import { MediaType } from '../media';
 
 export const RecipeType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Recipe',

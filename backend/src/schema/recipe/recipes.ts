@@ -1,7 +1,7 @@
 import { Recipe } from '@prisma/client';
 import { GraphQLList } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { RecipeType } from './RecipeType';
 
 export const recipes = {

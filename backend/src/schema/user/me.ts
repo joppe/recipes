@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { UserType } from './UserType';
 
 export const me = {

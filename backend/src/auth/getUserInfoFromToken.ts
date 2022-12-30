@@ -1,6 +1,6 @@
 import JWT from 'jsonwebtoken';
 
-import { UserInfo } from '../server';
+import { UserInfo } from '../server/UserInfo';
 import { JWT_SECRET } from './secret';
 
 export function getUserInfoFromToken(

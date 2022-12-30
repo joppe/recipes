@@ -1,10 +1,10 @@
 {
   "name": "@recipes/backend",
   "version": "0.0.0",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "license": "MIT",
   "scripts": {
-    "graphql:start": "ts-node-dev ./src/server.ts",
+    "graphql:start": "ts-node-dev src/index.ts",
     "postgres:start": "docker-compose up --detach",
     "postgres:stop": "docker-compose down"
   },
@@ -17,10 +17,12 @@
   },
   "dependencies": {
     "@apollo/server": "^4.2.2",
+    "@google-cloud/storage": "^6.8.0",
     "@prisma/client": "^4.7.0",
     "@recipes/eslint-config": "*",
     "bcryptjs": "^2.4.3",
     "dataloader": "^2.1.0",
+    "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
     "jsonwebtoken": "^9.0.0",
     "prisma": "^4.7.0"

@@ -1,7 +1,7 @@
 import { Unit } from '@prisma/client';
 import { GraphQLList } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { UnitType } from './UnitType';
 
 export const units = {

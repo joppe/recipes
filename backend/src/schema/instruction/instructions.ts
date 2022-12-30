@@ -1,7 +1,7 @@
 import { Instruction } from '@prisma/client';
 import { GraphQLList } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { InstructionType } from './InstructionType';
 
 export const instructions = {

@@ -5,7 +5,7 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { UnitMutationResult } from './UnitMutationResult';
 import { UnitResultType } from './UnitResultType';
 

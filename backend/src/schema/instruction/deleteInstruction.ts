@@ -1,6 +1,6 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { InstructionMutationResult } from './InstructionMutationResult';
 import { InstructionResultType } from './InstructionResultType';
 

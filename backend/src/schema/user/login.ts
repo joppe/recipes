@@ -3,7 +3,7 @@ import { GraphQLNonNull, GraphQLString } from 'graphql';
 import JWT from 'jsonwebtoken';
 
 import { JWT_SECRET } from '../../auth/secret';
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { LoginResult } from './LoginResult';
 import { LoginResultType } from './LoginResultType';
 

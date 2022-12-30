@@ -8,9 +8,9 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
-import { MealType } from '../meal/MealType';
-import { MediaType } from '../media/MediaType';
+import { Context } from '../../server/Context';
+import { MealType } from '../meal';
+import { MediaType } from '../media';
 
 export const ChefType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Chef',

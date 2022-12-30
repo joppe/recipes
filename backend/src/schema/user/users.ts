@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { GraphQLList } from 'graphql';
 
-import { Context } from '../../server';
+import { Context } from '../../server/Context';
 import { UserType } from './UserType';
 
 export const users = {

@@ -7,9 +7,9 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Context } from '../../server';
-import { MediaType } from '../media/MediaType';
-import { RecipeType } from '../recipe/RecipeType';
+import { Context } from '../../server/Context';
+import { MediaType } from '../media';
+import { RecipeType } from '../recipe';
 
 export const InstructionType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Instruction',
