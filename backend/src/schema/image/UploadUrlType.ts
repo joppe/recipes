@@ -8,5 +8,9 @@ export const UploadUrlType: GraphQLObjectType = new GraphQLObjectType({
       type: new GraphQLNonNull(GraphQLString),
       description: 'The URL.',
     },
+    fileName: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The name of the file.',
+    },
   }),
 });

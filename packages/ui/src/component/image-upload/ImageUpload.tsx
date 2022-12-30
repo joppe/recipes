@@ -16,6 +16,7 @@ const mutation = gql`
   mutation createUploadUrl($fileName: String!, $contentType: String!) {
     createUploadUrl(fileName: $fileName, contentType: $contentType) {
       url
+      fileName
     }
   }
 `;
@@ -56,6 +57,8 @@ export const ImageUpload = ({
       },
       body: file,
     });
+
+    setValue(data.createUploadUrl.fileName);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

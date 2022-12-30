@@ -1,4 +1,5 @@
 import { GraphQLNonNull, GraphQLString } from 'graphql';
+import { v4 as uuid } from 'uuid';
 
 import { storage } from '../../file/storage';
 import { Context } from '../../server/Context';
@@ -18,15 +19,18 @@ export const createUploadUrl = {
   },
   resolve: async (
     _: unknown,
-    { fileName, contentType }: ResolveArgs,
+    { fileName: originalFileName, contentType }: ResolveArgs,
     { userInfo }: Context,
   ): Promise<UploadUrl> => {
     if (userInfo?.userId === undefined) {
       return {
         url: '',
+        fileName: '',
       };
     }
 
+    const [extension] = originalFileName.split('.').slice(-1);
+    const fileName = `${uuid()}.${extension}`;
     const expires = Date.now() + 15 * 60 * 1000; // 15 minutes
     const [url] = await storage
       .bucket(process.env.BUCKET_NAME as string)
@@ -39,6 +43,7 @@ export const createUploadUrl = {
 
     return {
       url,
+      fileName,
     };
   },
 };
