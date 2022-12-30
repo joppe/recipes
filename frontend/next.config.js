@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withTM = require('next-transpile-modules')(['@recipes/ui']);
 
-module.exports = nextConfig
+const nextConfig = withTM({
+  reactStrictMode: true,
+  swcMinify: true,
+});
+
+module.exports = nextConfig;
