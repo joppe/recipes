@@ -1,15 +1,17 @@
-import { Button } from '../elements/Button';
-import { Checkbox } from '../elements/Checkbox';
-import { FormField } from '../elements/FormField';
-import { Input } from '../elements/Input';
-import { Label } from '../elements/Label';
-import { Notification } from '../elements/Notification';
-import { Radio } from '../elements/Radio';
-import { RadioGroup } from '../elements/RadioGroup';
-import { Select } from '../elements/Select';
-import { Textarea } from '../elements/Textarea';
+import {
+  Button,
+  Checkbox,
+  FormField,
+  Input,
+  Label,
+  Notification,
+  Radio,
+  RadioGroup,
+  Select,
+  Textarea,
+} from '../elements';
 import { Form } from '../Form';
-import { minLength } from '../validators/minLength';
+import { minLength } from '../validators';
 
 export default {
   title: 'Component/Form',

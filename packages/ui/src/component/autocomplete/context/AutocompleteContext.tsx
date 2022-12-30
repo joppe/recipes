@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useReducer } from 'react';
 
-import { DataLoader } from '../../../util/data-loader/DataLoader';
+import { DataLoader } from '../../../types';
 import { AutocompleteOption } from '../types/AutocompleteOption';
 import { DataLoaderResponse } from '../types/DataLoaderResponse';
 import { Rectangle } from '../types/Rectangle';

@@ -1,4 +1,4 @@
-import { Button } from '@recipes/ui/src/component/form/elements/Button';
+import { Button } from '@recipes/ui/component/form';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';

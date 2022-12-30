@@ -1,4 +1,4 @@
-import { DataLoader } from '../../../util/data-loader/DataLoader';
+import { DataLoader } from '../../../types';
 import { DataLoaderResponse } from '../types/DataLoaderResponse';
 import { data } from './data';
 

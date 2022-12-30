@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Button } from '../../form/elements/Button';
+import { Button } from '../../form';
 import { Modal } from '../Modal';
 
 export default {

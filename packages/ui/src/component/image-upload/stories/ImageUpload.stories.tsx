@@ -6,11 +6,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { Button } from '../../form/elements/Button';
-import { FormField } from '../../form/elements/FormField';
-import { Label } from '../../form/elements/Label';
-import { Notification } from '../../form/elements/Notification';
-import { Form } from '../../form/Form';
+import { Button, Form, FormField, Label, Notification } from '../../form';
 import { ImageUpload } from '../ImageUpload';
 
 export default {

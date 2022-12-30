@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-import { Validator } from '../validators/Validator';
+import { Validator } from '../validators';
 import { FormContextValue, Register } from './FormContextValue';
 import { getValue } from './getValue';
 import { validateField } from './validateField';

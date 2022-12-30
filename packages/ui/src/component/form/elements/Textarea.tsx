@@ -1,5 +1,5 @@
 import { useForm } from '../context/useForm';
-import { Validator } from '../validators/Validator';
+import { Validator } from '../validators';
 
 export interface TextareaProps {
   name: string;

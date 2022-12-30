@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import { useClickOutside } from '../../hook/outside-click/useOutsideClick';
+import { useClickOutside } from '../../hook/outside-click';
 import { useAutocompleteContext } from './context/useAutocompleteContext';
 import { Option } from './Option';
 

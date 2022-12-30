@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 
-import { DataLoader } from '../../util/data-loader/DataLoader';
-import { renderTarget } from '../../util/render-target/renderTarget';
+import { DataLoader } from '../../types';
+import { renderTarget } from '../../util/render-target';
 import { AutocompleteContextProvider } from './context/AutocompleteContext';
 import { Input } from './Input';
 import { Options } from './Options';

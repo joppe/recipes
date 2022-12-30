@@ -2,8 +2,7 @@ import { gql, useApolloClient } from '@apollo/client';
 import { ChangeEvent, useRef, useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 
-import { useForm } from '../form/context/useForm';
-import { Validator } from '../form/validators/Validator';
+import { Validator, useForm } from '../form';
 
 export type ImageUploadProps = {
   id: string;

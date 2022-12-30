@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 
-import { Validator } from '../validators/Validator';
+import { Validator } from '../validators';
 import { FieldValue } from './FormContext';
 
 export type Register = (
