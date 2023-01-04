@@ -17,7 +17,7 @@ import { createMedia, deleteMedia, updateMedia } from './media';
 import { createProduct, deleteProduct, updateProduct } from './product';
 import { createRecipe, deleteRecipe, updateRecipe } from './recipe';
 import { createUnit, deleteUnit, updateUnit } from './unit';
-import { createUser, deleteUser, login, updateUser } from './user';
+import { createUser, deleteUser, updateUser } from './user';
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -49,7 +49,6 @@ export const mutation = new GraphQLObjectType({
     createUploadUrl,
     createUser,
     deleteUser,
-    login,
     updateUser,
   },
 });

@@ -8,6 +8,7 @@ import cors from 'cors';
 import express from 'express';
 
 import { getUserInfoFromToken } from '../auth/getUserInfoFromToken';
+import { loginHandler } from '../auth/loginHandler';
 import { chefsLoader } from '../loaders/chefsLoader';
 import { ingredientsLoader } from '../loaders/ingredientsLoader';
 import { mealsLoader } from '../loaders/mealsLoader';
@@ -22,10 +23,9 @@ import { Context } from './Context';
 const PORT = 4000;
 
 export async function start() {
+  const login = loginHandler(prisma);
   const app = express();
-
   const httpServer = http.createServer(app);
-
   const apolloServer = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -33,8 +33,16 @@ export async function start() {
 
   await apolloServer.start();
 
-  app.post('/login', (req, res) => {
-    res.status(200).json({ ok: true });
+  app.use('/login', bodyParser.json());
+
+  app.post('/login', async (req, res) => {
+    const token = await login(req.body.email, req.body.password);
+
+    if (token === null) {
+      res.status(401).json({});
+    } else {
+      res.status(200).json({ authToken: token });
+    }
   });
 
   app.use(
