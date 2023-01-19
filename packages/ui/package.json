@@ -9,9 +9,13 @@
     "watch:css": "tailwindcss -i ./src/styles.css -o ./public/style.css --watch",
     "watch:storybook": "start-storybook -p 6006",
     "build:css": "tailwindcss -i ./src/styles.css -o ./public/style.css",
-    "build:storybook": "storybook build"
+    "build:storybook": "storybook build",
+    "prettier": "prettier --write ./src/**/*.{js,ts,tsx,css,json,md} --no-error-on-unmatched-pattern",
+    "prettier:check": "prettier --check ./src/**/*.{js,ts,tsx,css,json,md} --no-error-on-unmatched-pattern",
+    "lint": "eslint ./src"
   },
   "devDependencies": {
+    "@apollo/client": "^3.7.3",
     "@babel/core": "^7.20.7",
     "@recipes/eslint-config": "*",
     "@recipes/tailwind-config": "*",
@@ -26,15 +30,14 @@
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",
     "babel-loader": "^8.3.0",
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@apollo/client":"^3.7.3",
     "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
-    "tailwindcss": "^3.2.4",
-    "typescript": "^4.9.4"
+    "tailwindcss": "^3.2.4"
   }
 }
