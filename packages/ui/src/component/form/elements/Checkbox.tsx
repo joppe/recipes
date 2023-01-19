@@ -1,4 +1,4 @@
-import { useForm } from '../context/useForm';
+import { useField } from '../context/useField';
 import { Validator } from '../validators';
 
 export interface CheckboxProps {
@@ -13,8 +13,7 @@ export const Checkbox = ({
   checked = false,
   validators = [],
 }: CheckboxProps) => {
-  const { register } = useForm();
-  const ref = register(name, validators);
+  const ref = useField(name, validators);
 
   return (
     <input

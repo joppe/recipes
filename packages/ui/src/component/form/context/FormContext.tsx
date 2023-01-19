@@ -7,114 +7,142 @@ import {
   useState,
 } from 'react';
 
-import { Validator } from '../validators';
-import { FormContextValue, Register } from './FormContextValue';
 import { getValue } from './getValue';
-import { validateField } from './validateField';
+import {
+  FieldElement,
+  FieldRegistry,
+  FormContextValue,
+  FormData,
+  FormErrors,
+  RegisterField,
+  RegisteredField,
+  SubmitHandler,
+} from './types';
+import { validate } from './validate';
+import { validateFields } from './validateFields';
 
-export type FieldValue = string | number | boolean | undefined;
+import { Validator } from '../validators';
 
-export type Field = {
-  value: FieldValue;
-  error: string | null;
-  unregister: () => void;
-  validators: Validator[];
-};
-
-export const FormContext = createContext<FormContextValue | null>(null);
+export const FormContext = createContext<FormContextValue<FormData> | null>(
+  null,
+);
 
 export interface FormContextProviderProps {
   children: ReactNode;
 }
-export const FormContextProvider = ({ children }: FormContextProviderProps) => {
-  const fields = useRef<Record<string, Field>>({});
-  const [errors, setErrors] = useState<Record<string, string>>({});
+
+export const FormContextProvider = <T extends FormData>({
+  children,
+}: FormContextProviderProps) => {
+  const fields = useRef<FieldRegistry<T>>({});
+  const [errors, setErrors] = useState<FormErrors<T>>({});
+  const updateErrors = (fieldName: keyof T, error: string | null) => {
+    const newErrors = { ...errors };
+
+    if (error && errors[fieldName] === undefined) {
+      newErrors[fieldName] = error;
+
+      setErrors(newErrors);
+    } else if (!error && errors[fieldName] !== undefined) {
+      delete newErrors[fieldName];
+
+      setErrors(newErrors);
+    }
+  };
   const contextValue = {
     errors,
-    handleSubmit: (handler: (data: Record<string, FieldValue>) => void) => {
+    handleSubmit: (handler: SubmitHandler<T>) => {
       return async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const data: Record<string, FieldValue> = {};
-        const err: Record<string, string> = {};
+        const error = await validateFields<T>(fields.current);
 
-        for (const fieldName in fields.current) {
-          const error = await validateField(
-            fields.current[fieldName].value,
-            fields.current[fieldName].validators,
+        if (Object.keys(error).length !== 0) {
+          setErrors(error);
+        } else {
+          const data: Partial<T> = {};
+
+          Object.keys(fields.current).reduce(
+            (
+              acc: Partial<T>,
+              fieldName: keyof FieldRegistry<T>,
+            ): Partial<T> => {
+              const field = fields.current[fieldName];
+
+              if (field !== undefined && field.value !== null) {
+                acc[fieldName] = field.value;
+              }
+
+              return acc;
+            },
+            {},
           );
 
-          if (error) {
-            err[fieldName] = error;
-          }
-
-          data[fieldName] = fields.current[fieldName].value;
-        }
-
-        if (Object.keys(err).length === 0) {
-          handler(data);
-        } else {
-          setErrors(err);
+          handler(data as T);
         }
       };
     },
-    register: (name: string, validators: Validator[]): Register => {
-      fields.current[name] = {
+    register: <FieldName extends keyof T>(
+      name: FieldName,
+      validators: Validator[],
+    ): RegisterField => {
+      console.log('name', name);
+      const field: RegisteredField<T[FieldName]> = {
+        ref: null,
         validators,
-        value: undefined,
+        value: null,
         error: null,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        unregister: () => {},
+        unregister: () => {
+          console.warn(
+            `Field "${
+              name as string
+            }" could not be unregistered because reference was never set`,
+          );
+        },
+      };
+      fields.current[name] = field;
+
+      const onBlurHandler = async (event: Event) => {
+        const value = getValue(
+          event.target as HTMLInputElement,
+        ) as T[FieldName];
+        const error = await validate(value, validators);
+
+        field.value = value;
+
+        updateErrors(name, error);
       };
 
-      return async (
-        ref: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null,
-      ) => {
+      return async (ref: FieldElement | null) => {
         if (ref === null) {
           return;
         }
 
-        const onBlurHandler = async (event: Event) => {
-          const value = getValue(event.target as HTMLInputElement);
-          const error = await validateField(value, validators);
-
-          fields.current[name].value = value;
-
-          if (error && errors[name] === undefined) {
-            const newErrors = { ...errors };
-
-            newErrors[name] = error;
-
-            setErrors(newErrors);
-          } else if (!error && errors[name] !== undefined) {
-            const newErrors = { ...errors };
-
-            delete newErrors[name];
-
-            setErrors(newErrors);
-          }
-        };
+        field.value = getValue(ref) as T[FieldName];
 
         ref.addEventListener('blur', onBlurHandler);
 
-        fields.current[name].value = getValue(ref);
+        const oldUnregister = field.unregister;
 
-        const oldUnregister = fields.current[name].unregister;
-
-        fields.current[name].unregister = () => {
+        field.unregister = () => {
           oldUnregister();
 
           ref.removeEventListener('blur', onBlurHandler);
         };
       };
     },
+    unregister: (name: string) => {
+      const field = fields.current[name];
+
+      if (field !== undefined) {
+        field.unregister();
+      }
+    },
   };
 
   useEffect(() => {
     return () => {
-      for (const fieldName in fields.current) {
-        fields.current[fieldName].unregister();
-      }
+      Object.values(fields.current).forEach((field) => field.unregister());
     };
   }, []);
 

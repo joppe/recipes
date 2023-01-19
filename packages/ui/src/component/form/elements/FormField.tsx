@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 export interface FormFieldProps {
   label: ReactNode;
   input: ReactNode;
+  error?: ReactNode;
   type?: 'row' | 'col';
   reverse?: boolean;
 }
@@ -10,6 +11,7 @@ export interface FormFieldProps {
 export const FormField = ({
   label,
   input,
+  error,
   type = 'row',
   reverse = false,
 }: FormFieldProps) => {
@@ -17,6 +19,7 @@ export const FormField = ({
     <div className={`flex  ${type === 'row' ? 'flex-col' : 'flex-row'}`}>
       <div className={`${reverse ? 'order-2' : 'order-1'}`}>{label}</div>
       <div className={`${reverse ? 'order-1' : 'order-2'}`}>{input}</div>
+      {error && <div className="order-3">{error}</div>}
     </div>
   );
 };

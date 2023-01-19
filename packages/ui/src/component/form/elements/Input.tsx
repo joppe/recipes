@@ -1,4 +1,4 @@
-import { useForm } from '../context/useForm';
+import { useField } from '../context/useField';
 import { Validator } from '../validators';
 
 export interface InputProps<T> {
@@ -15,8 +15,7 @@ export const Input = ({
   type = 'text',
   validators = [],
 }: InputProps<string>) => {
-  const { register } = useForm();
-  const ref = register(name, validators);
+  const ref = useField(name, validators);
 
   return (
     <input

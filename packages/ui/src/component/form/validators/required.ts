@@ -1,5 +1,6 @@
-import { FieldValue } from '../context/FormContext';
 import { Validator } from './Validator';
+
+import { FieldValue } from '../context/types';
 
 export const required = (message: string): Validator => {
   return (value: FieldValue): Promise<string | null> => {

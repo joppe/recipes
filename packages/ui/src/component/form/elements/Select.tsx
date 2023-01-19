@@ -1,4 +1,4 @@
-import { useForm } from '../context/useForm';
+import { useField } from '../context/useField';
 import { Validator } from '../validators';
 
 export type Option = {
@@ -20,8 +20,7 @@ export const Select = ({
   selected,
   validators = [],
 }: SelectProps) => {
-  const { register } = useForm();
-  const ref = register(name, validators);
+  const ref = useField(name, validators);
 
   return (
     <select

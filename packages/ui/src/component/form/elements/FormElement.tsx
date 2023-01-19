@@ -1,31 +1,27 @@
 import { ReactNode } from 'react';
 
-import { FieldValue } from '../context/FormContext';
-import { useForm } from '../context/useForm';
+import { FormData, SubmitHandler } from '../context/types';
+import { useFormContext } from '../context/useFormContext';
 
-export interface FormElementProps {
+export interface FormElementProps<T extends FormData> {
+  submitHandler: SubmitHandler<T>;
   children: ReactNode;
 }
-export const FormElement = ({ children }: FormElementProps) => {
-  const { handleSubmit, errors } = useForm();
+
+export const FormElement = <T extends FormData>({
+  submitHandler,
+  children,
+}: FormElementProps<T>) => {
+  const { handleSubmit } = useFormContext<T>();
 
   return (
     <form
       className="flex flex-col gap-3"
-      onSubmit={handleSubmit((data: Record<string, FieldValue>) => {
-        console.log('>>', data);
+      onSubmit={handleSubmit((data: T) => {
+        submitHandler(data);
       })}
     >
       {children}
-      {Object.keys(errors).length > 0 && (
-        <div>
-          {Object.keys(errors).map((field) => (
-            <div key={field}>
-              {field} {errors[field]}
-            </div>
-          ))}
-        </div>
-      )}
     </form>
   );
 };

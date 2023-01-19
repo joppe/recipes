@@ -1,14 +1,21 @@
 import { useContext } from 'react';
 
 import { FormContext } from './FormContext';
-import { FormContextValue } from './FormContextValue';
+import { FormContextValue, FormData } from './types';
+import { useFormContext } from './useFormContext';
 
-export const useForm = (): FormContextValue => {
-  const context = useContext(FormContext);
+export type UseFormReturnValue<T extends FormData> = {
+  errors: FormContextValue<T>['errors'];
+};
+
+export const useForm = <T extends FormData>(): UseFormReturnValue<T> => {
+  const context = useFormContext<T>();
 
   if (context === null) {
-    throw new Error('Unable to find context provider for AutocompleteContext');
+    throw new Error('Unable to find context provider for FormContext');
   }
 
-  return context;
+  const { errors } = context;
+
+  return { errors };
 };

@@ -1,19 +1,18 @@
-import { Validator } from '../validators';
-import { FieldValue } from './FormContext';
+import { FieldValue } from './types';
 
-export const validateField = async (
+import { Validator } from '../validators';
+
+export const validate = async (
   value: FieldValue,
   validators: Validator[],
 ): Promise<string | null> => {
-  let error = null;
-
   for (const validator of validators) {
-    error = await validator(value);
+    const error = await validator(value);
 
     if (error !== null) {
-      break;
+      return error;
     }
   }
 
-  return error;
+  return null;
 };

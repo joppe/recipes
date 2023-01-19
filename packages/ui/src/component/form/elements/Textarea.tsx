@@ -1,4 +1,4 @@
-import { useForm } from '../context/useForm';
+import { useField } from '../context/useField';
 import { Validator } from '../validators';
 
 export interface TextareaProps {
@@ -13,8 +13,7 @@ export const Textarea = ({
   value = '',
   validators = [],
 }: TextareaProps) => {
-  const { register } = useForm();
-  const ref = register(name, validators);
+  const ref = useField(name, validators);
 
   return (
     <textarea
