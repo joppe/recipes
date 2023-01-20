@@ -1,11 +1,12 @@
 import { ReactNode, createContext, useReducer } from 'react';
 
+import { AutocompleteContextValue } from './AutocompleteContextValue';
+import { initialState, reducer } from './reducer';
+
 import { DataLoader } from '../../../types';
 import { AutocompleteOption } from '../types/AutocompleteOption';
 import { DataLoaderResponse } from '../types/DataLoaderResponse';
 import { Rectangle } from '../types/Rectangle';
-import { AutocompleteContextValue } from './AutocompleteContextValue';
-import { initialState, reducer } from './reducer';
 
 export type AutocompleteContextProviderProps = {
   dataLoader: DataLoader<DataLoaderResponse>;

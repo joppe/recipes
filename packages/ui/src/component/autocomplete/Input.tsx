@@ -1,10 +1,25 @@
-import { ChangeEvent, useLayoutEffect, useRef } from 'react';
+import {
+  ChangeEvent,
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import { CgArrowsV, CgCheck, CgClose } from 'react-icons/cg';
 
+import { Selected, SelectedRef } from './Selected';
 import { useAutocompleteContext } from './context/useAutocompleteContext';
 
-export const Input = () => {
+import { useField } from '../form/context/useField';
+
+export type InputProps = {
+  name: string;
+};
+
+export const Input = ({ name }: InputProps) => {
+  const ref = useField(name);
   const container = useRef<HTMLDivElement>(null);
+  const selectedRef = useRef<SelectedRef | null>(null);
   const {
     selectedId,
     value,
@@ -20,6 +35,12 @@ export const Input = () => {
     setValue(event.target.value);
   };
 
+  useEffect(() => {
+    if (selectedRef.current !== null) {
+      selectedRef.current.update(selectedId ?? '');
+    }
+  }, [selectedId, selectedRef]);
+
   useLayoutEffect(() => {
     if (container.current === null) {
       return;
@@ -33,10 +54,12 @@ export const Input = () => {
 
   return (
     <div className="flex flex-col relative" ref={container}>
-      <input type="hidden" name="" value={selectedId ?? ''} />
+      <Selected name={`${name}-selected-id`} ref={selectedRef} />
       <label className='inline-block mb-2 text-gray-700"'>Recipe</label>
       <div className="flex flex-row items-center w-full border border-solid border-gray-300 rounded overflow-hidden">
         <input
+          ref={ref as RefObject<HTMLInputElement>}
+          name={name}
           type="text"
           className="flex-grow border-none py-2 px-3 pr-10 text-base font-normal text-gray-700 outline-none"
           placeholder="Search recipes"
