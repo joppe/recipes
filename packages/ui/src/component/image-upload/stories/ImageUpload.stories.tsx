@@ -7,6 +7,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 
 import { Button, Form, FormField, Label, Notification } from '../../form';
+import { FormData } from '../../form/types/FormData';
 import { ImageUpload } from '../ImageUpload';
 
 export default {
@@ -39,7 +40,11 @@ const client = new ApolloClient({
 const Template = () => {
   return (
     <ApolloProvider client={client}>
-      <Form>
+      <Form
+        submitHandler={(data: FormData) => {
+          console.log('Submitted data', data);
+        }}
+      >
         <FormField
           label={<Label id="image">Image</Label>}
           input={

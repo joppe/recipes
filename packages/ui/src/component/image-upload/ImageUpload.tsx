@@ -1,8 +1,10 @@
-import { gql, useApolloClient } from '@apollo/client';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, RefObject, useRef, useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 
-import { Validator, useForm } from '../form';
+import { gql, useApolloClient } from '@apollo/client';
+
+import { Validator } from '../form';
+import { useField } from '../form/context/useField';
 
 export type ImageUploadProps = {
   id: string;
@@ -28,8 +30,7 @@ export const ImageUpload = ({
 }: ImageUploadProps) => {
   const client = useApolloClient();
   const input = useRef<HTMLInputElement>(null);
-  const { register } = useForm();
-  const ref = register(name, validators);
+  const ref = useField(name, validators);
   const [preview, setPreview] = useState(defaultValue);
   const [value, setValue] = useState(defaultValue);
 
@@ -79,12 +80,17 @@ export const ImageUpload = ({
 
   return (
     <div className="flex flex-row">
-      <input type="hidden" name={name} value={value} ref={ref} />
+      <input
+        type="hidden"
+        name={name}
+        value={value}
+        ref={ref as RefObject<HTMLInputElement>}
+      />
       {preview !== '' && (
         <div className="relative">
           <button
             type="button"
-            className="absolute z-10 right-2 top-2 p-2 text-white bg-black rounded rounded-sm"
+            className="absolute z-10 right-2 top-2 p-2 text-white bg-black rounded-sm"
             aria-label="Remove image"
             onClick={removeImage}
           >
