@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 
 import { FormContext } from './FormContext';
-import { FormContextValue, FormData } from './types';
+
+import { FormContextValue } from '../types/FormContextValue';
+import { FormData } from '../types/FormData';
 
 export const useFormContext = <T extends FormData>(): FormContextValue<T> => {
   const value = useContext(FormContext);

@@ -1,6 +1,6 @@
 import { Validator } from './Validator';
 
-import { FieldValue } from '../context/types';
+import { FieldValue } from '../types/FieldValue';
 
 export const maxLength = (length: number, message: string): Validator => {
   return (value: FieldValue): Promise<string | null> => {

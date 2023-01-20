@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-import { FormData } from './types';
 import { useFormContext } from './useFormContext';
 
+import { FieldElement } from '../types/FieldElement';
+import { FormData } from '../types/FormData';
 import { Validator } from '../validators';
 
 export const useField = <T extends FormData>(
@@ -10,7 +11,7 @@ export const useField = <T extends FormData>(
   validators: Validator[] = [],
 ) => {
   const { register, unregister } = useFormContext<T>();
-  const ref = useRef(null);
+  const ref = useRef<FieldElement>(null);
 
   useEffect(() => {
     const registerField = register(name, validators);

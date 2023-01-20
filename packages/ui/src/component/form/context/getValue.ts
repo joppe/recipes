@@ -1,4 +1,5 @@
-import { FieldElement, FieldValue } from './types';
+import { FieldElement } from '../types/FieldElement';
+import { FieldValue } from '../types/FieldValue';
 
 export const isInputField = (
   field: FieldElement,

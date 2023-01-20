@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 import { useField } from '../context/useField';
 import { Validator } from '../validators';
 
@@ -17,7 +19,7 @@ export const Textarea = ({
 
   return (
     <textarea
-      ref={ref}
+      ref={ref as RefObject<HTMLTextAreaElement>}
       name={name}
       id={id}
       defaultValue={value}

@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 import { useField } from '../context/useField';
 import { Validator } from '../validators';
 
@@ -19,7 +21,7 @@ export const Radio = ({
 
   return (
     <input
-      ref={ref}
+      ref={ref as RefObject<HTMLInputElement>}
       type="radio"
       name={name}
       value={value}

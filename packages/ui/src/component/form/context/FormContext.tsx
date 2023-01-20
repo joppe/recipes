@@ -8,19 +8,17 @@ import {
 } from 'react';
 
 import { getValue } from './getValue';
-import {
-  FieldElement,
-  FieldRegistry,
-  FormContextValue,
-  FormData,
-  FormErrors,
-  RegisterField,
-  RegisteredField,
-  SubmitHandler,
-} from './types';
 import { validate } from './validate';
 import { validateFields } from './validateFields';
 
+import { FieldElement } from '../types/FieldElement';
+import { FieldRegistry } from '../types/FieldRegistry';
+import { FormContextValue } from '../types/FormContextValue';
+import { FormData } from '../types/FormData';
+import { FormErrors } from '../types/FormErrors';
+import { RegisterField } from '../types/RegisterField';
+import { RegisteredField } from '../types/RegisteredField';
+import { SubmitHandler } from '../types/SubmitHandler';
 import { Validator } from '../validators';
 
 export const FormContext = createContext<FormContextValue<FormData> | null>(
@@ -60,9 +58,7 @@ export const FormContextProvider = <T extends FormData>({
         if (Object.keys(error).length !== 0) {
           setErrors(error);
         } else {
-          const data: Partial<T> = {};
-
-          Object.keys(fields.current).reduce(
+          const data: Partial<T> = Object.keys(fields.current).reduce(
             (
               acc: Partial<T>,
               fieldName: keyof FieldRegistry<T>,
@@ -86,7 +82,6 @@ export const FormContextProvider = <T extends FormData>({
       name: FieldName,
       validators: Validator[],
     ): RegisterField => {
-      console.log('name', name);
       const field: RegisteredField<T[FieldName]> = {
         ref: null,
         validators,
@@ -118,6 +113,7 @@ export const FormContextProvider = <T extends FormData>({
           return;
         }
 
+        field.ref = ref;
         field.value = getValue(ref) as T[FieldName];
 
         ref.addEventListener('blur', onBlurHandler);
@@ -125,6 +121,9 @@ export const FormContextProvider = <T extends FormData>({
         const oldUnregister = field.unregister;
 
         field.unregister = () => {
+          /**
+           * TODO: the oldUnregister includes the default one
+           */
           oldUnregister();
 
           ref.removeEventListener('blur', onBlurHandler);

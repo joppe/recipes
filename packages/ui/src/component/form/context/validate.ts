@@ -1,5 +1,4 @@
-import { FieldValue } from './types';
-
+import { FieldValue } from '../types/FieldValue';
 import { Validator } from '../validators';
 
 export const validate = async (

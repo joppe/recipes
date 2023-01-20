@@ -1,5 +1,8 @@
-import { FieldRegistry, FormData, FormErrors } from './types';
 import { validate } from './validate';
+
+import { FieldRegistry } from '../types/FieldRegistry';
+import { FormData } from '../types/FormData';
+import { FormErrors } from '../types/FormErrors';
 
 export const validateFields = async <T extends FormData>(
   fields: FieldRegistry<T>,

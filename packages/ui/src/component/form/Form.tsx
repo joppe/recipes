@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 
 import { FormContextProvider } from './context/FormContext';
-import { FormData, SubmitHandler } from './context/FormContextValue';
 import { FormElement } from './elements';
+import { FormData } from './types/FormData';
+import { SubmitHandler } from './types/SubmitHandler';
 
 export interface FormProps<T extends FormData> {
   submitHandler: SubmitHandler<T>;
