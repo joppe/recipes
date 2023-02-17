@@ -33,7 +33,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: 'https://localhost:4000', // Server URL (must be absolute)
+  uri: 'http://localhost:3000/api/graphql', // Server URL (must be absolute)
   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
 });
 
@@ -77,9 +77,14 @@ export function initializeApollo(initialState: InitialState | null = null) {
     _apolloClient.cache.restore(data);
   }
   // For SSG and SSR always create a new Apollo Client
-  if (typeof window === 'undefined') return _apolloClient;
+  if (typeof window === 'undefined') {
+    return _apolloClient;
+  }
+
   // Create the Apollo Client once in the client
-  if (!apolloClient) apolloClient = _apolloClient;
+  if (!apolloClient) {
+    apolloClient = _apolloClient;
+  }
 
   return _apolloClient;
 }
