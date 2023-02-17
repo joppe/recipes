@@ -1,16 +1,36 @@
+import { ApolloProvider } from '@apollo/client';
+import cookie from 'cookie';
+import App, { AppContext, AppProps } from 'next/app';
+
+import { AutContextProvider } from '../components/auth/AuthProvider';
+import { CookieProvider } from '../components/cookie/CookieProvider';
+import { Login } from '../components/login/Login';
+import { useApollo } from '../hooks/useApollo';
 import '../styles/globals.css';
 
-import { ApolloProvider } from '@apollo/client';
-import type { AppProps } from 'next/app';
+type MyAppProps = Pick<AppProps, 'Component' | 'pageProps'> & {
+  cookies: Record<string, string>;
+};
 
-import { useApollo } from '../hooks/useApollo';
-
-export default function App({ Component, pageProps }: AppProps) {
+function MyApp({ cookies, Component, pageProps }: MyAppProps) {
   const apolloClient = useApollo(pageProps);
 
   return (
-    <ApolloProvider client={apolloClient}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    <CookieProvider cookies={cookies}>
+      <ApolloProvider client={apolloClient}>
+        <AutContextProvider loginComponent={<Login />}>
+          <Component {...pageProps} />
+        </AutContextProvider>
+      </ApolloProvider>
+    </CookieProvider>
   );
 }
+
+MyApp.getInitialProps = async (context: AppContext) => {
+  const ctx = await App.getInitialProps(context);
+  const cookies = cookie.parse(context.ctx.req?.headers.cookie || '');
+
+  return { ...ctx, cookies };
+};
+
+export default MyApp;
