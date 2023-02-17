@@ -1,11 +1,11 @@
-import http from 'http';
-
+import { Context } from './Context';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
+import http from 'http';
 
 import { getUserInfoFromToken } from '../auth/getUserInfoFromToken';
 import { loginHandler } from '../auth/loginHandler';
@@ -18,7 +18,6 @@ import { recipesLoader } from '../loaders/recipesLoader';
 import { unitsLoader } from '../loaders/unitsLoader';
 import { prisma } from '../prisma/client';
 import { schema } from '../schema/schema';
-import { Context } from './Context';
 
 const PORT = 4000;
 
@@ -36,7 +35,7 @@ export async function start() {
   app.use('/login', bodyParser.json());
 
   app.post('/login', async (req, res) => {
-    const token = await login(req.body.email, req.body.password);
+    const token = await login(req.body.username, req.body.password);
 
     if (token === null) {
       res.status(401).json({});
