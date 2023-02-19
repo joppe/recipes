@@ -7,6 +7,18 @@ export const isInputField = (
   return field.type !== undefined;
 };
 
+export const isRadioField = (
+  fields: FieldElement[],
+): fields is HTMLInputElement[] => {
+  return fields[0].type === 'radio';
+};
+
+export const getRadioValue = (fields: HTMLInputElement[]): FieldValue => {
+  const checked = fields.find((field) => field.checked);
+
+  return checked?.value ?? null;
+};
+
 export const getInputValue = (field: HTMLInputElement): FieldValue => {
   if (field.disabled) {
     return null;
@@ -24,7 +36,13 @@ export const getInputValue = (field: HTMLInputElement): FieldValue => {
   }
 };
 
-export const getValue = (field: FieldElement): FieldValue => {
+export const getValue = (fields: FieldElement[]): FieldValue => {
+  if (isRadioField(fields)) {
+    return getRadioValue(fields);
+  }
+
+  const field = fields[0];
+
   if (isInputField(field)) {
     return getInputValue(field);
   }

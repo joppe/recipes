@@ -29,23 +29,33 @@ export interface FormContextProviderProps {
   children: ReactNode;
 }
 
+function allowMultipleElements(element: FieldElement, existing: FieldElement) {
+  return element.type === 'radio' && existing.type === 'radio';
+}
+
 export const FormContextProvider = <T extends FormData>({
   children,
 }: FormContextProviderProps) => {
   const fields = useRef<FieldRegistry<T>>({});
   const [errors, setErrors] = useState<FormErrors<T>>({});
-  const updateErrors = (fieldName: keyof T, error: string | null) => {
-    const newErrors = { ...errors };
+  const updateErrors = () => {
+    const newErrors = Object.keys(fields.current).reduce(
+      (
+        err: FormErrors<T>,
+        fieldName: keyof FieldRegistry<T>,
+      ): FormErrors<T> => {
+        const field = fields.current[fieldName];
 
-    if (error && errors[fieldName] === undefined) {
-      newErrors[fieldName] = error;
+        if (field !== undefined && field.error) {
+          err[fieldName] = field.error;
+        }
 
-      setErrors(newErrors);
-    } else if (!error && errors[fieldName] !== undefined) {
-      delete newErrors[fieldName];
+        return err;
+      },
+      {},
+    );
 
-      setErrors(newErrors);
-    }
+    setErrors(newErrors);
   };
   const contextValue = {
     errors,
@@ -66,7 +76,7 @@ export const FormContextProvider = <T extends FormData>({
               const field = fields.current[fieldName];
 
               if (field !== undefined && field.value !== null) {
-                acc[fieldName] = field.value;
+                acc[fieldName] = getValue(field.ref) as T[keyof T];
               }
 
               return acc;
@@ -82,52 +92,57 @@ export const FormContextProvider = <T extends FormData>({
       name: FieldName,
       validators: Validator[],
     ): RegisterField => {
-      const field: RegisteredField<T[FieldName]> = {
-        ref: null,
-        validators,
-        value: null,
-        error: null,
-        unregister: () => {
-          console.warn(
-            `Field "${
-              name as string
-            }" could not be unregistered because reference was never set`,
-          );
-        },
-      };
-      fields.current[name] = field;
-
       const onBlurHandler = async (event: Event) => {
-        const value = getValue(
-          event.target as HTMLInputElement,
-        ) as T[FieldName];
+        const element = event.target as FieldElement;
+        const field = fields.current[element.name] as RegisteredField<
+          T[FieldName]
+        >;
+        const value = getValue(field.ref) as T[FieldName];
         const error = await validate(value, validators);
+        const oldError = field.error;
 
         field.value = value;
+        field.error = error;
 
-        updateErrors(name, error);
+        if (oldError !== error) {
+          updateErrors();
+        }
       };
 
-      return async (ref: FieldElement | null) => {
-        if (ref === null) {
-          return;
+      return async (element: FieldElement | null) => {
+        if (element === null) {
+          throw new Error('Element is null');
         }
 
-        field.ref = ref;
-        field.value = getValue(ref) as T[FieldName];
+        const existing = fields.current[name];
 
-        ref.addEventListener('blur', onBlurHandler);
+        if (
+          existing !== undefined &&
+          !allowMultipleElements(element, existing.ref[0])
+        ) {
+          throw new Error(
+            `There is already an element registered with name "${String(
+              name,
+            )}"`,
+          );
+        }
 
-        const oldUnregister = field.unregister;
+        if (existing === undefined) {
+          fields.current[name] = {
+            ref: [element],
+            validators,
+            value: getValue([element]) as T[FieldName],
+            error: null,
+            unregister() {
+              element.removeEventListener('blur', onBlurHandler);
+            },
+          };
+        } else {
+          existing.ref.push(element);
+          existing.value = getValue(existing.ref) as T[FieldName];
+        }
 
-        field.unregister = () => {
-          /**
-           * TODO: the oldUnregister includes the default one
-           */
-          oldUnregister();
-
-          ref.removeEventListener('blur', onBlurHandler);
-        };
+        element.addEventListener('blur', onBlurHandler);
       };
     },
     unregister: (name: string) => {
