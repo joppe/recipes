@@ -38,7 +38,7 @@ export async function start() {
     const token = await login(req.body.username, req.body.password);
 
     if (token === null) {
-      res.status(401).json({});
+      res.status(401).json({ error: 'Not authenticated' });
     } else {
       res.status(200).json({ authToken: token });
     }
