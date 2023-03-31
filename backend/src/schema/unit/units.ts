@@ -1,11 +1,11 @@
+import { UnitType } from './UnitType';
 import { Unit } from '@prisma/client';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
-import { UnitType } from './UnitType';
 
 export const units = {
-  type: new GraphQLList(UnitType),
+  type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(UnitType))),
   resolve: async (
     _: unknown,
     __: unknown,

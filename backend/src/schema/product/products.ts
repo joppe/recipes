@@ -1,11 +1,11 @@
+import { ProductType } from './ProductType';
 import { Product } from '@prisma/client';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
-import { ProductType } from './ProductType';
 
 export const products = {
-  type: new GraphQLList(ProductType),
+  type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ProductType))),
   resolve: async (
     _: unknown,
     __: unknown,

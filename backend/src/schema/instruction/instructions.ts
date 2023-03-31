@@ -1,11 +1,13 @@
+import { InstructionType } from './InstructionType';
 import { Instruction } from '@prisma/client';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
-import { InstructionType } from './InstructionType';
 
 export const instructions = {
-  type: new GraphQLList(InstructionType),
+  type: new GraphQLNonNull(
+    new GraphQLList(new GraphQLNonNull(InstructionType)),
+  ),
   resolve: async (
     _: unknown,
     __: unknown,

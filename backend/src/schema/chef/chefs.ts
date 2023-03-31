@@ -1,11 +1,11 @@
+import { ChefType } from './ChefType';
 import { Chef } from '@prisma/client';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
-import { ChefType } from './ChefType';
 
 export const chefs = {
-  type: new GraphQLList(ChefType),
+  type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ChefType))),
   resolve: async (
     _: unknown,
     __: unknown,

@@ -1,11 +1,11 @@
+import { RecipeType } from './RecipeType';
 import { Recipe } from '@prisma/client';
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
-import { RecipeType } from './RecipeType';
 
 export const recipes = {
-  type: new GraphQLList(RecipeType),
+  type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(RecipeType))),
   resolve: async (
     _: unknown,
     __: unknown,
