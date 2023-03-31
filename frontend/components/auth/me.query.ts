@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { gql } from '../../gql/gql';
 
-export const ME_QUERY = gql`
+export const meQuery = gql(/* GraphQL */ `
   query me {
     me {
       id
@@ -8,4 +8,4 @@ export const ME_QUERY = gql`
       email
     }
   }
-`;
+`);

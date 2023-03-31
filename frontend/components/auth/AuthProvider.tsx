@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useState } from 'react';
 
 import { login } from './login';
-import { ME_QUERY } from './me.query';
+import { meQuery } from './me.query';
 import { useQuery } from '@apollo/client';
 
 import { useCookie } from '../cookie/useCookie';
@@ -35,13 +35,13 @@ export function AutContextProvider({
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     return getCookie(TOKEN_COOKIE_NAME) !== undefined;
   });
-  const { data, loading, error } = useQuery(ME_QUERY, {
+  const { data, loading, error } = useQuery(meQuery, {
     skip: !isLoggedIn,
   });
   const value = {
     isLoggedIn,
     get user() {
-      if (data === undefined) {
+      if (!data?.me) {
         return null;
       }
 
