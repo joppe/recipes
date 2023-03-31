@@ -50,9 +50,15 @@ export async function start() {
     bodyParser.json(),
     expressMiddleware(apolloServer, {
       context: async ({ req, res }): Promise<Context> => {
-        const userInfo = getUserInfoFromToken(
+        let userInfo = getUserInfoFromToken(
           req.headers['auth-token'] as string,
         );
+
+        if (userInfo === null) {
+          userInfo = {
+            userId: '0',
+          };
+        }
 
         return {
           prisma,
