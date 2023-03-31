@@ -3,7 +3,7 @@
 const withTM = require('next-transpile-modules')(['@recipes/ui']);
 
 const nextConfig = withTM({
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   async rewrites() {
     return [
