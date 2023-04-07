@@ -12,6 +12,7 @@ import {
   Select,
   Textarea,
 } from '../elements';
+import { FormData } from '../types/FormData';
 import { minLength, required } from '../validators';
 
 export default {

@@ -5,10 +5,10 @@ import { FormElement } from './elements';
 import { FormData } from './types/FormData';
 import { SubmitHandler } from './types/SubmitHandler';
 
-export interface FormProps<T extends FormData> {
+export type FormProps<T extends FormData> = {
   submitHandler: SubmitHandler<T>;
   children: ReactNode;
-}
+};
 
 export const Form = <T extends FormData>({
   submitHandler,
