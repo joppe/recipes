@@ -27,7 +27,7 @@ const Modal = ({ children, onClose, show }: ModalProps) => {
         className="fixed z-50 top-0 left-0 w-full h-full outline-none"
         onClick={onClose}
       >
-        <div className="relative h-screen w-auto max-w-xl mx-auto py-4 pointer-events-none">
+        <div className="relative h-screen w-auto max-w-xl mx-auto flex items-center pointer-events-none">
           <div
             className="border-none shadow-lg relative flex flex-col max-h-full w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current"
             onClick={onClickStopPropagation}
