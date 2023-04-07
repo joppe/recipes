@@ -15,6 +15,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
   '\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n':
     types.MeDocument,
+  '\n  mutation createUnit($input: CreateUnitInput!) {\n    createUnit(input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
+    types.CreateUnitDocument,
+  '\n  mutation deleteUnit($id: ID!) {\n    deleteUnit(id: $id) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
+    types.DeleteUnitDocument,
   '\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n':
     types.UnitsDocument,
 };
@@ -38,13 +42,25 @@ export function gql(source: string): unknown;
  */
 export function gql(
   source: '\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n',
-): typeof documents['\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n'];
+): (typeof documents)['\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation createUnit($input: CreateUnitInput!) {\n    createUnit(input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation createUnit($input: CreateUnitInput!) {\n    createUnit(input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation deleteUnit($id: ID!) {\n    deleteUnit(id: $id) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation deleteUnit($id: ID!) {\n    deleteUnit(id: $id) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
   source: '\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n',
-): typeof documents['\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n'];
+): (typeof documents)['\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n'];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
