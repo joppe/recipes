@@ -1,8 +1,8 @@
+import { UnitMutationResult } from './UnitMutationResult';
+import { UnitResultType } from './UnitResultType';
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 import { Context } from '../../server/Context';
-import { UnitMutationResult } from './UnitMutationResult';
-import { UnitResultType } from './UnitResultType';
 
 type ResolveArgs = {
   input: {
@@ -22,7 +22,7 @@ const InputCreateUnitType = new GraphQLInputObjectType({
 export const createUnit = {
   type: UnitResultType,
   args: {
-    input: { type: InputCreateUnitType },
+    input: { type: new GraphQLNonNull(InputCreateUnitType) },
   },
   resolve: async (
     _: unknown,
