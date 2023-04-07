@@ -1,4 +1,4 @@
-import { gql } from '../../gql/gql';
+import { gql } from '../../../gql/gql';
 
 export const unitsQuery = gql(/* GraphQL */ `
   query units {

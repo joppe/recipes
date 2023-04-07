@@ -1,23 +1,15 @@
-import { createUnitMutation } from './createUnit.mutation';
+import { CgRuler } from 'react-icons/cg';
+
+import { NewUnitForm } from './form/NewUnitForm';
+import { createUnitMutation } from './gql/createUnit.mutation';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 
-import {
-  Button,
-  Form,
-  FormField,
-  Input,
-  Label,
-  required,
-} from '@recipes/ui/component/form';
+import { CRUDTitle } from '../../components/crud/CRUDTitle';
+import { CRUDNewForm } from '../../components/crud/form/CRUDNewForm';
+import { CreateUnitMutation, Unit } from '../../gql/graphql';
 
-import { Loading } from '../../components/loading/Loading';
-import { CreateUnitMutation } from '../../gql/graphql';
-
-type UnitData = {
-  name: string;
-  abbreviation: string;
-};
+export type UnitData = Omit<Unit, '__typename'>;
 
 export default function () {
   const router = useRouter();
@@ -44,41 +36,12 @@ export default function () {
   };
 
   return (
-    <>
-      <h1>New Unit</h1>
-      {loading && <Loading />}
-      {error && <p className="text-red-600">{error}</p>}
-      <Form<UnitData> submitHandler={submitHandler}>
-        <fieldset>
-          <legend>Unit properties</legend>
-          <FormField
-            label={<Label id="name">Name</Label>}
-            input={
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                validators={[required('Name is required')]}
-              />
-            }
-          />
-          <FormField
-            label={<Label id="abbreviation">Abbreviation</Label>}
-            input={
-              <Input
-                id="abbreviation"
-                name="abbreviation"
-                type="text"
-                validators={[required('Abbreviation is required')]}
-              />
-            }
-          />
-          <Button type="submit" disabled={loading}>
-            Save
-          </Button>{' '}
-          or <a href="/units">cancel</a>
-        </fieldset>
-      </Form>
-    </>
+    <CRUDNewForm
+      loading={loading}
+      error={error}
+      form={<NewUnitForm submitHandler={submitHandler} />}
+    >
+      <CRUDTitle icon={<CgRuler />}>New Unit</CRUDTitle>
+    </CRUDNewForm>
   );
 }
