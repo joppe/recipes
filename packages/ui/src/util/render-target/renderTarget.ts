@@ -1,6 +1,6 @@
 const RENDER_TARGET_DATA_ATTRIBUTE = 'data-render-target';
 
-export const renderTarget = (group: string): HTMLElement => {
+export function renderTarget(group: string): HTMLElement {
   let renderTarget = document.querySelector<HTMLElement>(
     `[${RENDER_TARGET_DATA_ATTRIBUTE}=${group}]`,
   );
@@ -14,4 +14,4 @@ export const renderTarget = (group: string): HTMLElement => {
   }
 
   return renderTarget;
-};
+}
