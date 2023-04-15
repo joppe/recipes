@@ -8,11 +8,11 @@ export type OptionProps = {
   onSelectHandler: (option: AutocompleteOption) => void;
 };
 
-export const Option = ({
+export function Option({
   option,
   selectedId,
   onSelectHandler,
-}: OptionProps) => {
+}: OptionProps): JSX.Element {
   const isSelected = option.id === selectedId;
 
   return (
@@ -29,4 +29,4 @@ export const Option = ({
       </button>
     </li>
   );
-};
+}

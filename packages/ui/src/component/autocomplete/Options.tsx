@@ -1,10 +1,11 @@
 import { useRef } from 'react';
 
 import { useClickOutside } from '../../hook/outside-click';
-import { useAutocompleteContext } from './context/useAutocompleteContext';
-import { Option } from './Option';
 
-export const Options = () => {
+import { Option } from './Option';
+import { useAutocompleteContext } from './context/useAutocompleteContext';
+
+export function Options(): JSX.Element {
   const {
     hideOptions,
     optionsVisible,
@@ -42,4 +43,4 @@ export const Options = () => {
       </ol>
     </div>
   );
-};
+}

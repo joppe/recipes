@@ -22,12 +22,12 @@ const mutation = gql`
   }
 `;
 
-export const ImageUpload = ({
+export function ImageUpload({
   id,
   name,
   value: defaultValue = '',
   validators = [],
-}: ImageUploadProps) => {
+}: ImageUploadProps): JSX.Element {
   const client = useApolloClient();
   const input = useRef<HTMLInputElement>(null);
   const ref = useField(name, validators);
@@ -115,4 +115,4 @@ export const ImageUpload = ({
       </div>
     </div>
   );
-};
+}

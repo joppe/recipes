@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { AutocompleteContext } from './AutocompleteContext';
 import { AutocompleteContextValue } from './AutocompleteContextValue';
 
-export const useAutocompleteContext = (): AutocompleteContextValue => {
+export function useAutocompleteContext(): AutocompleteContextValue {
   const context = useContext(AutocompleteContext);
 
   if (context === null) {
@@ -11,4 +11,4 @@ export const useAutocompleteContext = (): AutocompleteContextValue => {
   }
 
   return context;
-};
+}

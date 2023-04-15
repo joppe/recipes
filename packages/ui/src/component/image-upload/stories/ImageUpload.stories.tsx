@@ -37,7 +37,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const Template = () => {
+function Template(): JSX.Element {
   return (
     <ApolloProvider client={client}>
       <Form
@@ -64,6 +64,6 @@ const Template = () => {
       </Form>
     </ApolloProvider>
   );
-};
+}
 
 export const Default = Template.bind({});

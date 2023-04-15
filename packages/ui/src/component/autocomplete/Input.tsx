@@ -7,16 +7,16 @@ import {
 } from 'react';
 import { CgArrowsV, CgCheck, CgClose } from 'react-icons/cg';
 
+import { useField } from '../form/context/useField';
+
 import { Selected, SelectedRef } from './Selected';
 import { useAutocompleteContext } from './context/useAutocompleteContext';
-
-import { useField } from '../form/context/useField';
 
 export type InputProps = {
   name: string;
 };
 
-export const Input = ({ name }: InputProps) => {
+export function Input({ name }: InputProps): JSX.Element {
   const ref = useField(name);
   const container = useRef<HTMLDivElement>(null);
   const selectedRef = useRef<SelectedRef | null>(null);
@@ -98,4 +98,4 @@ export const Input = ({ name }: InputProps) => {
       </div>
     </div>
   );
-};
+}

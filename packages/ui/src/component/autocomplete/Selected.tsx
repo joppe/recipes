@@ -17,7 +17,10 @@ export type SelectedRef = {
 };
 
 export const Selected = forwardRef(
-  ({ name, value = '' }: SelectedProps, ref: ForwardedRef<SelectedRef>) => {
+  (
+    { name, value = '' }: SelectedProps,
+    ref: ForwardedRef<SelectedRef>,
+  ): JSX.Element => {
     const inputRef = useField(name);
 
     useImperativeHandle(ref, () => {

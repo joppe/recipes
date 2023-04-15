@@ -63,11 +63,11 @@ export type Action =
   | ActionSelectOptions
   | ActionSetReference;
 
-const couldOptionsBeVisible = (state: State) => {
+function couldOptionsBeVisible(state: State): boolean {
   return state.value.length >= state.minLength && state.options.length > 0;
-};
+}
 
-export const reducer = (state: State, action: Action): State => {
+export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'SHOW_OPTIONS':
       return {
@@ -132,4 +132,4 @@ export const reducer = (state: State, action: Action): State => {
     default:
       throw new Error(`Unhandled action "${JSON.stringify(action)}"`);
   }
-};
+}
