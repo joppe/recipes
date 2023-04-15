@@ -4,7 +4,8 @@
   "scripts": {
     "graphql:compile": "graphql-codegen --config codegen.ts",
     "graphql:watch": "graphql-codegen --watch --config codegen.ts",
-    "prettier:backend": "prettier --write ./backend/src"
+    "prettier:backend": "prettier --write ./backend/src",
+    "prettier:frontend": "prettier --write ./frontend"
   },
   "license": "MIT",
   "workspaces": [

@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import {
   ApolloClient,
   HttpLink,
@@ -10,7 +12,6 @@ import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { AppProps } from 'next/app';
-import { useMemo } from 'react';
 
 type InitialState = NormalizedCacheObject | undefined;
 

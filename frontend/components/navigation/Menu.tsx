@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import { MenuItem } from './MenuItem';
-
 import { Modal } from '@recipes/ui/component/modal';
+
+import { MenuItem } from './MenuItem';
 
 const MENU_ITEMS = [
   { title: 'Products', url: '/products' },

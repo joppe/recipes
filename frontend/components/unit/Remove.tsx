@@ -1,4 +1,3 @@
-import { deleteUnitMutation } from './gql/deleteUnit.mutation';
 import { useMutation } from '@apollo/client';
 
 import { Confirm } from '@recipes/ui/component/modal';
@@ -7,6 +6,8 @@ import { states } from '../crud/context/config';
 import { useIsState } from '../crud/context/useIsState';
 import { useStateContext } from '../crud/context/useStateContext';
 import { Loading } from '../loading/Loading';
+
+import { deleteUnitMutation } from './gql/deleteUnit.mutation';
 
 export function Remove(): JSX.Element {
   const show = useIsState(states.DELETE);

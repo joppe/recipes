@@ -1,7 +1,5 @@
 import { ReactNode, createContext, useMemo, useRef } from 'react';
 
-import { config, events, states } from './config';
-
 import {
   EventEmitter,
   Listener,
@@ -9,6 +7,8 @@ import {
 } from '@recipes/ui/util/event-emitter';
 import { factory } from '@recipes/ui/util/state-machine/factory';
 import { StateMachine } from '@recipes/ui/util/state-machine/types/StateMachine';
+
+import { config, events, states } from './config';
 
 export type StateContextValue = {
   readonly selected: string | null;
