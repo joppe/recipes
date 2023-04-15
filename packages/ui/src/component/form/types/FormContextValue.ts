@@ -1,11 +1,11 @@
 import { FormEvent } from 'react';
 
+import { Validator } from '../validators';
+
 import { FormData } from './FormData';
 import { FormErrors } from './FormErrors';
 import { RegisterField } from './RegisterField';
 import { SubmitHandler } from './SubmitHandler';
-
-import { Validator } from '../validators';
 
 export type FormContextValue<T extends FormData> = {
   errors: FormErrors<T>;

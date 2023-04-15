@@ -1,6 +1,6 @@
-import { Validator } from './Validator';
-
 import { FieldValue } from '../types/FieldValue';
+
+import { Validator } from './Validator';
 
 export const minLength = (length: number, message: string): Validator => {
   return (value: FieldValue): Promise<string | null> => {

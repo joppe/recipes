@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-import { useFormContext } from './useFormContext';
-
 import { FieldElement } from '../types/FieldElement';
 import { FormData } from '../types/FormData';
 import { Validator } from '../validators';
+
+import { useFormContext } from './useFormContext';
 
 export const useField = <T extends FormData>(
   name: keyof T,

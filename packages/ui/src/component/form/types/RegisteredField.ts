@@ -1,7 +1,7 @@
+import { Validator } from '../validators';
+
 import { FieldElement } from './FieldElement';
 import { FieldValue } from './FieldValue';
-
-import { Validator } from '../validators';
 
 export type RegisteredField<T extends FieldValue> = {
   ref: FieldElement[];

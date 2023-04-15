@@ -7,10 +7,6 @@ import {
   useState,
 } from 'react';
 
-import { getValue } from './getValue';
-import { validate } from './validate';
-import { validateFields } from './validateFields';
-
 import { FieldElement } from '../types/FieldElement';
 import { FieldRegistry } from '../types/FieldRegistry';
 import { FormContextValue } from '../types/FormContextValue';
@@ -20,6 +16,10 @@ import { RegisterField } from '../types/RegisterField';
 import { RegisteredField } from '../types/RegisteredField';
 import { SubmitHandler } from '../types/SubmitHandler';
 import { Validator } from '../validators';
+
+import { getValue } from './getValue';
+import { validate } from './validate';
+import { validateFields } from './validateFields';
 
 export const FormContext = createContext<FormContextValue<FormData> | null>(
   null,

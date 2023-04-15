@@ -1,5 +1,6 @@
 import { DataLoader } from '../../../types';
 import { DataLoaderResponse } from '../types/DataLoaderResponse';
+
 import { data } from './data';
 
 export class ProductLoader implements DataLoader<DataLoaderResponse> {
