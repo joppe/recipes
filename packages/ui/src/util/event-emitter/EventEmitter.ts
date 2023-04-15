@@ -1,9 +1,11 @@
-type Listener<T> = (event: string, payload: T) => void;
+export type Listener<T> = (event: string, payload: T) => void;
+
+export type Unregister = () => void;
 
 export class EventEmitter<T> {
   private readonly _listeners: Record<string, Listener<T>[]> = {};
 
-  public on(event: string, listener: Listener<T>) {
+  public on(event: string, listener: Listener<T>): Unregister {
     if (this._listeners[event] === undefined) {
       this._listeners[event] = [];
     }
