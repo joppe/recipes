@@ -13,6 +13,11 @@ export type LoginFormData = {
   password: string;
 };
 
+/**
+ * Handle error
+ * await login returns a boolean indicating if the login was successfull
+ */
+
 export function Login() {
   const { login } = useAuth();
 

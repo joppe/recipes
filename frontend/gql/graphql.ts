@@ -630,6 +630,20 @@ export type DeleteUnitMutation = {
   } | null;
 };
 
+export type UnitQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type UnitQuery = {
+  __typename?: 'Query';
+  unit?: {
+    __typename?: 'Unit';
+    id: string;
+    name: string;
+    abbreviation: string;
+  } | null;
+};
+
 export type UnitsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UnitsQuery = {
@@ -640,6 +654,23 @@ export type UnitsQuery = {
     name: string;
     abbreviation: string;
   }>;
+};
+
+export type UpdateUnitMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input: UpdateUnitInput;
+}>;
+
+export type UpdateUnitMutation = {
+  __typename?: 'Mutation';
+  updateUnit?: {
+    __typename?: 'UnitResult';
+    unit?: { __typename?: 'Unit'; name: string; abbreviation: string } | null;
+    errors?: Array<{
+      __typename?: 'ErrorResult';
+      message: string;
+    } | null> | null;
+  } | null;
 };
 
 export const MeDocument = {
@@ -817,6 +848,56 @@ export const DeleteUnitDocument = {
     },
   ],
 } as unknown as DocumentNode<DeleteUnitMutation, DeleteUnitMutationVariables>;
+export const UnitDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'unit' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'unit' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'abbreviation' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UnitQuery, UnitQueryVariables>;
 export const UnitsDocument = {
   kind: 'Document',
   definitions: [
@@ -847,3 +928,96 @@ export const UnitsDocument = {
     },
   ],
 } as unknown as DocumentNode<UnitsQuery, UnitsQueryVariables>;
+export const UpdateUnitDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'updateUnit' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateUnitInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateUnit' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'unit' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'abbreviation' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'errors' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'message' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UpdateUnitMutation, UpdateUnitMutationVariables>;

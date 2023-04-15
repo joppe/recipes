@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
-type CRUDHeaderProps = {
+export type HeaderProps = {
   children: ReactNode;
 };
 
-export function CRUDHeader({ children }: CRUDHeaderProps) {
+export function Header({ children }: HeaderProps) {
   return <header className="px-6">{children}</header>;
 }

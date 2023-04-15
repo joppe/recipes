@@ -8,6 +8,7 @@ module.exports = {
     '<THIRD_PARTY_MODULES>',
     '^@recipes/(.*)$',
     '^../(.*)$',
+    '^./(.*)$',
   ],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

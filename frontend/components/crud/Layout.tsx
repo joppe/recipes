@@ -4,11 +4,11 @@ import { Logout } from '../navigation/Logout';
 import { Menu } from '../navigation/Menu';
 import { Navigation } from '../navigation/Navigation';
 
-type CRUDLayoutProps = {
+export type LayoutProps = {
   children: ReactNode;
 };
 
-export function CRUDLayout({ children }: CRUDLayoutProps) {
+export function Layout({ children }: LayoutProps) {
   return (
     <>
       <Navigation>

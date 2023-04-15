@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
-type CRUDTitleProps = {
+export type TitleProps = {
   children: ReactNode;
   icon: ReactNode;
 };
 
-export function CRUDTitle({ children, icon }: CRUDTitleProps) {
+export function Title({ children, icon }: TitleProps) {
   return (
     <h1 className="flex gap-2 items-center mb-5 mt-0 text-3xl font-semibold leading-normal">
       {children}

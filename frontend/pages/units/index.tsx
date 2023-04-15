@@ -1,30 +1,21 @@
-import { CgAddR, CgRuler } from 'react-icons/cg';
+import { Layout } from '../../components/crud/Layout';
+import { StateProvider } from '../../components/crud/context/StateContext';
+import { Create } from '../../components/unit/Create';
+import { List } from '../../components/unit/List';
+import { Remove } from '../../components/unit/Remove';
+import { UnitHeader } from '../../components/unit/UnitHeader';
+import { Update } from '../../components/unit/Update';
 
-import { unitsQuery } from './gql/units.query';
-import { UnitList } from './list/UnitList';
-import { useQuery } from '@apollo/client';
-
-import { Link } from '@recipes/ui/component/form';
-
-import { CRUDTitle } from '../../components/crud/CRUDTitle';
-import { CRUDList } from '../../components/crud/list/CRUDList';
-import { Unit } from '../../gql/graphql';
-
-export default function () {
-  const { data, loading, error, refetch } = useQuery(unitsQuery);
-
+export default function UnitCRUD(): JSX.Element {
   return (
-    <CRUDList<Unit>
-      loading={loading}
-      error={error}
-      items={data?.units}
-      view={(units) => <UnitList units={units} refetch={refetch} />}
-    >
-      <CRUDTitle icon={<CgRuler />}>Units</CRUDTitle>
-      <Link href="/units/new" variant="link">
-        New unit
-        <CgAddR />
-      </Link>
-    </CRUDList>
+    <StateProvider>
+      <Layout>
+        <UnitHeader />
+        <List />
+        <Remove />
+        <Create />
+        <Update />
+      </Layout>
+    </StateProvider>
   );
 }

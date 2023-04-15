@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "graphql:compile": "graphql-codegen --config codegen.ts",
-    "graphql:watch": "graphql-codegen --watch --config codegen.ts"
+    "graphql:watch": "graphql-codegen --watch --config codegen.ts",
+    "prettier:backend": "prettier --write ./backend/src"
   },
   "license": "MIT",
   "workspaces": [
@@ -15,6 +16,8 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^3.2.2",
     "@graphql-codegen/client-preset": "^2.1.1",
-    "@recipes/prettier-config": "*"
+    "@recipes/eslint-config": "*",
+    "@recipes/prettier-config": "*",
+    "eslint": "^8.38.0"
   }
 }

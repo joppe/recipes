@@ -1,7 +1,7 @@
 import { Config } from './types/Config';
 import { StateMachine } from './types/StateMachine';
 
-export function factory(config: Config): StateMachine {
+export function factory(config: Config, debug = false): StateMachine {
   const history: string[] = [];
   let current = config.initial;
 
@@ -15,9 +15,12 @@ export function factory(config: Config): StateMachine {
       return current;
     }
 
+    if (debug) {
+      console.log(`Transitioned from '${current}' to '${next}'`);
+    }
+
     history.push(next);
     current = next;
-    console.log(`Transitioned from '${current}' to '${next}'`);
 
     return next;
   }

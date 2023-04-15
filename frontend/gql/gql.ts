@@ -1,6 +1,7 @@
 /* eslint-disable */
-import * as types from './graphql';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+
+import * as types from './graphql';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -19,8 +20,12 @@ const documents = {
     types.CreateUnitDocument,
   '\n  mutation deleteUnit($id: ID!) {\n    deleteUnit(id: $id) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
     types.DeleteUnitDocument,
+  '\n  query unit($id: ID!) {\n    unit(id: $id) {\n      id\n      name\n      abbreviation\n    }\n  }\n':
+    types.UnitDocument,
   '\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n':
     types.UnitsDocument,
+  '\n  mutation updateUnit($id: ID!, $input: UpdateUnitInput!) {\n    updateUnit(id: $id, input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
+    types.UpdateUnitDocument,
 };
 
 /**
@@ -59,8 +64,20 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+  source: '\n  query unit($id: ID!) {\n    unit(id: $id) {\n      id\n      name\n      abbreviation\n    }\n  }\n',
+): (typeof documents)['\n  query unit($id: ID!) {\n    unit(id: $id) {\n      id\n      name\n      abbreviation\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
   source: '\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n',
 ): (typeof documents)['\n  query units {\n    units {\n      id\n      name\n      abbreviation\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation updateUnit($id: ID!, $input: UpdateUnitInput!) {\n    updateUnit(id: $id, input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation updateUnit($id: ID!, $input: UpdateUnitInput!) {\n    updateUnit(id: $id, input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n'];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
