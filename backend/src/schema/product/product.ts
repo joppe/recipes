@@ -2,6 +2,7 @@ import { Product } from '@prisma/client';
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { ProductType } from './ProductType';
 
 type ResolveArgs = {

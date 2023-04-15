@@ -1,4 +1,3 @@
-import { Context } from './Context';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
@@ -18,6 +17,8 @@ import { recipesLoader } from '../loaders/recipesLoader';
 import { unitsLoader } from '../loaders/unitsLoader';
 import { prisma } from '../prisma/client';
 import { schema } from '../schema/schema';
+
+import { Context } from './Context';
 
 const PORT = 4000;
 

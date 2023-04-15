@@ -1,8 +1,9 @@
-import { RecipeType } from './RecipeType';
 import { Recipe } from '@prisma/client';
 import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
+import { RecipeType } from './RecipeType';
 
 export const recipes = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(RecipeType))),

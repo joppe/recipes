@@ -1,8 +1,9 @@
-import { UnitMutationResult } from './UnitMutationResult';
-import { UnitResultType } from './UnitResultType';
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 import { Context } from '../../server/Context';
+
+import { UnitMutationResult } from './UnitMutationResult';
+import { UnitResultType } from './UnitResultType';
 
 type ResolveArgs = {
   input: {

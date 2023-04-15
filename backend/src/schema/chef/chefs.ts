@@ -1,8 +1,9 @@
-import { ChefType } from './ChefType';
 import { Chef } from '@prisma/client';
 import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
+import { ChefType } from './ChefType';
 
 export const chefs = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ChefType))),

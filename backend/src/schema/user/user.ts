@@ -2,6 +2,7 @@ import { User } from '@prisma/client';
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { UserType } from './UserType';
 
 type ResolveArgs = {

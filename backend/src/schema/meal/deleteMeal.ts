@@ -1,6 +1,7 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { MealMutationResult } from './MealMutationResult';
 import { MealResultType } from './MealResultType';
 

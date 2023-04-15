@@ -1,6 +1,7 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { MediaMutationResult } from './MediaMutationResult';
 import { MediaResultType } from './MediaResultType';
 

@@ -1,6 +1,7 @@
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { IngredientMutationResult } from './IngredientMutationResult';
 import { IngredientResultType } from './IngredientResultType';
 

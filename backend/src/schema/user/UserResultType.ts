@@ -1,6 +1,7 @@
 import { GraphQLList, GraphQLObjectType } from 'graphql';
 
 import { ErrorResultType } from '../error/ErrorResultType';
+
 import { UserType } from './UserType';
 
 export const UserResultType: GraphQLObjectType = new GraphQLObjectType({

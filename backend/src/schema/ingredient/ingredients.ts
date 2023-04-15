@@ -1,8 +1,9 @@
-import { IngredientType } from './IngredientType';
 import { Ingredient } from '@prisma/client';
 import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
+import { IngredientType } from './IngredientType';
 
 export const ingredients = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(IngredientType))),

@@ -2,6 +2,7 @@ import { Media } from '@prisma/client';
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { MediaType } from './MediaType';
 
 type ResolveArgs = {

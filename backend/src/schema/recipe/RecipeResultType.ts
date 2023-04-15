@@ -1,6 +1,7 @@
 import { GraphQLList, GraphQLObjectType } from 'graphql';
 
 import { ErrorResultType } from '../error/ErrorResultType';
+
 import { RecipeType } from './RecipeType';
 
 export const RecipeResultType: GraphQLObjectType = new GraphQLObjectType({

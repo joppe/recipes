@@ -2,6 +2,7 @@ import { Recipe } from '@prisma/client';
 import { GraphQLID, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
 import { RecipeType } from './RecipeType';
 
 type ResolveArgs = {

@@ -1,8 +1,9 @@
-import { ProductType } from './ProductType';
 import { Product } from '@prisma/client';
 import { GraphQLList, GraphQLNonNull } from 'graphql';
 
 import { Context } from '../../server/Context';
+
+import { ProductType } from './ProductType';
 
 export const products = {
   type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(ProductType))),
