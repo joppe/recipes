@@ -1,14 +1,14 @@
 import { MutableRefObject, useEffect } from 'react';
 
-export interface UseClickOutsideProps {
+export type UseClickOutsideProps = {
   ref: MutableRefObject<HTMLElement | null>;
   onClickOutside: () => void;
-}
+};
 
-export const useClickOutside = ({
+export function useClickOutside({
   ref,
   onClickOutside,
-}: UseClickOutsideProps) => {
+}: UseClickOutsideProps): void {
   useEffect(() => {
     const listener = (event: MouseEvent) => {
       const element = ref.current;
@@ -26,4 +26,4 @@ export const useClickOutside = ({
       document.removeEventListener('click', listener);
     };
   }, [ref, onClickOutside]);
-};
+}
