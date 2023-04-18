@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DIR=/mnt/extra/work/joppe/recipes
+SESSION=recipes
+
+tmux new-session -s $SESSION -d
+tmux select-window -t $SESSION:1
+
+tmux split-window -h -t $SESSION
+
+tmux select-pane -t $SESSION:1.1
+tmux split-window -v -t $SESSION
+
+tmux select-pane -t $SESSION:1.3
+tmux split-window -v -t $SESSION
+
+tmux send-keys -t $SESSION:1.1 "cd $DIR/backend" C-m
+tmux send-keys -t $SESSION:1.1 "npm run graphql:start" C-m
+
+tmux send-keys -t $SESSION:1.2 "cd $DIR" C-m
+tmux send-keys -t $SESSION:1.2 "npm run graphql:watch"
+
+tmux send-keys -t $SESSION:1.3 "cd $DIR/frontend" C-m
+tmux send-keys -t $SESSION:1.3 "npm run dev" C-m
+
+tmux attach-session -t $SESSION
+
