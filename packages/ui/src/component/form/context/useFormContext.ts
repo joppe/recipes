@@ -1,11 +1,10 @@
 import { useContext } from 'react';
 
-import { FormContextValue } from '../types/FormContextValue';
-import { FormData } from '../types/FormData';
+import { FormContextValue, FormData } from '../types';
 
 import { FormContext } from './FormContext';
 
-export const useFormContext = <T extends FormData>(): FormContextValue<T> => {
+export function useFormContext<T extends FormData>(): FormContextValue<T> {
   const value = useContext(FormContext);
 
   if (value === null) {
@@ -13,4 +12,4 @@ export const useFormContext = <T extends FormData>(): FormContextValue<T> => {
   }
 
   return value as FormContextValue<T>;
-};
+}

@@ -11,14 +11,14 @@ export type ConfirmProps = {
   onCancel: () => void;
   onClose: () => void;
 };
-export const Confirm = ({
+export function Confirm({
   show,
   title,
   children,
   onConfirm,
   onCancel,
   onClose,
-}: ConfirmProps) => {
+}: ConfirmProps): JSX.Element {
   return (
     <Modal show={show} onClose={onClose}>
       <Modal.Title>
@@ -38,4 +38,4 @@ export const Confirm = ({
       </Modal.Footer>
     </Modal>
   );
-};
+}

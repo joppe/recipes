@@ -1,15 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
-import { FieldElement } from '../types/FieldElement';
-import { FormData } from '../types/FormData';
-import { Validator } from '../validators';
+import { FieldElement, FormData, Validator } from '../types';
 
 import { useFormContext } from './useFormContext';
 
-export const useField = <T extends FormData>(
+export function useField<T extends FormData>(
   name: keyof T,
   validators: Validator[] = [],
-) => {
+): RefObject<FieldElement> {
   const { register, unregister } = useFormContext<T>();
   const ref = useRef<FieldElement>(null);
 
@@ -24,4 +22,4 @@ export const useField = <T extends FormData>(
   }, []);
 
   return ref;
-};
+}

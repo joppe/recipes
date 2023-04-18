@@ -1,18 +1,17 @@
 import { ReactNode } from 'react';
 
 import { useFormContext } from '../context/useFormContext';
-import { FormData } from '../types/FormData';
-import { SubmitHandler } from '../types/SubmitHandler';
+import { FormData, SubmitHandler } from '../types';
 
-export interface FormElementProps<T extends FormData> {
+export type FormElementProps<T extends FormData> = {
   submitHandler: SubmitHandler<T>;
   children: ReactNode;
-}
+};
 
-export const FormElement = <T extends FormData>({
+export function FormElement<T extends FormData>({
   submitHandler,
   children,
-}: FormElementProps<T>) => {
+}: FormElementProps<T>): JSX.Element {
   const { handleSubmit } = useFormContext<T>();
 
   return (
@@ -25,4 +24,4 @@ export const FormElement = <T extends FormData>({
       {children}
     </form>
   );
-};
+}

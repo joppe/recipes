@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 
 import { useField } from '../context/useField';
-import { Validator } from '../validators';
+import { Validator } from '../types';
 
 export type Option = {
   id: string;
@@ -15,13 +15,14 @@ export type SelectProps = {
   selected?: string;
   validators?: Validator[];
 };
-export const Select = ({
+
+export function Select({
   name,
   id,
   options,
   selected,
   validators = [],
-}: SelectProps) => {
+}: SelectProps): JSX.Element {
   const ref = useField(name, validators);
 
   return (
@@ -41,4 +42,4 @@ export const Select = ({
       })}
     </select>
   );
-};
+}

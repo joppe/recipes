@@ -27,16 +27,16 @@ export function buttonClassNames(
   return 'flex gap-2 items-center text-neutral-800 underline leading-tight hover:text-neutral-600 focus:text-neutral-600 transition duration-150 ease-in-out';
 }
 
-export const Button = ({
+export function Button({
   variant = 'primary',
   type = 'button',
   icon = false,
   children,
   ...props
-}: ButtonProps) => {
+}: ButtonProps): JSX.Element {
   return (
     <button type={type} className={buttonClassNames(variant, icon)} {...props}>
       {children}
     </button>
   );
-};
+}

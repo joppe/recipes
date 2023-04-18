@@ -1,8 +1,7 @@
 import { ChangeEvent, RefObject, useRef, useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 
-import { gql, useApolloClient } from '@apollo/client';
-
+import { Uploader } from '../../types';
 import { Validator } from '../form';
 import { useField } from '../form/context/useField';
 
@@ -11,57 +10,35 @@ export type ImageUploadProps = {
   name: string;
   value?: string;
   validators?: Validator[];
+  uploader: Uploader;
 };
-
-const mutation = gql`
-  mutation createUploadUrl($fileName: String!, $contentType: String!) {
-    createUploadUrl(fileName: $fileName, contentType: $contentType) {
-      url
-      fileName
-    }
-  }
-`;
 
 export function ImageUpload({
   id,
   name,
   value: defaultValue = '',
   validators = [],
+  uploader,
 }: ImageUploadProps): JSX.Element {
-  const client = useApolloClient();
   const input = useRef<HTMLInputElement>(null);
   const ref = useField(name, validators);
-  const [preview, setPreview] = useState(defaultValue);
-  const [value, setValue] = useState(defaultValue);
+  const [preview, setPreview] = useState<string>(defaultValue);
+  const [value, setValue] = useState<string>(defaultValue);
 
-  const removeImage = () => {
+  const removeImage = (): void => {
     (input.current as HTMLInputElement).value = '';
 
     setValue('');
     setPreview('');
   };
 
-  const onLocalImageLoad = async (file: File) => {
-    const { data } = await client.mutate({
-      mutation,
-      variables: {
-        fileName: file.name,
-        contentType: file.type,
-      },
-    });
+  const onLocalImageLoad = async (file: File): Promise<void> => {
+    const fileName = await uploader(file);
 
-    await fetch(data.createUploadUrl.url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': file.type,
-      },
-      body: file,
-    });
-
-    setValue(data.createUploadUrl.fileName);
+    setValue(fileName);
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const { files } = event.target;
 
     if (files === null || files.length === 0) {

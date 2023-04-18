@@ -7,8 +7,9 @@ export default {
   title: 'Component/Modal',
   component: Modal,
 };
-const Template = () => {
-  const [show, setShow] = useState(false);
+
+function Template(): JSX.Element {
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <>
@@ -90,6 +91,6 @@ const Template = () => {
       </Modal>
     </>
   );
-};
+}
 
 export const Default = Template.bind({});

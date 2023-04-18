@@ -12,7 +12,7 @@ import {
   Select,
   Textarea,
 } from '../elements';
-import { FormData } from '../types/FormData';
+import { FormData } from '../types';
 import { minLength, required } from '../validators';
 
 export default {
@@ -20,8 +20,8 @@ export default {
   component: Form,
 };
 
-const Template = () => {
-  const Inner = () => {
+function Template(): JSX.Element {
+  const Inner = (): JSX.Element => {
     const { errors } = useForm();
 
     return (
@@ -112,5 +112,6 @@ const Template = () => {
       </div>
     </Form>
   );
-};
+}
+
 export const Default = Template.bind({});

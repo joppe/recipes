@@ -10,15 +10,15 @@ export type LinkProps = Omit<
   icon?: boolean;
 };
 
-export const Link = ({
+export function Link({
   variant = 'primary',
   icon = false,
   children,
   ...props
-}: LinkProps) => {
+}: LinkProps): JSX.Element {
   return (
     <a className={buttonClassNames(variant, icon)} {...props}>
       {children}
     </a>
   );
-};
+}

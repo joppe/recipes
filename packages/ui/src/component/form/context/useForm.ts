@@ -1,5 +1,4 @@
-import { FormContextValue } from '../types/FormContextValue';
-import { FormData } from '../types/FormData';
+import { FormContextValue, FormData } from '../types';
 
 import { useFormContext } from './useFormContext';
 
@@ -7,7 +6,7 @@ export type UseFormReturnValue<T extends FormData> = {
   errors: FormContextValue<T>['errors'];
 };
 
-export const useForm = <T extends FormData>(): UseFormReturnValue<T> => {
+export function useForm<T extends FormData>(): UseFormReturnValue<T> {
   const context = useFormContext<T>();
 
   if (context === null) {
@@ -17,4 +16,4 @@ export const useForm = <T extends FormData>(): UseFormReturnValue<T> => {
   const { errors } = context;
 
   return { errors };
-};
+}

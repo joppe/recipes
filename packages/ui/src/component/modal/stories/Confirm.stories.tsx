@@ -8,8 +8,9 @@ export default {
   title: 'Component/Modal/Confirm',
   component: Modal,
 };
-const Template = () => {
-  const [show, setShow] = useState(false);
+
+function Template(): JSX.Element {
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <>
@@ -36,6 +37,6 @@ const Template = () => {
       </Confirm>
     </>
   );
-};
+}
 
 export const Default = Template.bind({});

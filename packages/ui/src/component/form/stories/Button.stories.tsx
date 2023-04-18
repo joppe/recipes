@@ -15,13 +15,14 @@ type TemplateProps = {
   icon: boolean;
   children: ReactNode;
 };
-const Template = ({ variant, icon, children }: TemplateProps) => {
+
+function Template({ variant, icon, children }: TemplateProps): JSX.Element {
   return (
     <Button variant={variant} icon={icon}>
       {children}
     </Button>
   );
-};
+}
 
 export const Default: Story<TemplateProps> = Template.bind({});
 Default.args = {

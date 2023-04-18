@@ -1,6 +1,4 @@
-export type Listener<T> = (event: string, payload: T) => void;
-
-export type Unregister = () => void;
+import { Listener, Unregister } from './types';
 
 export class EventEmitter<T> {
   private readonly _listeners: Record<string, Listener<T>[]> = {};

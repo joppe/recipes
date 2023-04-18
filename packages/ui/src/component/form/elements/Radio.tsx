@@ -1,22 +1,23 @@
 import { RefObject } from 'react';
 
 import { useField } from '../context/useField';
-import { Validator } from '../validators';
+import { Validator } from '../types';
 
-export interface RadioProps {
+export type RadioProps = {
   name: string;
   id: string;
   value: string;
   checked?: boolean;
   validators?: Validator[];
-}
-export const Radio = ({
+};
+
+export function Radio({
   name,
   id,
   value,
   checked = false,
   validators = [],
-}: RadioProps) => {
+}: RadioProps): JSX.Element {
   const ref = useField(name, validators);
 
   return (
@@ -30,4 +31,4 @@ export const Radio = ({
       className="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
     />
   );
-};
+}

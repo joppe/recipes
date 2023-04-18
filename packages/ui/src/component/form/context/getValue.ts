@@ -1,25 +1,22 @@
-import { FieldElement } from '../types/FieldElement';
-import { FieldValue } from '../types/FieldValue';
+import { FieldElement, FieldValue } from '../types';
 
-export const isInputField = (
-  field: FieldElement,
-): field is HTMLInputElement => {
+export function isInputField(field: FieldElement): field is HTMLInputElement {
   return field.type !== undefined;
-};
+}
 
-export const isRadioField = (
+export function isRadioField(
   fields: FieldElement[],
-): fields is HTMLInputElement[] => {
+): fields is HTMLInputElement[] {
   return fields[0].type === 'radio';
-};
+}
 
-export const getRadioValue = (fields: HTMLInputElement[]): FieldValue => {
+export function getRadioValue(fields: HTMLInputElement[]): FieldValue {
   const checked = fields.find((field) => field.checked);
 
   return checked?.value ?? null;
-};
+}
 
-export const getInputValue = (field: HTMLInputElement): FieldValue => {
+export function getInputValue(field: HTMLInputElement): FieldValue {
   if (field.disabled) {
     return null;
   }
@@ -34,9 +31,9 @@ export const getInputValue = (field: HTMLInputElement): FieldValue => {
     default:
       return field.value;
   }
-};
+}
 
-export const getValue = (fields: FieldElement[]): FieldValue => {
+export function getValue(fields: FieldElement[]): FieldValue {
   if (isRadioField(fields)) {
     return getRadioValue(fields);
   }
@@ -48,4 +45,4 @@ export const getValue = (fields: FieldElement[]): FieldValue => {
   }
 
   return field.value;
-};
+}

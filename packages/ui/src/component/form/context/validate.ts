@@ -1,10 +1,9 @@
-import { FieldValue } from '../types/FieldValue';
-import { Validator } from '../validators';
+import { FieldValue, Validator } from '../types';
 
-export const validate = async (
+export async function validate(
   value: FieldValue,
   validators: Validator[],
-): Promise<string | null> => {
+): Promise<string | null> {
   for (const validator of validators) {
     const error = await validator(value);
 
@@ -14,4 +13,4 @@ export const validate = async (
   }
 
   return null;
-};
+}

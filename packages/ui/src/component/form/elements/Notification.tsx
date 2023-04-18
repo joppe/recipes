@@ -1,6 +1,6 @@
 import { useForm } from '../context/useForm';
 
-export const Notification = () => {
+export function Notification(): JSX.Element | null {
   const { errors } = useForm();
   const fieldNames = Object.keys(errors);
 
@@ -17,4 +17,4 @@ export const Notification = () => {
       ))}
     </div>
   );
-};
+}

@@ -1,5 +1,4 @@
-import { Config } from './types/Config';
-import { StateMachine } from './types/StateMachine';
+import { Config, StateMachine } from './types';
 
 export function factory(config: Config, debug = false): StateMachine {
   const history: string[] = [];

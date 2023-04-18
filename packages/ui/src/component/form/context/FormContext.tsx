@@ -7,15 +7,17 @@ import {
   useState,
 } from 'react';
 
-import { FieldElement } from '../types/FieldElement';
-import { FieldRegistry } from '../types/FieldRegistry';
-import { FormContextValue } from '../types/FormContextValue';
-import { FormData } from '../types/FormData';
-import { FormErrors } from '../types/FormErrors';
-import { RegisterField } from '../types/RegisterField';
-import { RegisteredField } from '../types/RegisteredField';
-import { SubmitHandler } from '../types/SubmitHandler';
-import { Validator } from '../validators';
+import {
+  FieldElement,
+  FieldRegistry,
+  FormContextValue,
+  FormData,
+  FormErrors,
+  RegisterField,
+  RegisteredField,
+  SubmitHandler,
+  Validator,
+} from '../types';
 
 import { getValue } from './getValue';
 import { validate } from './validate';
@@ -25,17 +27,20 @@ export const FormContext = createContext<FormContextValue<FormData> | null>(
   null,
 );
 
-export interface FormContextProviderProps {
+export type FormContextProviderProps = {
   children: ReactNode;
-}
+};
 
-function allowMultipleElements(element: FieldElement, existing: FieldElement) {
+function allowMultipleElements(
+  element: FieldElement,
+  existing: FieldElement,
+): boolean {
   return element.type === 'radio' && existing.type === 'radio';
 }
 
-export const FormContextProvider = <T extends FormData>({
+export function FormContextProvider<T extends FormData>({
   children,
-}: FormContextProviderProps) => {
+}: FormContextProviderProps): JSX.Element {
   const fields = useRef<FieldRegistry<T>>({});
   const [errors, setErrors] = useState<FormErrors<T>>({});
   const updateErrors = () => {
@@ -163,4 +168,4 @@ export const FormContextProvider = <T extends FormData>({
   return (
     <FormContext.Provider value={contextValue}>{children}</FormContext.Provider>
   );
-};
+}

@@ -1,20 +1,20 @@
 import { ReactNode } from 'react';
 
-export interface FormFieldProps {
+export type FormFieldProps = {
   label: ReactNode;
   input: ReactNode;
   error?: ReactNode;
   type?: 'row' | 'col';
   reverse?: boolean;
-}
+};
 
-export const FormField = ({
+export function FormField({
   label,
   input,
   error,
   type = 'row',
   reverse = false,
-}: FormFieldProps) => {
+}: FormFieldProps): JSX.Element {
   return (
     <div className={`flex  ${type === 'row' ? 'flex-col' : 'flex-row'}`}>
       <div className={`${reverse ? 'order-2' : 'order-1'}`}>{label}</div>
@@ -22,4 +22,4 @@ export const FormField = ({
       {error && <div className="order-3">{error}</div>}
     </div>
   );
-};
+}

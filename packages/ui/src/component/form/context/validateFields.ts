@@ -1,12 +1,10 @@
-import { FieldRegistry } from '../types/FieldRegistry';
-import { FormData } from '../types/FormData';
-import { FormErrors } from '../types/FormErrors';
+import { FieldRegistry, FormData, FormErrors } from '../types';
 
 import { validate } from './validate';
 
-export const validateFields = async <T extends FormData>(
+export async function validateFields<T extends FormData>(
   fields: FieldRegistry<T>,
-): Promise<FormErrors<T>> => {
+): Promise<FormErrors<T>> {
   const errors: FormErrors<T> = {};
 
   for (const fieldName in fields) {
@@ -22,4 +20,4 @@ export const validateFields = async <T extends FormData>(
   }
 
   return errors;
-};
+}
