@@ -3,7 +3,7 @@ import DataLoader from 'dataloader';
 
 import { orderRecords } from './orderRecords';
 
-export function mediaLoader(prisma: PrismaClient) {
+export function mediaLoader(prisma: PrismaClient): DataLoader<string, Media> {
   async function batchMedia(ids: readonly string[]): Promise<Media[]> {
     const media = await prisma.media.findMany({
       where: {

@@ -3,7 +3,9 @@ import DataLoader from 'dataloader';
 
 import { orderRecords } from './orderRecords';
 
-export function recipesLoader(prisma: PrismaClient) {
+export function recipesLoader(
+  prisma: PrismaClient,
+): DataLoader<string, Recipe> {
   async function batchMedia(ids: readonly string[]): Promise<Recipe[]> {
     const recipes = await prisma.recipe.findMany({
       where: {

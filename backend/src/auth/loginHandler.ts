@@ -4,7 +4,12 @@ import JWT from 'jsonwebtoken';
 
 import { JWT_SECRET } from './secret';
 
-export function loginHandler(prisma: PrismaClient) {
+export type LoginHandler = (
+  email: string,
+  password: string,
+) => Promise<string | null>;
+
+export function loginHandler(prisma: PrismaClient): LoginHandler {
   return async (email: string, password: string): Promise<string | null> => {
     const user = await prisma.user.findUnique({
       where: {
