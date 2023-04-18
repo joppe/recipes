@@ -22,7 +22,7 @@ import { Context } from './Context';
 
 const PORT = 4000;
 
-export async function start() {
+export async function start(): Promise<void> {
   const login = loginHandler(prisma);
   const app = express();
   const httpServer = http.createServer(app);
