@@ -16,7 +16,9 @@ export function Layout({ children }: LayoutProps) {
         <Menu />
       </Navigation>
 
-      <section className="mt-8 pt-4">{children}</section>
+      <main className="mt-8 pt-4">
+        <div className="max-w-xl mx-auto">{children}</div>
+      </main>
     </>
   );
 }
