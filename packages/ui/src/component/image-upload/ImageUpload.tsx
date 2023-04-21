@@ -23,7 +23,16 @@ export function ImageUpload({
   const input = useRef<HTMLInputElement>(null);
   const ref = useField(name, validators);
   const [preview, setPreview] = useState<string>(defaultValue);
-  const [value, setValue] = useState<string>(defaultValue);
+  const [error, setError] = useState<string | null>(null);
+
+  const setValue = (value: string): void => {
+    console.log(value);
+    if (ref.current === null) {
+      throw new Error('Ref is null, could not set value');
+    }
+
+    ref.current.value = value;
+  };
 
   const removeImage = (): void => {
     (input.current as HTMLInputElement).value = '';
@@ -32,10 +41,22 @@ export function ImageUpload({
     setPreview('');
   };
 
-  const onLocalImageLoad = async (file: File): Promise<void> => {
-    const fileName = await uploader(file);
+  const uploadImage = async (file: File): Promise<void> => {
+    const result = await uploader(file);
+    const { filename, error: err } = result;
 
-    setValue(fileName);
+    if (err !== null) {
+      setError(err);
+      setValue('');
+
+      return;
+    }
+
+    if (error !== null) {
+      setError(null);
+    }
+
+    setValue(filename);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -48,7 +69,7 @@ export function ImageUpload({
     const reader = new FileReader();
 
     reader.onload = () => {
-      onLocalImageLoad(files[0]);
+      uploadImage(files[0]);
       setPreview(reader.result as string);
     };
 
@@ -60,7 +81,6 @@ export function ImageUpload({
       <input
         type="hidden"
         name={name}
-        value={value}
         ref={ref as RefObject<HTMLInputElement>}
       />
       {preview !== '' && (
@@ -89,6 +109,7 @@ export function ImageUpload({
           accept="image/png, image/jpeg"
           className="block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
         />
+        {error && <p className="my-2 text-red-600 text-sm">{error}</p>}
       </div>
     </div>
   );

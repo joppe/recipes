@@ -1,13 +1,8 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  createHttpLink,
-} from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { Story } from '@storybook/react';
 
+import { Uploader } from '../../../types';
 import { Button, Form, FormField, Label, Notification } from '../../form';
-import { FormData } from '../../form/types/FormData';
+import { FormData } from '../../form/types';
 import { ImageUpload } from '../ImageUpload';
 
 export default {
@@ -15,55 +10,56 @@ export default {
   component: ImageUpload,
 };
 
-const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/',
-});
+type TemplateProps = {
+  uploader: Uploader;
+};
 
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYjExNmM2Ni1hY2QyLTQ3MDEtYjgxMC1jZjkxZDgwODkxODUiLCJpYXQiOjE2NzIzMjQ0MzIsImV4cCI6MTY3NTkyNDQzMn0.e9aV-GcxVRcSEczouFweCMSE9K9PDZ1f5Wd-I35vEec';
-
-  return {
-    headers: {
-      ...headers,
-      authorization: token,
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
-
-function Template(): JSX.Element {
+function Template({ uploader }: TemplateProps): JSX.Element {
   return (
-    <ApolloProvider client={client}>
-      <Form
-        submitHandler={(data: FormData) => {
-          console.log('Submitted data', data);
-        }}
-      >
-        <FormField
-          label={<Label id="image">Image</Label>}
-          input={
-            <ImageUpload
-              name="image"
-              id="image"
-              value="https://placekitten.com/400/400"
-            />
-          }
-        />
+    <Form
+      submitHandler={(data: FormData): void => {
+        console.log('Submitted data', data);
+      }}
+    >
+      <FormField
+        label={<Label id="image">Image</Label>}
+        input={
+          <ImageUpload
+            uploader={uploader}
+            name="image"
+            id="image"
+            value="https://placekitten.com/400/400"
+          />
+        }
+      />
 
-        <Notification />
+      <Notification />
 
-        <div className="flex justify-end py-2.5">
-          <Button type="submit">Save</Button>
-        </div>
-      </Form>
-    </ApolloProvider>
+      <div className="flex justify-end py-2.5">
+        <Button type="submit">Save</Button>
+      </div>
+    </Form>
   );
 }
 
-export const Default = Template.bind({});
+export const Default: Story<TemplateProps> = Template.bind({});
+Default.args = {
+  uploader: async (file: File): Promise<{ error: null; filename: string }> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ filename: file.name, error: null });
+      }, 300);
+    });
+  },
+};
+
+export const Error: Story<TemplateProps> = Template.bind({});
+Error.args = {
+  uploader: async (file: File): Promise<{ error: string; filename: null }> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ filename: null, error: 'Something went wrong' });
+      }, 300);
+    });
+  },
+};
