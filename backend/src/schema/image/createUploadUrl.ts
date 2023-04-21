@@ -8,34 +8,34 @@ import { UploadUrl } from './UploadUrl';
 import { UploadUrlType } from './UploadUrlType';
 
 type ResolveArgs = {
-  fileName: string;
+  filename: string;
   contentType: string;
 };
 
 export const createUploadUrl = {
   type: UploadUrlType,
   args: {
-    fileName: { type: new GraphQLNonNull(GraphQLString) },
+    filename: { type: new GraphQLNonNull(GraphQLString) },
     contentType: { type: new GraphQLNonNull(GraphQLString) },
   },
   resolve: async (
     _: unknown,
-    { fileName: originalFileName, contentType }: ResolveArgs,
+    { filename: originalFileName, contentType }: ResolveArgs,
     { userInfo }: Context,
   ): Promise<UploadUrl> => {
     if (userInfo?.userId === undefined) {
       return {
         url: '',
-        fileName: '',
+        filename: '',
       };
     }
 
     const [extension] = originalFileName.split('.').slice(-1);
-    const fileName = `${uuid()}.${extension}`;
+    const filename = `${uuid()}.${extension}`;
     const expires = Date.now() + 15 * 60 * 1000; // 15 minutes
     const [url] = await storage
       .bucket(process.env.BUCKET_NAME as string)
-      .file(fileName)
+      .file(filename)
       .getSignedUrl({
         action: 'write',
         expires,
@@ -44,7 +44,7 @@ export const createUploadUrl = {
 
     return {
       url,
-      fileName,
+      filename,
     };
   },
 };

@@ -1,4 +1,4 @@
 export type UploadUrl = {
   url: string;
-  fileName: string;
+  filename: string;
 };
