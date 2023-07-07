@@ -16,7 +16,7 @@ export function FormElement<T extends FormData>({
 
   return (
     <form
-      className="flex flex-col gap-3"
+      className="flex flex-col gap-4"
       onSubmit={handleSubmit((data: T) => {
         submitHandler(data);
       })}
