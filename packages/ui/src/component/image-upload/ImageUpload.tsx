@@ -100,14 +100,14 @@ export function ImageUpload({
           />
         </div>
       )}
-      <div>
+      <div className="w-full">
         <input
           ref={input}
           id={id}
           type="file"
           onChange={handleChange}
           accept="image/png, image/jpeg"
-          className="block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+          className="file:cursor-pointer file:px-6 file:py-4 file:text-white file:bg-indigo-600 file:overflow-hidden file:border-0 file:border-inherit file:-my-[0.32rem] file:-mx-3 file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] block w-full px-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 file:hover:bg-indigo-700 file:hover:shadow-lg focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
         />
         {error && <p className="my-2 text-red-600 text-sm">{error}</p>}
       </div>
