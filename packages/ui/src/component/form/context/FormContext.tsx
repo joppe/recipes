@@ -123,16 +123,14 @@ export function FormContextProvider<T extends FormData>({
 
         if (
           existing !== undefined &&
-          !allowMultipleElements(element, existing.ref[0])
+          allowMultipleElements(element, existing.ref[0])
         ) {
-          throw new Error(
-            `There is already an element registered with name "${String(
-              name,
-            )}"`,
-          );
-        }
-
-        if (existing === undefined) {
+          existing.ref = existing.ref.filter((el: FieldElement): boolean => {
+            return el.name !== element.name || el.value !== element.value;
+          });
+          existing.ref.push(element);
+          existing.value = getValue(existing.ref) as T[FieldName];
+        } else {
           fields.current[name] = {
             ref: [element],
             validators,
@@ -142,9 +140,6 @@ export function FormContextProvider<T extends FormData>({
               element.removeEventListener('blur', onBlurHandler);
             },
           };
-        } else {
-          existing.ref.push(element);
-          existing.value = getValue(existing.ref) as T[FieldName];
         }
 
         element.addEventListener('blur', onBlurHandler);
