@@ -1,5 +1,8 @@
+import { useState } from 'react';
+
 import {
   Button,
+  Error,
   Form,
   FormField,
   Input,
@@ -20,9 +23,14 @@ export type LoginFormData = {
 
 export function Login() {
   const { login } = useAuth();
+  const [error, setError] = useState<string | null>(null);
 
   const submitHandler = async (data: LoginFormData) => {
-    await login(data.username, data.password);
+    const isLoggedIn = await login(data.username, data.password);
+
+    if (!isLoggedIn) {
+      setError('Invalid credentials');
+    }
   };
 
   return (
@@ -36,6 +44,7 @@ export function Login() {
           label={<Label id="password">Password</Label>}
           input={<Input id="password" name="password" type="password" />}
         />
+        {error && <Error>{error}</Error>}
         <div className="flex justify-end py-2.5">
           <Button type="submit">Login</Button>
         </div>
