@@ -55,6 +55,8 @@ export async function start(): Promise<void> {
           req.headers['auth-token'] as string,
         );
 
+        console.log('userInfo');
+
         if (userInfo === null) {
           userInfo = {
             userId: '0',

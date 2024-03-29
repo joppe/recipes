@@ -1,9 +1,4 @@
-import {
-  GraphQLID,
-  GraphQLInputObjectType,
-  GraphQLNonNull,
-  GraphQLString,
-} from 'graphql';
+import { GraphQLInputObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 
 import { Context } from '../../server/Context';
 
@@ -14,16 +9,29 @@ type ResolveArgs = {
   input: {
     name: string;
     description?: string;
-    mediaId?: string;
+    media?: {
+      type: string;
+      title: string;
+      url: string;
+    };
   };
 };
+
+const InputCreateProductMediaType = new GraphQLInputObjectType({
+  name: 'CreateProductMediaInput',
+  fields: {
+    type: { type: new GraphQLNonNull(GraphQLString) },
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    url: { type: new GraphQLNonNull(GraphQLString) },
+  },
+});
 
 const InputCreateProductType = new GraphQLInputObjectType({
   name: 'CreateProductInput',
   fields: {
     name: { type: new GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
-    mediaId: { type: GraphQLID },
+    media: { type: InputCreateProductMediaType },
   },
 });
 
@@ -46,7 +54,8 @@ export const createProduct = {
       };
     }
 
-    const { name, description, mediaId } = input;
+    const { name, description, media } = input;
+    let linkedMedia = null;
 
     const existingProduct = await prisma.product.findFirst({
       where: {
@@ -63,26 +72,22 @@ export const createProduct = {
       };
     }
 
-    if (mediaId !== undefined) {
-      const media = await prisma.media.findUnique({
-        where: {
-          id: mediaId,
+    if (media !== undefined) {
+      linkedMedia = await prisma.media.create({
+        data: {
+          type: media.type,
+          title: media.title,
+          url: media.url,
         },
       });
-
-      if (media === null) {
-        return {
-          product: null,
-          errors: [{ message: `Media with id "${mediaId}" not found.` }],
-        };
-      }
+      console.log(linkedMedia);
     }
 
     const newProduct = await prisma.product.create({
       data: {
         name,
         description: description ?? null,
-        mediaId: mediaId ?? null,
+        mediaId: linkedMedia?.id ?? null,
       },
     });
 

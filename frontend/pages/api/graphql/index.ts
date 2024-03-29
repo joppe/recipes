@@ -13,7 +13,6 @@ export default function handler(
   res: NextApiResponse,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
-    console.log(req.body);
     // Get the `auth-token` cookie
     const cookies = cookie.parse(req.headers.cookie || '');
     const authToken = cookies['auth'];
@@ -23,9 +22,6 @@ export default function handler(
 
     // Don't forward cookies to the API
     req.headers.cookie = '';
-
-    console.log('authToken', authToken);
-    console.log('authorization', req.headers.authorization);
 
     // Set auth-token header from cookie
     if (authToken) {

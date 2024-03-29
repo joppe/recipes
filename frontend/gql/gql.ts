@@ -16,6 +16,18 @@ import * as types from './graphql';
 const documents = {
   '\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n':
     types.MeDocument,
+  '\n  mutation createUploadUrl($filename: String!, $contentType: String!) {\n    createUploadUrl(filename: $filename, contentType: $contentType) {\n      url\n      filename\n    }\n  }\n':
+    types.CreateUploadUrlDocument,
+  '\n  mutation createProduct($input: CreateProductInput!) {\n    createProduct(input: $input) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
+    types.CreateProductDocument,
+  '\n  mutation deleteProduct($id: ID!) {\n    deleteProduct(id: $id) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
+    types.DeleteProductDocument,
+  '\n  query product($id: ID!) {\n    product(id: $id) {\n      id\n      name\n      description\n      media {\n        type\n        title\n        url\n      }\n    }\n  }\n':
+    types.ProductDocument,
+  '\n  query products {\n    products {\n      id\n      name\n    }\n  }\n':
+    types.ProductsDocument,
+  '\n  mutation updateProduct($id: ID!, $input: UpdateProductInput!) {\n    updateProduct(id: $id, input: $input) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
+    types.UpdateProductDocument,
   '\n  mutation createUnit($input: CreateUnitInput!) {\n    createUnit(input: $input) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
     types.CreateUnitDocument,
   '\n  mutation deleteUnit($id: ID!) {\n    deleteUnit(id: $id) {\n      unit {\n        name\n        abbreviation\n      }\n      errors {\n        message\n      }\n    }\n  }\n':
@@ -48,6 +60,42 @@ export function gql(source: string): unknown;
 export function gql(
   source: '\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n',
 ): (typeof documents)['\n  query me {\n    me {\n      id\n      name\n      email\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation createUploadUrl($filename: String!, $contentType: String!) {\n    createUploadUrl(filename: $filename, contentType: $contentType) {\n      url\n      filename\n    }\n  }\n',
+): (typeof documents)['\n  mutation createUploadUrl($filename: String!, $contentType: String!) {\n    createUploadUrl(filename: $filename, contentType: $contentType) {\n      url\n      filename\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation createProduct($input: CreateProductInput!) {\n    createProduct(input: $input) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation createProduct($input: CreateProductInput!) {\n    createProduct(input: $input) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation deleteProduct($id: ID!) {\n    deleteProduct(id: $id) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation deleteProduct($id: ID!) {\n    deleteProduct(id: $id) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  query product($id: ID!) {\n    product(id: $id) {\n      id\n      name\n      description\n      media {\n        type\n        title\n        url\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query product($id: ID!) {\n    product(id: $id) {\n      id\n      name\n      description\n      media {\n        type\n        title\n        url\n      }\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  query products {\n    products {\n      id\n      name\n    }\n  }\n',
+): (typeof documents)['\n  query products {\n    products {\n      id\n      name\n    }\n  }\n'];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: '\n  mutation updateProduct($id: ID!, $input: UpdateProductInput!) {\n    updateProduct(id: $id, input: $input) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation updateProduct($id: ID!, $input: UpdateProductInput!) {\n    updateProduct(id: $id, input: $input) {\n      product {\n        name\n      }\n      errors {\n        message\n      }\n    }\n  }\n'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
