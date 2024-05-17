@@ -104,4 +104,5 @@ export const insertUserSchema = createInsertSchema(units, {
   abbreviation: z.string().min(1).max(255),
 });
 
+export type Unit = typeof units.$inferSelect;
 export type CreateUnitData = z.infer<typeof insertUserSchema>;

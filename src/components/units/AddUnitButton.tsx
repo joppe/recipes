@@ -17,7 +17,11 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { CreateUnitData } from '@/db/schema';
 
-export function AddUnitButton() {
+type AddUnitButtonProps = {
+  refetch: () => Promise<void>;
+};
+
+export function AddUnitButton({ refetch }: AddUnitButtonProps) {
   const { toast } = useToast();
   const [showDialog, setShowDialog] = useState(false);
 
@@ -27,6 +31,7 @@ export function AddUnitButton() {
 
   async function handleSubmit(data: CreateUnitData) {
     await addUnit(data);
+    await refetch();
 
     setShowDialog(false);
 
