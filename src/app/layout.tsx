@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import './globals.css';
+import { Navigation } from '@/components/layout/Navigation';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -19,12 +21,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(
-          'min-h-screen bg-background font-sans antialiased',
-          inter.variable,
-        )}
+        className={cn('bg-background font-sans antialiased', inter.variable)}
       >
-        {children}
+        <TooltipProvider>
+          <div className="flex min-h-screen w-full flex-col bg-muted/40">
+            <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+              <Navigation />
+            </aside>
+            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+              <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+                {children}
+              </div>
+            </div>
+          </div>
+        </TooltipProvider>
       </body>
     </html>
   );
