@@ -8,20 +8,14 @@ import {
 } from '@/components/layout/heading';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
@@ -30,6 +24,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { AddUnitButton } from '@/components/units/AddUnitButton';
+import { CreateUnit } from '@/components/units/CreateUnit';
 
 export default async function Units() {
   const units = await getUnits();
@@ -38,17 +34,7 @@ export default async function Units() {
     <>
       <div className="flex items-center">
         <div className="ml-auto flex items-center gap-2">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button size="sm" className="h-8 gap-1">
-                <PlusCircle className="h-3.5 w-3.5" />
-                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                  Add Unit
-                </span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent>test</DialogContent>
-          </Dialog>
+          <AddUnitButton />
         </div>
       </div>
 
@@ -71,38 +57,36 @@ export default async function Units() {
                     <span className="sr-only">Actions</span>
                   </TableHead>
                 </TableRow>
-                <TableBody>
-                  {units.map((unit) => {
-                    return (
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          {unit.name}
-                        </TableCell>
-                        <TableCell>{unit.abbreviation}</TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                aria-haspopup="true"
-                                size="icon"
-                                variant="ghost"
-                              >
-                                <MoreHorizontal className="h-4 w-4" />
-                                <span className="sr-only">Toggle menu</span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
-                              <DropdownMenuItem>Delete</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
               </TableHeader>
+              <TableBody>
+                {units.map((unit) => {
+                  return (
+                    <TableRow key={unit.id}>
+                      <TableCell className="font-medium">{unit.name}</TableCell>
+                      <TableCell>{unit.abbreviation}</TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              aria-haspopup="true"
+                              size="icon"
+                              variant="ghost"
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Toggle menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
             </Table>
           </div>
         </div>

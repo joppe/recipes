@@ -8,6 +8,8 @@ import {
   smallint,
   varchar,
 } from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
+import { z } from 'zod';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
@@ -96,3 +98,10 @@ export const units = pgTable('units', {
   name: varchar('name').unique().notNull(),
   abbreviation: varchar('abbreviation').notNull(),
 });
+
+export const insertUserSchema = createInsertSchema(units, {
+  name: z.string().min(3).max(255),
+  abbreviation: z.string().min(1).max(255),
+});
+
+export type CreateUnitData = z.infer<typeof insertUserSchema>;

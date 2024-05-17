@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 
 import './globals.css';
 import { Navigation } from '@/components/layout/Navigation';
+import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
@@ -34,6 +35,7 @@ export default function RootLayout({
               </div>
             </div>
           </div>
+          <Toaster />
         </TooltipProvider>
       </body>
     </html>
