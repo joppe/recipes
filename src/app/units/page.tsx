@@ -1,7 +1,7 @@
 'use client';
 
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getUnits } from '@/actions/units';
 import {
@@ -17,8 +17,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
@@ -27,7 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AddUnitButton } from '@/components/units/AddUnitButton';
 import { CreateUnit } from '@/components/units/CreateUnit';
 import { Unit } from '@/db/schema';
 
@@ -42,21 +39,35 @@ export default function Units() {
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
   const [units, setUnits] = useState<Unit[] | undefined>(undefined);
 
-  const fetchUnits = useCallback(async () => {
-    const units = await getUnits();
-
-    setUnits(units);
-  }, []);
-
   useEffect(() => {
-    fetchUnits();
-  }, [fetchUnits]);
+    async function fetchUnits() {
+      const units = await getUnits();
+
+      setUnits(units);
+    }
+
+    if (displayMode === DisplayMode.List) {
+      void fetchUnits();
+    }
+  }, [displayMode]);
 
   return (
     <>
+      {displayMode === DisplayMode.Add && (
+        <CreateUnit onFinish={() => setDisplayMode(DisplayMode.List)} />
+      )}
       <div className="flex items-center">
         <div className="ml-auto flex items-center gap-2">
-          <AddUnitButton refetch={fetchUnits} />
+          <Button
+            size="sm"
+            className="h-8 gap-1"
+            onClick={() => setDisplayMode(DisplayMode.Add)}
+          >
+            <PlusCircle className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Add Unit
+            </span>
+          </Button>
         </div>
       </div>
 
