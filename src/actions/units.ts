@@ -13,7 +13,7 @@ export async function addUnit(unit: CreateUnitData) {
   await db.insert(units).values(unit);
 }
 
-export async function deleteUnti(id: number) {
+export async function deleteUnit(id: number) {
   await db.delete(units).where(eq(units.id, id));
 }
 

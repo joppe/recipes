@@ -1,7 +1,7 @@
 'use client';
 
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getUnits } from '@/actions/units';
 import {
@@ -26,6 +26,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { CreateUnit } from '@/components/units/CreateUnit';
+import { DeleteUnit } from '@/components/units/DeleteUnit';
 import { Unit } from '@/db/schema';
 
 enum DisplayMode {
@@ -36,6 +37,7 @@ enum DisplayMode {
 }
 
 export default function Units() {
+  const selected = useRef<Unit | null>(null);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
   const [units, setUnits] = useState<Unit[] | undefined>(undefined);
 
@@ -46,6 +48,8 @@ export default function Units() {
       setUnits(units);
     }
 
+    selected.current = null;
+
     if (displayMode === DisplayMode.List) {
       void fetchUnits();
     }
@@ -55,6 +59,12 @@ export default function Units() {
     <>
       {displayMode === DisplayMode.Add && (
         <CreateUnit onFinish={() => setDisplayMode(DisplayMode.List)} />
+      )}
+      {displayMode === DisplayMode.Delete && selected.current !== null && (
+        <DeleteUnit
+          unit={selected.current}
+          onFinish={() => setDisplayMode(DisplayMode.List)}
+        />
       )}
       <div className="flex items-center">
         <div className="ml-auto flex items-center gap-2">
@@ -120,7 +130,14 @@ export default function Units() {
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuItem>Edit</DropdownMenuItem>
-                              <DropdownMenuItem>Delete</DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  selected.current = unit;
+                                  setDisplayMode(DisplayMode.Delete);
+                                }}
+                              >
+                                Delete
+                              </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
