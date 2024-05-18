@@ -99,10 +99,18 @@ export const units = pgTable('units', {
   abbreviation: varchar('abbreviation').notNull(),
 });
 
-export const insertUserSchema = createInsertSchema(units, {
+export const insertChefSchema = createInsertSchema(chefs, {
+  name: z.string().min(3).max(255),
+  skill: z.number().int().gte(1).lte(5),
+});
+
+export type Chef = typeof chefs.$inferSelect;
+export type ChefFormData = z.infer<typeof insertChefSchema>;
+
+export const insertUnitSchema = createInsertSchema(units, {
   name: z.string().min(3).max(255),
   abbreviation: z.string().min(1).max(255),
 });
 
 export type Unit = typeof units.$inferSelect;
-export type CreateUnitData = z.infer<typeof insertUserSchema>;
+export type UnitFormData = z.infer<typeof insertUnitSchema>;

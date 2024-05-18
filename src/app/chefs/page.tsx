@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { getUnits } from '@/actions/units';
+import { getChefs } from '@/actions/chefs';
+import { Create, Delete, Edit } from '@/components/chefs';
 import { ActionMenu } from '@/components/layout/action-menu';
 import {
   AddButton,
@@ -24,8 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Create, Delete, Edit } from '@/components/units';
-import { Unit } from '@/db/schema';
+import { Chef } from '@/db/schema';
 
 enum DisplayMode {
   List = 'list',
@@ -34,22 +34,22 @@ enum DisplayMode {
   Edit = 'edit',
 }
 
-export default function Units() {
-  const selected = useRef<Unit | null>(null);
+export default function Chefs() {
+  const selected = useRef<Chef | null>(null);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
-  const [units, setUnits] = useState<Unit[] | undefined>(undefined);
+  const [chefs, setChefs] = useState<Chef[] | undefined>(undefined);
 
   useEffect(() => {
-    async function fetchUnits() {
-      const units = await getUnits();
+    async function fetchChefs() {
+      const chefs = await getChefs();
 
-      setUnits(units);
+      setChefs(chefs);
     }
 
     selected.current = null;
 
     if (displayMode === DisplayMode.List) {
-      void fetchUnits();
+      void fetchChefs();
     }
   }, [displayMode]);
 
@@ -60,13 +60,13 @@ export default function Units() {
       )}
       {displayMode === DisplayMode.Edit && selected.current && (
         <Edit
-          unit={selected.current}
+          chef={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
         />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <Delete
-          unit={selected.current}
+          chef={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
         />
       )}
@@ -74,7 +74,7 @@ export default function Units() {
       <ButtonBar>
         <ButtonGroup pullRight>
           <AddButton
-            text="Add Unit"
+            text="Add Chef"
             onClick={() => setDisplayMode(DisplayMode.Add)}
           />
         </ButtonGroup>
@@ -82,39 +82,39 @@ export default function Units() {
 
       <Section>
         <Heading>
-          <HeadingTitle>Units</HeadingTitle>
+          <HeadingTitle>Chefs</HeadingTitle>
           <HeadingDescription>
-            Units are used to indicate the quantity of a product.
+            Chefs are used to indicate the quantity of a product.
           </HeadingDescription>
         </Heading>
 
         <DataView>
-          {units === undefined && <Loading />}
-          {units !== undefined && (
+          {chefs === undefined && <Loading />}
+          {chefs !== undefined && (
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>Abbreviation</TableHead>
+                  <TableHead>Skill</TableHead>
                   <TableHead>
                     <span className="sr-only">Actions</span>
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {units.map((unit) => {
+                {chefs.map((chef) => {
                   return (
-                    <TableRow key={unit.id}>
-                      <TableCell className="font-medium">{unit.name}</TableCell>
-                      <TableCell>{unit.abbreviation}</TableCell>
+                    <TableRow key={chef.id}>
+                      <TableCell className="font-medium">{chef.name}</TableCell>
+                      <TableCell>{chef.skill}</TableCell>
                       <TableCell>
                         <ActionMenu
                           handleEdit={() => {
-                            selected.current = unit;
+                            selected.current = chef;
                             setDisplayMode(DisplayMode.Edit);
                           }}
                           handleDelete={() => {
-                            selected.current = unit;
+                            selected.current = chef;
                             setDisplayMode(DisplayMode.Delete);
                           }}
                         />
@@ -126,9 +126,9 @@ export default function Units() {
             </Table>
           )}
         </DataView>
-        {units !== undefined && (
+        {chefs !== undefined && (
           <DataStats>
-            <strong>{units.length}</strong> products
+            <strong>{chefs.length}</strong> products
           </DataStats>
         )}
       </Section>

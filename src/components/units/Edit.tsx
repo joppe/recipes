@@ -11,27 +11,19 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-import { Unit, insertUserSchema as schema } from '@/db/schema';
+import { FormFields } from '@/components/units/FormFields';
+import { Unit, UnitFormData, insertUnitSchema as schema } from '@/db/schema';
 
-type EditUnitProps = {
+type EditProps = {
   unit: Unit;
   onFinish: () => void;
 };
 
-export function EditUnit({ unit, onFinish }: EditUnitProps) {
+export function Edit({ unit, onFinish }: EditProps) {
   const { toast } = useToast();
-  const form = useForm<Unit>({
+  const form = useForm<UnitFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       id: unit.id,
@@ -40,7 +32,7 @@ export function EditUnit({ unit, onFinish }: EditUnitProps) {
     },
   });
 
-  async function handleSubmit(data: Unit) {
+  async function handleSubmit(data: UnitFormData) {
     await updateUnit(data);
 
     toast({
@@ -74,41 +66,7 @@ export function EditUnit({ unit, onFinish }: EditUnitProps) {
             onSubmit={form.handleSubmit(handleSubmit)}
           >
             <input type="hidden" {...form.register('id')} />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Please type a name" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    This is the name of the unit.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="abbreviation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Abbreviation</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Please type an abbreviation"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    This is the abbreviation of the unit.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <FormFields control={form.control} />
           </form>
         </Form>
         <DialogFooter>
