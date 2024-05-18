@@ -6,7 +6,7 @@ import db from '@/db/drizzle';
 import { CreateUnitData, units } from '@/db/schema';
 
 export async function getUnits() {
-  return db.select().from(units);
+  return db.select().from(units).orderBy(units.name);
 }
 
 export async function addUnit(unit: CreateUnitData) {
