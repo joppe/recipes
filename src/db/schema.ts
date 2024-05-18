@@ -114,3 +114,11 @@ export const insertUnitSchema = createInsertSchema(units, {
 
 export type Unit = typeof units.$inferSelect;
 export type UnitFormData = z.infer<typeof insertUnitSchema>;
+
+export const insertProductSchema = createInsertSchema(products, {
+  name: z.string().min(2).max(255),
+  description: (schema) => schema.description,
+});
+
+export type Product = typeof products.$inferSelect;
+export type ProductFormData = z.infer<typeof insertProductSchema>;
