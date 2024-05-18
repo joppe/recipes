@@ -1,37 +1,14 @@
 'use client';
 
-import { CalendarDays, ChefHat, DraftingCompass, Salad } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import { ITEMS } from '@/components/layout/navigation/items';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-
-const ITEMS = [
-  {
-    href: '/',
-    icon: CalendarDays,
-    label: 'Calendar',
-  },
-  {
-    href: '/units',
-    icon: DraftingCompass,
-    label: 'Units',
-  },
-  {
-    href: '/products',
-    icon: Salad,
-    label: 'Products',
-  },
-  {
-    href: '/chefs',
-    icon: ChefHat,
-    label: 'Chefs',
-  },
-];
 
 const ACTIVE_CLASS =
   'flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8';
