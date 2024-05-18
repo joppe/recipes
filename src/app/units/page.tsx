@@ -5,10 +5,17 @@ import { useEffect, useRef, useState } from 'react';
 
 import { getUnits } from '@/actions/units';
 import {
+  AddButton,
+  ButtonBar,
+  ButtonGroup,
+} from '@/components/layout/button-bar';
+import {
   Heading,
   HeadingDescription,
   HeadingTitle,
 } from '@/components/layout/heading';
+import { Loading } from '@/components/layout/loading/Loading';
+import { DataStats, DataView, Section } from '@/components/layout/section';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -73,22 +80,17 @@ export default function Units() {
           onFinish={() => setDisplayMode(DisplayMode.List)}
         />
       )}
-      <div className="flex items-center">
-        <div className="ml-auto flex items-center gap-2">
-          <Button
-            size="sm"
-            className="h-8 gap-1"
-            onClick={() => setDisplayMode(DisplayMode.Add)}
-          >
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Unit
-            </span>
-          </Button>
-        </div>
-      </div>
 
-      <section className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <ButtonBar>
+        <ButtonGroup pullRight>
+          <AddButton
+            text="Add Unit"
+            onClick={() => setDisplayMode(DisplayMode.Add)}
+          />
+        </ButtonGroup>
+      </ButtonBar>
+
+      <Section>
         <Heading>
           <HeadingTitle>Units</HeadingTitle>
           <HeadingDescription>
@@ -96,81 +98,71 @@ export default function Units() {
           </HeadingDescription>
         </Heading>
 
-        <div className="p-6 pt-0">
-          <div className="relative w-full overflow-auto">
-            {units === undefined && (
-              <div className="flex items-center justify-center h-64">
-                <span className="text-muted-foreground">Loading...</span>
-              </div>
-            )}
-            {units !== undefined && (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Abbreviation</TableHead>
-                    <TableHead>
-                      <span className="sr-only">Actions</span>
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {units.map((unit) => {
-                    return (
-                      <TableRow key={unit.id}>
-                        <TableCell className="font-medium">
-                          {unit.name}
-                        </TableCell>
-                        <TableCell>{unit.abbreviation}</TableCell>
-                        <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button
-                                aria-haspopup="true"
-                                size="icon"
-                                variant="ghost"
-                              >
-                                <MoreHorizontal className="h-4 w-4" />
-                                <span className="sr-only">Toggle menu</span>
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem
-                                onClick={() => {
-                                  selected.current = unit;
-                                  setDisplayMode(DisplayMode.Edit);
-                                }}
-                              >
-                                Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuItem
-                                onClick={() => {
-                                  selected.current = unit;
-                                  setDisplayMode(DisplayMode.Delete);
-                                }}
-                              >
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          </div>
-        </div>
+        <DataView>
+          {units === undefined && <Loading />}
+          {units !== undefined && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Abbreviation</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {units.map((unit) => {
+                  return (
+                    <TableRow key={unit.id}>
+                      <TableCell className="font-medium">{unit.name}</TableCell>
+                      <TableCell>{unit.abbreviation}</TableCell>
+                      <TableCell>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              aria-haspopup="true"
+                              size="icon"
+                              variant="ghost"
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Toggle menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                selected.current = unit;
+                                setDisplayMode(DisplayMode.Edit);
+                              }}
+                            >
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => {
+                                selected.current = unit;
+                                setDisplayMode(DisplayMode.Delete);
+                              }}
+                            >
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </DataView>
         {units !== undefined && (
-          <div className="flex items-center p-6 pt-0">
-            <div className="text-xs text-muted-foreground">
-              <strong>{units.length}</strong> products
-            </div>
-          </div>
+          <DataStats>
+            <strong>{units.length}</strong> products
+          </DataStats>
         )}
-      </section>
+      </Section>
     </>
   );
 }
