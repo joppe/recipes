@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/table';
 import { CreateUnit } from '@/components/units/CreateUnit';
 import { DeleteUnit } from '@/components/units/DeleteUnit';
+import { EditUnit } from '@/components/units/EditUnit';
 import { Unit } from '@/db/schema';
 
 enum DisplayMode {
@@ -59,6 +60,12 @@ export default function Units() {
     <>
       {displayMode === DisplayMode.Add && (
         <CreateUnit onFinish={() => setDisplayMode(DisplayMode.List)} />
+      )}
+      {displayMode === DisplayMode.Edit && selected.current && (
+        <EditUnit
+          unit={selected.current}
+          onFinish={() => setDisplayMode(DisplayMode.List)}
+        />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <DeleteUnit
@@ -129,7 +136,14 @@ export default function Units() {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                              <DropdownMenuItem
+                                onClick={() => {
+                                  selected.current = unit;
+                                  setDisplayMode(DisplayMode.Edit);
+                                }}
+                              >
+                                Edit
+                              </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => {
                                   selected.current = unit;

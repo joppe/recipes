@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm';
 
 import db from '@/db/drizzle';
-import { CreateUnitData, units } from '@/db/schema';
+import { CreateUnitData, Unit, units } from '@/db/schema';
 
 export async function getUnits() {
   return db.select().from(units).orderBy(units.name);
@@ -17,6 +17,6 @@ export async function deleteUnit(id: number) {
   await db.delete(units).where(eq(units.id, id));
 }
 
-export async function updateUnit(id: number, unit: CreateUnitData) {
-  await db.update(units).set(unit).where(eq(units.id, id));
+export async function updateUnit(unit: Unit) {
+  await db.update(units).set(unit).where(eq(units.id, unit.id));
 }
