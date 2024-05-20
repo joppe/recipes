@@ -43,9 +43,7 @@ export const ingredients = pgTable('ingredients', {
   id: serial('id').primaryKey(),
   quantity: real('quantity').notNull(),
   preparation: varchar('preparation').notNull(),
-  recipeId: integer('recipe_id')
-    .references(() => recipes.id)
-    .notNull(),
+  recipeId: integer('recipe_id').notNull(),
   productId: integer('product_id')
     .references(() => products.id)
     .notNull(),
@@ -54,15 +52,27 @@ export const ingredients = pgTable('ingredients', {
     .notNull(),
 });
 
+export const ingredientsRelations = relations(ingredients, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [ingredients.recipeId],
+    references: [recipes.id],
+  }),
+}));
+
 export const instructions = pgTable('instructions', {
   id: serial('id').primaryKey(),
   order: smallint('order').notNull(),
   description: varchar('description').notNull(),
-  recipeId: integer('recipe_id')
-    .references(() => recipes.id)
-    .notNull(),
+  recipeId: integer('recipe_id').notNull(),
   mediaId: integer('media_id').references(() => media.id),
 });
+
+export const instructionsRelations = relations(instructions, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [instructions.recipeId],
+    references: [recipes.id],
+  }),
+}));
 
 export const recipes = pgTable('recipe', {
   id: serial('id').primaryKey(),
@@ -123,6 +133,24 @@ export const insertProductSchema = createInsertSchema(products, {
 export type Product = typeof products.$inferSelect;
 export type ProductFormData = z.infer<typeof insertProductSchema>;
 
+export const insertInstructionSchema = createInsertSchema(instructions, {
+  order: z.number().int(),
+  description: z.string(),
+});
+
+export type Instruction = typeof instructions.$inferSelect;
+export type InstructionFormData = z.infer<typeof insertInstructionSchema>;
+
+export const insertIngredientSchema = createInsertSchema(ingredients, {
+  quantity: z.number().int().positive(),
+  preparation: (schema) => schema.preparation,
+  productId: (schema) => schema.productId,
+  unitId: (schema) => schema.unitId,
+});
+
+export type Ingredient = typeof ingredients.$inferSelect;
+export type IngredientFormData = z.infer<typeof insertIngredientSchema>;
+
 export const insertRecipeSchema = createInsertSchema(recipes, {
   name: z.string().min(2).max(255),
   preparationTime: (schema) => schema.preparationTime,
@@ -133,5 +161,7 @@ export const insertRecipeSchema = createInsertSchema(recipes, {
   source: (schema) => schema.source,
 });
 
-export type Recipe = typeof recipes.$inferSelect;
+export type Recipe = typeof recipes.$inferSelect & {
+  instructions?: Instruction[];
+};
 export type RecipeFormData = z.infer<typeof insertRecipeSchema>;

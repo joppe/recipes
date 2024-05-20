@@ -10,10 +10,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { ProductFormData } from '@/db/schema';
+import { InstructionFormData } from '@/db/schema';
 
 type FormFieldsProps = {
-  control: Control<ProductFormData>;
+  control: Control<InstructionFormData>;
 };
 
 export function FormFields({ control }: FormFieldsProps) {
@@ -21,14 +21,21 @@ export function FormFields({ control }: FormFieldsProps) {
     <>
       <FormField
         control={control}
-        name="name"
-        render={({ field }) => (
+        name="order"
+        render={({ field: { value, onChange } }) => (
           <FormItem>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>Order</FormLabel>
             <FormControl>
-              <Input placeholder="Please type a name" {...field} />
+              <Input
+                type="number"
+                placeholder="Please type an order"
+                defaultValue={value}
+                onChange={(event) => onChange(event.target.valueAsNumber)}
+              />
             </FormControl>
-            <FormDescription>This is the name of the product.</FormDescription>
+            <FormDescription>
+              This is the order of the instruction.
+            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -47,7 +54,7 @@ export function FormFields({ control }: FormFieldsProps) {
               />
             </FormControl>
             <FormDescription>
-              This is the descriptions of the product.
+              This is the description of the instruction.
             </FormDescription>
             <FormMessage />
           </FormItem>

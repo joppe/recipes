@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import { getRecipe } from '@/actions/recipes';
@@ -9,14 +10,14 @@ import {
   ButtonBar,
   ButtonGroup,
 } from '@/components/layout/button-bar';
-import {
-  Heading,
-  HeadingDescription,
-  HeadingTitle,
-} from '@/components/layout/heading';
+import { Heading, HeadingTitle } from '@/components/layout/heading';
 import { Loading } from '@/components/layout/loading/Loading';
-import { DataStats, DataView, Section } from '@/components/layout/section';
-import { Create, Delete, Edit } from '@/components/recipes';
+import { DataView, Section } from '@/components/layout/section';
+import {
+  Create as CreateInstruction,
+  Delete as DeleteInstruction,
+  Edit as EditInstruction,
+} from '@/components/recipes/instructions';
 import {
   Table,
   TableBody,
@@ -25,13 +26,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Recipe } from '@/db/schema';
+import { Ingredient, Instruction, Recipe, instructions } from '@/db/schema';
 
 enum DisplayMode {
   List = 'list',
-  Add = 'add',
-  Delete = 'delete',
-  Edit = 'edit',
+  AddInstruction = 'add-instruction',
+  DeleteInstruction = 'delete-instruction',
+  EditInstruction = 'edit-instruction',
 }
 
 type RecipesProps = {
@@ -42,18 +43,19 @@ type RecipesProps = {
 
 export default function Recipes({ params }: RecipesProps) {
   const id = parseInt(params.id, 10);
-  const selected = useRef<Recipe | null>(null);
+  const selectedInstruction = useRef<Instruction | null>(null);
+  const selectedIngredient = useRef<Ingredient | null>(null);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
   const [recipe, setRecipe] = useState<Recipe | undefined>(undefined);
 
   useEffect(() => {
     async function fetchRecipe() {
-      const [recipe] = await getRecipe(id);
+      const recipe = await getRecipe(id);
 
       setRecipe(recipe);
     }
 
-    selected.current = null;
+    selectedInstruction.current = null;
 
     if (displayMode === DisplayMode.List) {
       void fetchRecipe();
@@ -62,31 +64,26 @@ export default function Recipes({ params }: RecipesProps) {
 
   return (
     <>
-      {displayMode === DisplayMode.Add && (
-        <Create onFinish={() => setDisplayMode(DisplayMode.List)} />
-      )}
-      {displayMode === DisplayMode.Edit && selected.current && (
-        <Edit
-          recipe={selected.current}
+      {displayMode === DisplayMode.AddInstruction && (
+        <CreateInstruction
+          recipeId={id}
           onFinish={() => setDisplayMode(DisplayMode.List)}
         />
       )}
-      {displayMode === DisplayMode.Delete && selected.current !== null && (
-        <Delete
-          recipe={selected.current}
-          onFinish={() => setDisplayMode(DisplayMode.List)}
-        />
-      )}
-
-      <ButtonBar>
-        <ButtonGroup pullRight>
-          <AddButton
-            text="Add Recipe"
-            onClick={() => setDisplayMode(DisplayMode.Add)}
+      {displayMode === DisplayMode.EditInstruction &&
+        selectedInstruction.current && (
+          <EditInstruction
+            instruction={selectedInstruction.current}
+            onFinish={() => setDisplayMode(DisplayMode.List)}
           />
-        </ButtonGroup>
-      </ButtonBar>
-
+        )}
+      {displayMode === DisplayMode.DeleteInstruction &&
+        selectedInstruction.current && (
+          <DeleteInstruction
+            instruction={selectedInstruction.current}
+            onFinish={() => setDisplayMode(DisplayMode.List)}
+          />
+        )}
       <Section>
         {recipe === undefined && <Loading />}
         {recipe !== undefined && (
@@ -146,6 +143,59 @@ export default function Recipes({ params }: RecipesProps) {
             </div>
           </Heading>
         )}
+      </Section>
+
+      <ButtonBar>
+        <ButtonGroup pullRight>
+          <AddButton
+            text="Add Instruction"
+            onClick={() => setDisplayMode(DisplayMode.AddInstruction)}
+          />
+        </ButtonGroup>
+      </ButtonBar>
+
+      <Section>
+        <Heading>
+          <HeadingTitle>Instructions</HeadingTitle>
+        </Heading>
+
+        <DataView>
+          {recipe !== undefined && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Description</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recipe.instructions?.map((instruction) => {
+                  return (
+                    <TableRow key={instruction.id}>
+                      <TableCell className="font-medium">
+                        {instruction.description}
+                      </TableCell>
+                      <TableCell>
+                        <ActionMenu
+                          handleEdit={() => {
+                            selectedInstruction.current = instruction;
+                            setDisplayMode(DisplayMode.EditInstruction);
+                          }}
+                          handleDelete={() => {
+                            selectedInstruction.current = instruction;
+                            setDisplayMode(DisplayMode.DeleteInstruction);
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </DataView>
       </Section>
     </>
   );

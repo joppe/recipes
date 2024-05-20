@@ -6,7 +6,13 @@ import db from '@/db/drizzle';
 import { RecipeFormData, recipes } from '@/db/schema';
 
 export async function getRecipe(id: number) {
-  return db.select().from(recipes).where(eq(recipes.id, id));
+  return db.query.recipes.findFirst({
+    with: {
+      ingredients: true,
+      instructions: true,
+    },
+    where: (recipes, { eq }) => eq(recipes.id, id),
+  });
 }
 export async function getRecipes() {
   return db.select().from(recipes).orderBy(recipes.name);
