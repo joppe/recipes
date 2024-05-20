@@ -51,7 +51,7 @@ export function FormFields({ control }: FormFieldsProps) {
                 type="number"
                 placeholder="Please type a perparation time"
                 defaultValue={value === null ? '' : value}
-                onChange={onChange}
+                onChange={(event) => onChange(event.target.valueAsNumber)}
               />
             </FormControl>
             <FormDescription>
@@ -73,7 +73,7 @@ export function FormFields({ control }: FormFieldsProps) {
                 type="number"
                 placeholder="Please type a cooking time"
                 defaultValue={value === null ? '' : value}
-                onChange={onChange}
+                onChange={(event) => onChange(event.target.valueAsNumber)}
               />
             </FormControl>
             <FormDescription>
