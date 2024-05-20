@@ -1,9 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
-import { getChefs } from '@/actions/chefs';
-import { Create, Delete, Edit } from '@/components/chefs';
+import { getRecipes } from '@/actions/recipes';
 import { ActionMenu } from '@/components/layout/action-menu';
 import {
   AddButton,
@@ -17,6 +17,7 @@ import {
 } from '@/components/layout/heading';
 import { Loading } from '@/components/layout/loading/Loading';
 import { DataStats, DataView, Section } from '@/components/layout/section';
+import { Create, Delete, Edit } from '@/components/recipes';
 import {
   Table,
   TableBody,
@@ -25,7 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Chef } from '@/db/schema';
+import { Recipe } from '@/db/schema';
 
 enum DisplayMode {
   List = 'list',
@@ -34,22 +35,22 @@ enum DisplayMode {
   Edit = 'edit',
 }
 
-export default function Chefs() {
-  const selected = useRef<Chef | null>(null);
+export default function Recipes() {
+  const selected = useRef<Recipe | null>(null);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
-  const [chefs, setChefs] = useState<Chef[] | undefined>(undefined);
+  const [recipes, setRecipes] = useState<Recipe[] | undefined>(undefined);
 
   useEffect(() => {
-    async function fetchChefs() {
-      const chefs = await getChefs();
+    async function fetchRecipes() {
+      const recipes = await getRecipes();
 
-      setChefs(chefs);
+      setRecipes(recipes);
     }
 
     selected.current = null;
 
     if (displayMode === DisplayMode.List) {
-      void fetchChefs();
+      void fetchRecipes();
     }
   }, [displayMode]);
 
@@ -60,13 +61,13 @@ export default function Chefs() {
       )}
       {displayMode === DisplayMode.Edit && selected.current && (
         <Edit
-          chef={selected.current}
+          recipe={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
         />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <Delete
-          chef={selected.current}
+          recipe={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
         />
       )}
@@ -74,7 +75,7 @@ export default function Chefs() {
       <ButtonBar>
         <ButtonGroup pullRight>
           <AddButton
-            text="Add Chef"
+            text="Add Recipe"
             onClick={() => setDisplayMode(DisplayMode.Add)}
           />
         </ButtonGroup>
@@ -82,39 +83,43 @@ export default function Chefs() {
 
       <Section>
         <Heading>
-          <HeadingTitle>Chefs</HeadingTitle>
+          <HeadingTitle>Recipes</HeadingTitle>
           <HeadingDescription>
-            Chefs are used to indicate the quantity of a product.
+            Recipes are used to indicate the quantity of a product.
           </HeadingDescription>
         </Heading>
 
         <DataView>
-          {chefs === undefined && <Loading />}
-          {chefs !== undefined && (
+          {recipes === undefined && <Loading />}
+          {recipes !== undefined && (
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Name</TableHead>
-                  <TableHead>Skill</TableHead>
+                  <TableHead>Cooking time</TableHead>
                   <TableHead>
                     <span className="sr-only">Actions</span>
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {chefs.map((chef) => {
+                {recipes.map((recipe) => {
                   return (
-                    <TableRow key={chef.id}>
-                      <TableCell className="font-medium">{chef.name}</TableCell>
-                      <TableCell>{chef.skill}</TableCell>
+                    <TableRow key={recipe.id}>
+                      <TableCell className="font-medium">
+                        <Link href={`/recipes/${recipe.id}`}>
+                          {recipe.name}
+                        </Link>
+                      </TableCell>
+                      <TableCell>{recipe.cookingTime}</TableCell>
                       <TableCell>
                         <ActionMenu
                           handleEdit={() => {
-                            selected.current = chef;
+                            selected.current = recipe;
                             setDisplayMode(DisplayMode.Edit);
                           }}
                           handleDelete={() => {
-                            selected.current = chef;
+                            selected.current = recipe;
                             setDisplayMode(DisplayMode.Delete);
                           }}
                         />
@@ -126,9 +131,9 @@ export default function Chefs() {
             </Table>
           )}
         </DataView>
-        {chefs !== undefined && (
+        {recipes !== undefined && (
           <DataStats>
-            <strong>{chefs.length}</strong> chefs
+            <strong>{recipes.length}</strong> recipes
           </DataStats>
         )}
       </Section>

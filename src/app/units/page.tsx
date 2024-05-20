@@ -128,7 +128,7 @@ export default function Units() {
         </DataView>
         {units !== undefined && (
           <DataStats>
-            <strong>{units.length}</strong> products
+            <strong>{units.length}</strong> units
           </DataStats>
         )}
       </Section>

@@ -122,3 +122,16 @@ export const insertProductSchema = createInsertSchema(products, {
 
 export type Product = typeof products.$inferSelect;
 export type ProductFormData = z.infer<typeof insertProductSchema>;
+
+export const insertRecipeSchema = createInsertSchema(recipes, {
+  name: z.string().min(2).max(255),
+  preparationTime: (schema) => schema.preparationTime,
+  cookingTime: (schema) => schema.cookingTime,
+  difficulty: z.number().int().gte(1).lte(5),
+  course: (schema) => schema.course,
+  servings: (schema) => schema.servings,
+  source: (schema) => schema.source,
+});
+
+export type Recipe = typeof recipes.$inferSelect;
+export type RecipeFormData = z.infer<typeof insertRecipeSchema>;

@@ -3,7 +3,7 @@
 import { eq } from 'drizzle-orm';
 
 import db from '@/db/drizzle';
-import { Chef, ChefFormData, chefs } from '@/db/schema';
+import { ChefFormData, chefs } from '@/db/schema';
 
 export async function getChefs() {
   return db.select().from(chefs).orderBy(chefs.name);
