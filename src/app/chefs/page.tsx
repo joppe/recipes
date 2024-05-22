@@ -10,13 +10,14 @@ import {
   ButtonBar,
   ButtonGroup,
 } from '@/components/layout/button-bar';
-import {
-  Heading,
-  HeadingDescription,
-  HeadingTitle,
-} from '@/components/layout/heading';
 import { Loading } from '@/components/layout/loading/Loading';
-import { DataStats, DataView, Section } from '@/components/layout/section';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -28,6 +29,7 @@ import {
 import { Chef } from '@/db/schema';
 
 enum DisplayMode {
+  Idle = 'idle',
   List = 'list',
   Add = 'add',
   Delete = 'delete',
@@ -56,18 +58,23 @@ export default function Chefs() {
   return (
     <>
       {displayMode === DisplayMode.Add && (
-        <Create onFinish={() => setDisplayMode(DisplayMode.List)} />
+        <Create
+          onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
+        />
       )}
       {displayMode === DisplayMode.Edit && selected.current && (
         <Edit
           chef={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <Delete
           chef={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
 
@@ -80,15 +87,15 @@ export default function Chefs() {
         </ButtonGroup>
       </ButtonBar>
 
-      <Section>
-        <Heading>
-          <HeadingTitle>Chefs</HeadingTitle>
-          <HeadingDescription>
+      <Card>
+        <CardHeader>
+          <CardTitle>Chefs</CardTitle>
+          <CardDescription>
             Chefs are used to indicate the quantity of a product.
-          </HeadingDescription>
-        </Heading>
+          </CardDescription>
+        </CardHeader>
 
-        <DataView>
+        <CardContent>
           {chefs === undefined && <Loading />}
           {chefs !== undefined && (
             <Table>
@@ -125,13 +132,8 @@ export default function Chefs() {
               </TableBody>
             </Table>
           )}
-        </DataView>
-        {chefs !== undefined && (
-          <DataStats>
-            <strong>{chefs.length}</strong> chefs
-          </DataStats>
-        )}
-      </Section>
+        </CardContent>
+      </Card>
     </>
   );
 }

@@ -15,9 +15,10 @@ import { Recipe } from '@/db/schema';
 type DeleteProps = {
   recipe: Recipe;
   onFinish: () => void;
+  onCancel: () => void;
 };
 
-export function Delete({ recipe, onFinish }: DeleteProps) {
+export function Delete({ recipe, onFinish, onCancel }: DeleteProps) {
   const { toast } = useToast();
 
   async function handleClick() {
@@ -39,7 +40,7 @@ export function Delete({ recipe, onFinish }: DeleteProps) {
     <AlertDialog
       open={true}
       onOpenChange={() => {
-        onFinish();
+        onCancel();
       }}
     >
       <AlertDialogContent>

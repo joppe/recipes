@@ -9,13 +9,14 @@ import {
   ButtonBar,
   ButtonGroup,
 } from '@/components/layout/button-bar';
-import {
-  Heading,
-  HeadingDescription,
-  HeadingTitle,
-} from '@/components/layout/heading';
 import { Loading } from '@/components/layout/loading/Loading';
-import { DataStats, DataView, Section } from '@/components/layout/section';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -28,6 +29,7 @@ import { Create, Delete, Edit } from '@/components/units';
 import { Unit } from '@/db/schema';
 
 enum DisplayMode {
+  Idle = 'idle',
   List = 'list',
   Add = 'add',
   Delete = 'delete',
@@ -56,18 +58,23 @@ export default function Units() {
   return (
     <>
       {displayMode === DisplayMode.Add && (
-        <Create onFinish={() => setDisplayMode(DisplayMode.List)} />
+        <Create
+          onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
+        />
       )}
       {displayMode === DisplayMode.Edit && selected.current && (
         <Edit
           unit={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <Delete
           unit={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
 
@@ -80,15 +87,15 @@ export default function Units() {
         </ButtonGroup>
       </ButtonBar>
 
-      <Section>
-        <Heading>
-          <HeadingTitle>Units</HeadingTitle>
-          <HeadingDescription>
+      <Card>
+        <CardHeader>
+          <CardTitle>Units</CardTitle>
+          <CardDescription>
             Units are used to indicate the quantity of a product.
-          </HeadingDescription>
-        </Heading>
+          </CardDescription>
+        </CardHeader>
 
-        <DataView>
+        <CardContent>
           {units === undefined && <Loading />}
           {units !== undefined && (
             <Table>
@@ -125,13 +132,8 @@ export default function Units() {
               </TableBody>
             </Table>
           )}
-        </DataView>
-        {units !== undefined && (
-          <DataStats>
-            <strong>{units.length}</strong> units
-          </DataStats>
-        )}
-      </Section>
+        </CardContent>
+      </Card>
     </>
   );
 }

@@ -22,9 +22,10 @@ import {
 type CreateProps = {
   recipeId: number;
   onFinish: () => void;
+  onCancel: () => void;
 };
 
-export function Create({ recipeId, onFinish }: CreateProps) {
+export function Create({ recipeId, onFinish, onCancel }: CreateProps) {
   const { toast } = useToast();
   const form = useForm<InstructionFormData>({
     resolver: zodResolver(schema),
@@ -54,7 +55,7 @@ export function Create({ recipeId, onFinish }: CreateProps) {
     <Dialog
       open={true}
       onOpenChange={() => {
-        onFinish();
+        onCancel();
       }}
     >
       <DialogContent>

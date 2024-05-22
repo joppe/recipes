@@ -19,9 +19,10 @@ import { Chef, ChefFormData, insertChefSchema as schema } from '@/db/schema';
 type EditProps = {
   chef: Chef;
   onFinish: () => void;
+  onCancel: () => void;
 };
 
-export function Edit({ chef, onFinish }: EditProps) {
+export function Edit({ chef, onFinish, onCancel }: EditProps) {
   const { toast } = useToast();
   const form = useForm<ChefFormData>({
     resolver: zodResolver(schema),
@@ -51,7 +52,7 @@ export function Edit({ chef, onFinish }: EditProps) {
     <Dialog
       open={true}
       onOpenChange={() => {
-        onFinish();
+        onCancel();
       }}
     >
       <DialogContent>

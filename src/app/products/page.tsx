@@ -9,14 +9,15 @@ import {
   ButtonBar,
   ButtonGroup,
 } from '@/components/layout/button-bar';
-import {
-  Heading,
-  HeadingDescription,
-  HeadingTitle,
-} from '@/components/layout/heading';
 import { Loading } from '@/components/layout/loading/Loading';
-import { DataStats, DataView, Section } from '@/components/layout/section';
 import { Create, Delete, Edit } from '@/components/products';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -28,6 +29,7 @@ import {
 import { Product } from '@/db/schema';
 
 enum DisplayMode {
+  Idle = 'idle',
   List = 'list',
   Add = 'add',
   Delete = 'delete',
@@ -56,18 +58,23 @@ export default function Products() {
   return (
     <>
       {displayMode === DisplayMode.Add && (
-        <Create onFinish={() => setDisplayMode(DisplayMode.List)} />
+        <Create
+          onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
+        />
       )}
       {displayMode === DisplayMode.Edit && selected.current && (
         <Edit
           product={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <Delete
           product={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
 
@@ -80,15 +87,15 @@ export default function Products() {
         </ButtonGroup>
       </ButtonBar>
 
-      <Section>
-        <Heading>
-          <HeadingTitle>Products</HeadingTitle>
-          <HeadingDescription>
+      <Card>
+        <CardHeader>
+          <CardTitle>Products</CardTitle>
+          <CardDescription>
             Products are used to indicate the quantity of a product.
-          </HeadingDescription>
-        </Heading>
+          </CardDescription>
+        </CardHeader>
 
-        <DataView>
+        <CardContent>
           {products === undefined && <Loading />}
           {products !== undefined && (
             <Table>
@@ -127,13 +134,8 @@ export default function Products() {
               </TableBody>
             </Table>
           )}
-        </DataView>
-        {products !== undefined && (
-          <DataStats>
-            <strong>{products.length}</strong> products
-          </DataStats>
-        )}
-      </Section>
+        </CardContent>
+      </Card>
     </>
   );
 }

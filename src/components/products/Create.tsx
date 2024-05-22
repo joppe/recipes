@@ -18,9 +18,10 @@ import { ProductFormData, insertProductSchema as schema } from '@/db/schema';
 
 type CreateProps = {
   onFinish: () => void;
+  onCancel: () => void;
 };
 
-export function Create({ onFinish }: CreateProps) {
+export function Create({ onFinish, onCancel }: CreateProps) {
   const { toast } = useToast();
   const form = useForm<ProductFormData>({
     resolver: zodResolver(schema),
@@ -49,7 +50,7 @@ export function Create({ onFinish }: CreateProps) {
     <Dialog
       open={true}
       onOpenChange={() => {
-        onFinish();
+        onCancel();
       }}
     >
       <DialogContent>

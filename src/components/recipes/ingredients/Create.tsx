@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import { updateRecipe } from '@/actions/recipes';
-import { FormFields } from '@/components/recipes/FormFields';
+import { addIngredient } from '@/actions/ingredients';
+import { FormFields } from '@/components/recipes/ingredients/FormFields';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -15,38 +15,44 @@ import {
 import { Form } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import {
-  Recipe,
-  RecipeFormData,
-  insertRecipeSchema as schema,
+  IngredientFormData,
+  Product,
+  Unit,
+  insertIngredientSchema as schema,
 } from '@/db/schema';
 
-type EditProps = {
-  recipe: Recipe;
+type CreateProps = {
+  recipeId: number;
+  products: Product[];
+  units: Unit[];
   onFinish: () => void;
   onCancel: () => void;
 };
 
-export function Edit({ recipe, onFinish, onCancel }: EditProps) {
+export function Create({
+  recipeId,
+  products,
+  units,
+  onFinish,
+  onCancel,
+}: CreateProps) {
   const { toast } = useToast();
-  const form = useForm<RecipeFormData>({
+  const form = useForm<IngredientFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      id: recipe.id,
-      name: recipe.name,
-      preparationTime: recipe.preparationTime,
-      cookingTime: recipe.cookingTime,
-      difficulty: recipe.difficulty,
-      course: recipe.course,
-      servings: recipe.servings,
-      source: recipe.source,
+      recipeId,
+      quantity: 1,
+      preparation: '',
+      productId: 0,
+      unitId: 0,
     },
   });
 
-  async function handleSubmit(data: RecipeFormData) {
-    await updateRecipe(data);
+  async function handleSubmit(data: IngredientFormData) {
+    await addIngredient(data);
 
     toast({
-      title: 'Recipe updated:',
+      title: 'Ingredient created:',
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
@@ -66,21 +72,25 @@ export function Edit({ recipe, onFinish, onCancel }: EditProps) {
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit recipe</DialogTitle>
-          <DialogDescription>A recipe needs to be unique.</DialogDescription>
+          <DialogTitle>Add ingredient</DialogTitle>
+          <DialogDescription>Set the right value for order.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
             className="grid gap-4 py-4"
-            id="create-recipe-form"
+            id="create-ingredient-form"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
-            <input type="hidden" {...form.register('id')} />
-            <FormFields control={form.control} />
+            <input type="hidden" {...form.register('recipeId')} />
+            <FormFields
+              control={form.control}
+              products={products}
+              units={units}
+            />
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="create-recipe-form">
+          <Button type="submit" form="create-ingredient-form">
             Save changes
           </Button>
         </DialogFooter>

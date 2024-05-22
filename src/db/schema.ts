@@ -106,7 +106,7 @@ export const meals = pgTable('meal', {
 export const units = pgTable('units', {
   id: serial('id').primaryKey(),
   name: varchar('name').unique().notNull(),
-  abbreviation: varchar('abbreviation').notNull(),
+  abbreviation: varchar('abbreviation'),
 });
 
 export const insertChefSchema = createInsertSchema(chefs, {
@@ -119,7 +119,7 @@ export type ChefFormData = z.infer<typeof insertChefSchema>;
 
 export const insertUnitSchema = createInsertSchema(units, {
   name: z.string().min(3).max(255),
-  abbreviation: z.string().min(1).max(255),
+  abbreviation: (schema) => schema.abbreviation,
 });
 
 export type Unit = typeof units.$inferSelect;
@@ -163,5 +163,6 @@ export const insertRecipeSchema = createInsertSchema(recipes, {
 
 export type Recipe = typeof recipes.$inferSelect & {
   instructions?: Instruction[];
+  ingredients?: Ingredient[];
 };
 export type RecipeFormData = z.infer<typeof insertRecipeSchema>;

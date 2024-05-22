@@ -1,4 +1,4 @@
-import { deleteChef } from '@/actions/chefs';
+import { deleteIngredient } from '@/actions/ingredients';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,25 +10,27 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Chef } from '@/db/schema';
+import { Ingredient } from '@/db/schema';
 
 type DeleteProps = {
-  chef: Chef;
+  ingredient: Ingredient;
   onFinish: () => void;
   onCancel: () => void;
 };
 
-export function Delete({ chef, onFinish, onCancel }: DeleteProps) {
+export function Delete({ ingredient, onFinish, onCancel }: DeleteProps) {
   const { toast } = useToast();
 
   async function handleClick() {
-    await deleteChef(chef.id);
+    await deleteIngredient(ingredient.id);
 
     toast({
-      title: 'Chef deleted:',
+      title: 'Ingredient deleted:',
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(chef, null, 2)}</code>
+          <code className="text-white">
+            {JSON.stringify(ingredient, null, 2)}
+          </code>
         </pre>
       ),
     });
@@ -47,8 +49,8 @@ export function Delete({ chef, onFinish, onCancel }: DeleteProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the chef
-            from the database.
+            This action cannot be undone. This will permanently delete the
+            ingredient from the database.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

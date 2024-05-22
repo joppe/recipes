@@ -35,11 +35,15 @@ export function FormFields({ control }: FormFieldsProps) {
       <FormField
         control={control}
         name="abbreviation"
-        render={({ field }) => (
+        render={({ field: { value, onChange } }) => (
           <FormItem>
             <FormLabel>Abbreviation</FormLabel>
             <FormControl>
-              <Input placeholder="Please type an abbreviation" {...field} />
+              <Input
+                placeholder="Please type an abbreviation"
+                defaultValue={value === null ? '' : value}
+                onChange={onChange}
+              />
             </FormControl>
             <FormDescription>
               This is the abbreviation of the unit.

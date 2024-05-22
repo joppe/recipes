@@ -23,9 +23,10 @@ import {
 type EditProps = {
   instruction: Instruction;
   onFinish: () => void;
+  onCancel: () => void;
 };
 
-export function Edit({ instruction, onFinish }: EditProps) {
+export function Edit({ instruction, onFinish, onCancel }: EditProps) {
   const { toast } = useToast();
   const form = useForm<InstructionFormData>({
     resolver: zodResolver(schema),
@@ -56,7 +57,7 @@ export function Edit({ instruction, onFinish }: EditProps) {
     <Dialog
       open={true}
       onOpenChange={() => {
-        onFinish();
+        onCancel();
       }}
     >
       <DialogContent>

@@ -1,38 +1,19 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { getProducts } from '@/actions/products';
 import { getRecipe } from '@/actions/recipes';
-import { ActionMenu } from '@/components/layout/action-menu';
-import {
-  AddButton,
-  ButtonBar,
-  ButtonGroup,
-} from '@/components/layout/button-bar';
-import { Heading, HeadingTitle } from '@/components/layout/heading';
+import { getUnits } from '@/actions/units';
 import { Loading } from '@/components/layout/loading/Loading';
-import { DataView, Section } from '@/components/layout/section';
-import {
-  Create as CreateInstruction,
-  Delete as DeleteInstruction,
-  Edit as EditInstruction,
-} from '@/components/recipes/instructions';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Ingredient, Instruction, Recipe, instructions } from '@/db/schema';
+import { Embed as EmbedIngredients } from '@/components/recipes/ingredients';
+import { Embed as EmbedInstructions } from '@/components/recipes/instructions';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Product, Recipe, Unit } from '@/db/schema';
 
 enum DisplayMode {
+  Idle = 'idle',
   List = 'list',
-  AddInstruction = 'add-instruction',
-  DeleteInstruction = 'delete-instruction',
-  EditInstruction = 'edit-instruction',
 }
 
 type RecipesProps = {
@@ -43,19 +24,32 @@ type RecipesProps = {
 
 export default function Recipes({ params }: RecipesProps) {
   const id = parseInt(params.id, 10);
-  const selectedInstruction = useRef<Instruction | null>(null);
-  const selectedIngredient = useRef<Ingredient | null>(null);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
   const [recipe, setRecipe] = useState<Recipe | undefined>(undefined);
+  const [products, setProducts] = useState<Product[] | undefined>(undefined);
+  const [units, setUnits] = useState<Unit[] | undefined>(undefined);
+  const loading =
+    recipe === undefined || products === undefined || units === undefined;
+
+  useEffect(() => {
+    async function fetchAll() {
+      const products = await getProducts();
+      const units = await getUnits();
+
+      setProducts(products);
+      setUnits(units);
+    }
+
+    void fetchAll();
+  }, []);
 
   useEffect(() => {
     async function fetchRecipe() {
       const recipe = await getRecipe(id);
 
       setRecipe(recipe);
+      setDisplayMode(DisplayMode.Idle);
     }
-
-    selectedInstruction.current = null;
 
     if (displayMode === DisplayMode.List) {
       void fetchRecipe();
@@ -64,139 +58,52 @@ export default function Recipes({ params }: RecipesProps) {
 
   return (
     <>
-      {displayMode === DisplayMode.AddInstruction && (
-        <CreateInstruction
-          recipeId={id}
-          onFinish={() => setDisplayMode(DisplayMode.List)}
-        />
+      {loading ? (
+        <Card>
+          <Loading />
+        </Card>
+      ) : (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle className="mb-6">Recipe: {recipe.name}</CardTitle>
+              <div>
+                <dl className="divide-y divide-gray-100">
+                  {[
+                    ['Preparation time', `${recipe.preparationTime} minutes`],
+                    ['Cooking time', `${recipe.cookingTime} minutes`],
+                    ['Difficulty', recipe.difficulty],
+                    ['Course', recipe.course],
+                    ['Servings', recipe.servings],
+                    ['Source', recipe.source],
+                  ].map(([key, value]) => (
+                    <div key={key} className="py-2">
+                      <dt className="text-xs font-medium leading-6 text-gray-900">
+                        {key}
+                      </dt>
+                      <dd className="mt-1 text-xs leading-6 text-gray-700">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </CardHeader>
+          </Card>
+          <EmbedInstructions
+            recipe={recipe}
+            onFinish={() => setDisplayMode(DisplayMode.List)}
+            onCancel={() => setDisplayMode(DisplayMode.Idle)}
+          />
+          <EmbedIngredients
+            recipe={recipe}
+            products={products}
+            units={units}
+            onFinish={() => setDisplayMode(DisplayMode.List)}
+            onCancel={() => setDisplayMode(DisplayMode.Idle)}
+          />
+        </>
       )}
-      {displayMode === DisplayMode.EditInstruction &&
-        selectedInstruction.current && (
-          <EditInstruction
-            instruction={selectedInstruction.current}
-            onFinish={() => setDisplayMode(DisplayMode.List)}
-          />
-        )}
-      {displayMode === DisplayMode.DeleteInstruction &&
-        selectedInstruction.current && (
-          <DeleteInstruction
-            instruction={selectedInstruction.current}
-            onFinish={() => setDisplayMode(DisplayMode.List)}
-          />
-        )}
-      <Section>
-        {recipe === undefined && <Loading />}
-        {recipe !== undefined && (
-          <Heading>
-            <HeadingTitle>Recipe: {recipe.name}</HeadingTitle>
-            <div className="mt-6">
-              <dl className="divide-y divide-gray-100">
-                <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-xs font-medium leading-6 text-gray-900">
-                    Preparation time
-                  </dt>
-                  <dd className="mt-1 text-xs leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {recipe.preparationTime} minutes
-                  </dd>
-                </div>
-                <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-xs font-medium leading-6 text-gray-900">
-                    Cooking time
-                  </dt>
-                  <dd className="mt-1 text-xs leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {recipe.cookingTime} minutes
-                  </dd>
-                </div>
-                <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-xs font-medium leading-6 text-gray-900">
-                    Difficulty
-                  </dt>
-                  <dd className="mt-1 text-xs leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {recipe.difficulty}
-                  </dd>
-                </div>
-                <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-xs font-medium leading-6 text-gray-900">
-                    Course
-                  </dt>
-                  <dd className="mt-1 text-xs leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {recipe.course}
-                  </dd>
-                </div>
-                <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-xs font-medium leading-6 text-gray-900">
-                    Servings
-                  </dt>
-                  <dd className="mt-1 text-xs leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {recipe.servings}
-                  </dd>
-                </div>
-                <div className="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-xs font-medium leading-6 text-gray-900">
-                    Source
-                  </dt>
-                  <dd className="mt-1 text-xs leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {recipe.source}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </Heading>
-        )}
-      </Section>
-
-      <ButtonBar>
-        <ButtonGroup pullRight>
-          <AddButton
-            text="Add Instruction"
-            onClick={() => setDisplayMode(DisplayMode.AddInstruction)}
-          />
-        </ButtonGroup>
-      </ButtonBar>
-
-      <Section>
-        <Heading>
-          <HeadingTitle>Instructions</HeadingTitle>
-        </Heading>
-
-        <DataView>
-          {recipe !== undefined && (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Description</TableHead>
-                  <TableHead>
-                    <span className="sr-only">Actions</span>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recipe.instructions?.map((instruction) => {
-                  return (
-                    <TableRow key={instruction.id}>
-                      <TableCell className="font-medium">
-                        {instruction.description}
-                      </TableCell>
-                      <TableCell>
-                        <ActionMenu
-                          handleEdit={() => {
-                            selectedInstruction.current = instruction;
-                            setDisplayMode(DisplayMode.EditInstruction);
-                          }}
-                          handleDelete={() => {
-                            selectedInstruction.current = instruction;
-                            setDisplayMode(DisplayMode.DeleteInstruction);
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          )}
-        </DataView>
-      </Section>
     </>
   );
 }

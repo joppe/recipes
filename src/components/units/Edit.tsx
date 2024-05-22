@@ -19,9 +19,10 @@ import { Unit, UnitFormData, insertUnitSchema as schema } from '@/db/schema';
 type EditProps = {
   unit: Unit;
   onFinish: () => void;
+  onCancel: () => void;
 };
 
-export function Edit({ unit, onFinish }: EditProps) {
+export function Edit({ unit, onFinish, onCancel }: EditProps) {
   const { toast } = useToast();
   const form = useForm<UnitFormData>({
     resolver: zodResolver(schema),
@@ -51,7 +52,7 @@ export function Edit({ unit, onFinish }: EditProps) {
     <Dialog
       open={true}
       onOpenChange={() => {
-        onFinish();
+        onCancel();
       }}
     >
       <DialogContent>

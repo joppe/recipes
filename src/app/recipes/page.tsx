@@ -10,14 +10,15 @@ import {
   ButtonBar,
   ButtonGroup,
 } from '@/components/layout/button-bar';
-import {
-  Heading,
-  HeadingDescription,
-  HeadingTitle,
-} from '@/components/layout/heading';
 import { Loading } from '@/components/layout/loading/Loading';
-import { DataStats, DataView, Section } from '@/components/layout/section';
 import { Create, Delete, Edit } from '@/components/recipes';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -29,6 +30,7 @@ import {
 import { Recipe } from '@/db/schema';
 
 enum DisplayMode {
+  Idle = 'idle',
   List = 'list',
   Add = 'add',
   Delete = 'delete',
@@ -57,18 +59,23 @@ export default function Recipes() {
   return (
     <>
       {displayMode === DisplayMode.Add && (
-        <Create onFinish={() => setDisplayMode(DisplayMode.List)} />
+        <Create
+          onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
+        />
       )}
       {displayMode === DisplayMode.Edit && selected.current && (
         <Edit
           recipe={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
       {displayMode === DisplayMode.Delete && selected.current !== null && (
         <Delete
           recipe={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
+          onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
 
@@ -81,15 +88,13 @@ export default function Recipes() {
         </ButtonGroup>
       </ButtonBar>
 
-      <Section>
-        <Heading>
-          <HeadingTitle>Recipes</HeadingTitle>
-          <HeadingDescription>
-            Recipes are used to indicate the quantity of a product.
-          </HeadingDescription>
-        </Heading>
+      <Card>
+        <CardHeader>
+          <CardTitle>Recipes</CardTitle>
+          <CardDescription>Manage your recipes here.</CardDescription>
+        </CardHeader>
 
-        <DataView>
+        <CardContent>
           {recipes === undefined && <Loading />}
           {recipes !== undefined && (
             <Table>
@@ -130,13 +135,8 @@ export default function Recipes() {
               </TableBody>
             </Table>
           )}
-        </DataView>
-        {recipes !== undefined && (
-          <DataStats>
-            <strong>{recipes.length}</strong> recipes
-          </DataStats>
-        )}
-      </Section>
+        </CardContent>
+      </Card>
     </>
   );
 }
