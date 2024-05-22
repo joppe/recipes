@@ -46,6 +46,7 @@ export default function Units() {
       const units = await getUnits();
 
       setUnits(units);
+      setDisplayMode(DisplayMode.Idle);
     }
 
     selected.current = null;

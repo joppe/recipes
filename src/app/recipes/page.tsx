@@ -47,6 +47,7 @@ export default function Recipes() {
       const recipes = await getRecipes();
 
       setRecipes(recipes);
+      setDisplayMode(DisplayMode.Idle);
     }
 
     selected.current = null;

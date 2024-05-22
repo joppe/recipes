@@ -46,6 +46,7 @@ export default function Chefs() {
       const chefs = await getChefs();
 
       setChefs(chefs);
+      setDisplayMode(DisplayMode.Idle);
     }
 
     selected.current = null;

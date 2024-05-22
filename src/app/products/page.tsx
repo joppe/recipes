@@ -46,6 +46,7 @@ export default function Products() {
       const products = await getProducts();
 
       setProducts(products);
+      setDisplayMode(DisplayMode.Idle);
     }
 
     selected.current = null;
