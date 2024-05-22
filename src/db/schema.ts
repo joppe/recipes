@@ -25,6 +25,10 @@ export const chefs = pgTable('chefs', {
   skill: smallint('skill').notNull(),
 });
 
+export const chefsRelations = relations(chefs, ({ many }) => ({
+  meals: many(meals),
+}));
+
 export const media = pgTable('media', {
   id: serial('id').primaryKey(),
   type: varchar('type').notNull(),
@@ -89,6 +93,7 @@ export const recipes = pgTable('recipe', {
 export const recipesRelations = relations(recipes, ({ many }) => ({
   ingredients: many(ingredients),
   instructions: many(instructions),
+  meals: many(meals),
 }));
 
 export const meals = pgTable('meal', {
@@ -102,6 +107,17 @@ export const meals = pgTable('meal', {
     .references(() => recipes.id)
     .notNull(),
 });
+
+export const mealsRelations = relations(meals, ({ one }) => ({
+  chef: one(chefs, {
+    fields: [meals.chefId],
+    references: [chefs.id],
+  }),
+  recipe: one(recipes, {
+    fields: [meals.recipeId],
+    references: [recipes.id],
+  }),
+}));
 
 export const units = pgTable('units', {
   id: serial('id').primaryKey(),
@@ -166,3 +182,12 @@ export type Recipe = typeof recipes.$inferSelect & {
   ingredients?: Ingredient[];
 };
 export type RecipeFormData = z.infer<typeof insertRecipeSchema>;
+
+export const insertMealSchema = createInsertSchema(meals, {
+  date: z.string().date(),
+  chefId: (schema) => schema.chefId,
+  recipeId: (schema) => schema.recipeId,
+});
+
+export type Meal = typeof meals.$inferSelect;
+export type MealFormData = z.infer<typeof insertMealSchema>;
