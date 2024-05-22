@@ -71,7 +71,7 @@ export default function Chefs() {
           onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
-      {displayMode === DisplayMode.Delete && selected.current !== null && (
+      {displayMode === DisplayMode.Delete && selected.current && (
         <Delete
           chef={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}

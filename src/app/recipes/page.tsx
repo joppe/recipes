@@ -72,7 +72,7 @@ export default function Recipes() {
           onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
-      {displayMode === DisplayMode.Delete && selected.current !== null && (
+      {displayMode === DisplayMode.Delete && selected.current && (
         <Delete
           recipe={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}

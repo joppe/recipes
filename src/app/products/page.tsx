@@ -71,7 +71,7 @@ export default function Products() {
           onCancel={() => setDisplayMode(DisplayMode.Idle)}
         />
       )}
-      {displayMode === DisplayMode.Delete && selected.current !== null && (
+      {displayMode === DisplayMode.Delete && selected.current && (
         <Delete
           product={selected.current}
           onFinish={() => setDisplayMode(DisplayMode.List)}
