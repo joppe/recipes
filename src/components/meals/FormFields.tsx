@@ -59,7 +59,7 @@ export function FormFields({ control, chefs, recipes }: FormFieldsProps) {
         name="chefId"
         render={({ field: { value, onChange } }) => (
           <FormItem>
-            <FormLabel>Product</FormLabel>
+            <FormLabel>Chef</FormLabel>
             <Select
               onValueChange={(newValue) => onChange(parseInt(newValue, 10))}
               defaultValue={String(value)}

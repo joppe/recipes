@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formatISO } from 'date-fns';
 import { useForm } from 'react-hook-form';
 
 import { addMeal } from '@/actions/meals';
@@ -39,7 +40,7 @@ export function Create({
   const form = useForm<MealFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      date: date.toString(),
+      date: formatISO(date, { representation: 'date' }),
       recipeId: 0,
       chefId: 0,
     },
@@ -77,6 +78,7 @@ export function Create({
             id="create-meal-form"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
+            <input type="hidden" {...form.register('date')} />
             <FormFields
               control={form.control}
               chefs={chefs}

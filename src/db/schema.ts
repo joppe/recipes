@@ -189,5 +189,8 @@ export const insertMealSchema = createInsertSchema(meals, {
   recipeId: (schema) => schema.recipeId,
 });
 
-export type Meal = typeof meals.$inferSelect;
+export type Meal = typeof meals.$inferSelect & {
+  chef: Chef;
+  recipe: Recipe;
+};
 export type MealFormData = z.infer<typeof insertMealSchema>;

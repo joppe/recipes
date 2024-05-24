@@ -98,7 +98,7 @@ export function FormFields({ control }: FormFieldsProps) {
         name="course"
         render={({ field: { value, onChange } }) => (
           <FormItem>
-            <FormLabel>Name</FormLabel>
+            <FormLabel>Course</FormLabel>
             <Select
               onValueChange={onChange}
               defaultValue={value === null ? undefined : value}
