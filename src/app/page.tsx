@@ -2,6 +2,7 @@
 
 import { addDays, format, formatISO, startOfWeek } from 'date-fns';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { signIn, useSession } from 'next-auth/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { getChefs } from '@/actions/chefs';
@@ -32,6 +33,8 @@ type Selected = {
 };
 
 export default function Home() {
+  const { data: session } = useSession();
+  console.log(session);
   const selected = useRef<Selected | null>(null);
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
   const [meals, setMeals] = useState<Meal[] | undefined>(undefined);
@@ -71,6 +74,23 @@ export default function Home() {
       void fetchMeals();
     }
   }, [displayMode]);
+
+  if (!session) {
+    return (
+      <>
+        <div>Unauthorized</div>
+        <a
+          href="/api/auth/signin"
+          onClick={(e) => {
+            e.preventDefault();
+            signIn();
+          }}
+        >
+          You must be signed in to view this page
+        </a>
+      </>
+    );
+  }
 
   return (
     <>
