@@ -7,16 +7,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isNotOnRoot = nextUrl.pathname !== '/';
+      const isPlannerPath = nextUrl.pathname.indexOf('/planner') !== -1;
 
-      if (isNotOnRoot) {
+      if (isPlannerPath) {
         if (isLoggedIn) {
           return true;
         }
 
         return false;
       } else if (isLoggedIn) {
-        return Response.redirect(new URL('/meals', nextUrl));
+        return Response.redirect(new URL('/planner/meals', nextUrl));
       }
       return true;
     },

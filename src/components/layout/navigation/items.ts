@@ -8,27 +8,27 @@ import {
 
 export const ITEMS = [
   {
-    href: '/',
+    href: '/planner/meals',
     icon: CalendarDays,
-    label: 'Calendar',
+    label: 'Planner',
   },
   {
-    href: '/recipes',
+    href: '/planner/recipes',
     icon: CookingPot,
     label: 'Recipes',
   },
   {
-    href: '/products',
+    href: '/planner/products',
     icon: Salad,
     label: 'Products',
   },
   {
-    href: '/chefs',
+    href: '/planner/chefs',
     icon: ChefHat,
     label: 'Chefs',
   },
   {
-    href: '/units',
+    href: '/planner/units',
     icon: DraftingCompass,
     label: 'Units',
   },
