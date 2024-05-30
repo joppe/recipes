@@ -24,6 +24,7 @@ enum DisplayMode {
   Add = 'add',
   Delete = 'delete',
   Edit = 'edit',
+  Navigate = 'edit',
 }
 
 type Selected = {
@@ -44,6 +45,11 @@ export default function Home() {
   });
   const loading =
     chefs === undefined || recipes === undefined || meals === undefined;
+
+  function updateDate(date: Date) {
+    setDate(date);
+    setDisplayMode(DisplayMode.Navigate);
+  }
 
   useEffect(() => {
     async function fetchAll() {
@@ -67,7 +73,10 @@ export default function Home() {
 
     selected.current = null;
 
-    if (displayMode === DisplayMode.List) {
+    if (
+      displayMode === DisplayMode.List ||
+      displayMode === DisplayMode.Navigate
+    ) {
       void fetchMeals();
     }
   }, [displayMode]);
@@ -107,12 +116,15 @@ export default function Home() {
             <div className="flex place-content-between">
               <button
                 type="button"
-                onClick={() => setDate(addDays(monday, -7))}
+                onClick={() => updateDate(addDays(monday, -7))}
               >
                 <ArrowLeft />
               </button>
               <div>Meal Plan - {format(monday, 'MMMM')}</div>
-              <button type="button" onClick={() => setDate(addDays(monday, 7))}>
+              <button
+                type="button"
+                onClick={() => updateDate(addDays(monday, 7))}
+              >
                 <ArrowRight />
               </button>
             </div>
