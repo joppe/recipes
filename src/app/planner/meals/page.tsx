@@ -39,9 +39,9 @@ export default function Home() {
   const [chefs, setChefs] = useState<Chef[] | undefined>(undefined);
   const [recipes, setRecipes] = useState<Recipe[] | undefined>(undefined);
   const [date, setDate] = useState(new Date());
-  const monday = startOfWeek(date, { weekStartsOn: 1 });
+  const monday = useRef(startOfWeek(date, { weekStartsOn: 1 }));
   const week = Array.from({ length: 7 }, (_, i) => {
-    return addDays(monday, i);
+    return addDays(monday.current, i);
   });
   const loading =
     chefs === undefined || recipes === undefined || meals === undefined;
@@ -65,7 +65,10 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchMeals() {
-      const meals = await getMealsForRange(monday, addDays(monday, 6));
+      const meals = await getMealsForRange(
+        monday.current,
+        addDays(monday.current, 6),
+      );
 
       setMeals(meals);
       setDisplayMode(DisplayMode.Idle);
@@ -116,14 +119,14 @@ export default function Home() {
             <div className="flex place-content-between">
               <button
                 type="button"
-                onClick={() => updateDate(addDays(monday, -7))}
+                onClick={() => updateDate(addDays(monday.current, -7))}
               >
                 <ArrowLeft />
               </button>
-              <div>Meal Plan - {format(monday, 'MMMM')}</div>
+              <div>Meal Plan - {format(monday.current, 'MMMM')}</div>
               <button
                 type="button"
-                onClick={() => updateDate(addDays(monday, 7))}
+                onClick={() => updateDate(addDays(monday.current, 7))}
               >
                 <ArrowRight />
               </button>
