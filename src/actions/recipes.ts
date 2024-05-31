@@ -8,7 +8,12 @@ import { RecipeFormData, recipes } from '@/db/schema';
 export async function getRecipe(id: number) {
   return db.query.recipes.findFirst({
     with: {
-      ingredients: true,
+      ingredients: {
+        with: {
+          product: true,
+          unit: true,
+        },
+      },
       instructions: true,
     },
     where: (recipes, { eq }) => eq(recipes.id, id),
