@@ -1,14 +1,14 @@
 'use server';
 
-import { formatISO } from 'date-fns';
+import { format } from 'date-fns';
 import { and, eq, gte, lte } from 'drizzle-orm';
 
 import db from '@/db/drizzle';
 import { MealFormData, meals } from '@/db/schema';
 
 export async function getMealsForRange(fromDate: Date, toDate: Date) {
-  const from = formatISO(fromDate, { representation: 'date' });
-  const to = formatISO(toDate, { representation: 'date' });
+  const from = format(fromDate, 'yyyy-MM-dd');
+  const to = format(toDate, 'yyyy-MM-dd');
 
   return db.query.meals.findMany({
     with: {

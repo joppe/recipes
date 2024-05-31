@@ -14,14 +14,6 @@ import { z } from 'zod';
 /**
  * Tables
  */
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: varchar('name').notNull(),
-  email: varchar('email').notNull(),
-  password: varchar('password').notNull(),
-  role: varchar('role').notNull(),
-});
-
 export const chefs = pgTable('chefs', {
   id: serial('id').primaryKey(),
   name: varchar('name').notNull(),
@@ -63,7 +55,7 @@ export const instructions = pgTable('instructions', {
   mediaId: integer('media_id').references(() => media.id),
 });
 
-export const recipes = pgTable('recipe', {
+export const recipes = pgTable('recipes', {
   id: serial('id').primaryKey(),
   name: varchar('name').notNull(),
   preparationTime: smallint('preparation_time'),
@@ -75,7 +67,7 @@ export const recipes = pgTable('recipe', {
   mediaId: integer('media_id').references(() => media.id),
 });
 
-export const meals = pgTable('meal', {
+export const meals = pgTable('meals', {
   id: serial('id').primaryKey(),
   date: date('date', { mode: 'string' }).notNull(),
   score: smallint('score'),
