@@ -87,6 +87,10 @@ export default function PlannerMeal() {
     }
   }, [displayMode]);
 
+  console.log('displayMode', displayMode);
+  console.log('monday', monday);
+  console.log('meals', meals);
+
   return (
     <>
       {!loading && displayMode === DisplayMode.Add && selected.current && (
