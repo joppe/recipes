@@ -9,7 +9,7 @@ import { getMealsForRange } from '@/actions/meals';
 import { getRecipes } from '@/actions/recipes';
 import { ActionMenu } from '@/components/layout/action-menu';
 import { AddButton } from '@/components/layout/button-bar';
-import { Create, Delete, Edit } from '@/components/meals';
+import { Create, Delete, Detail, Edit } from '@/components/meals';
 import {
   Card,
   CardDescription,
@@ -32,16 +32,19 @@ type Selected = {
   meal?: Meal;
 };
 
-export default function Home() {
+export default function PlannerMeal() {
   const selected = useRef<Selected | null>(null);
+  const monday = useRef(new Date());
   const [displayMode, setDisplayMode] = useState<DisplayMode>(DisplayMode.List);
   const [meals, setMeals] = useState<Meal[] | undefined>(undefined);
   const [chefs, setChefs] = useState<Chef[] | undefined>(undefined);
   const [recipes, setRecipes] = useState<Recipe[] | undefined>(undefined);
   const [date, setDate] = useState(new Date());
-  const monday = startOfWeek(date, { weekStartsOn: 1 });
+
+  monday.current = startOfWeek(date, { weekStartsOn: 1 });
+
   const week = Array.from({ length: 7 }, (_, i) => {
-    return addDays(monday, i);
+    return addDays(monday.current, i);
   });
   const loading =
     chefs === undefined || recipes === undefined || meals === undefined;
@@ -65,7 +68,10 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchMeals() {
-      const meals = await getMealsForRange(monday, addDays(monday, 6));
+      const meals = await getMealsForRange(
+        monday.current,
+        addDays(monday.current, 6),
+      );
 
       setMeals(meals);
       setDisplayMode(DisplayMode.Idle);
@@ -80,6 +86,10 @@ export default function Home() {
       void fetchMeals();
     }
   }, [displayMode]);
+
+  console.log('displayMode', displayMode);
+  console.log('monday', monday);
+  console.log('meals', meals);
 
   return (
     <>
@@ -116,14 +126,14 @@ export default function Home() {
             <div className="flex place-content-between">
               <button
                 type="button"
-                onClick={() => updateDate(addDays(monday, -7))}
+                onClick={() => updateDate(addDays(monday.current, -7))}
               >
                 <ArrowLeft />
               </button>
-              <div>Meal Plan - {format(monday, 'MMMM')}</div>
+              <div>Meal Plan - {format(monday.current, 'MMMM')}</div>
               <button
                 type="button"
-                onClick={() => updateDate(addDays(monday, 7))}
+                onClick={() => updateDate(addDays(monday.current, 7))}
               >
                 <ArrowRight />
               </button>
@@ -141,9 +151,7 @@ export default function Home() {
             <Card key={String(day)}>
               <CardHeader>
                 <div className="flex place-content-between">
-                  <CardTitle>
-                    {format(day, 'd ccc')} - {meal.recipe.name}
-                  </CardTitle>
+                  <CardTitle>{format(day, 'd ccc')}</CardTitle>
                   <ActionMenu
                     handleEdit={() => {
                       selected.current = { date: day, meal };
@@ -155,7 +163,9 @@ export default function Home() {
                     }}
                   />
                 </div>
-                {meal && <CardDescription>{meal.chef.name}</CardDescription>}
+                <CardDescription>
+                  <Detail meal={meal} />
+                </CardDescription>
               </CardHeader>
             </Card>
           );

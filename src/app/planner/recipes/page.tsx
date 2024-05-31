@@ -113,7 +113,7 @@ export default function Recipes() {
                   return (
                     <TableRow key={recipe.id}>
                       <TableCell className="font-medium">
-                        <Link href={`/recipes/${recipe.id}`}>
+                        <Link href={`/planner/recipes/${recipe.id}`}>
                           {recipe.name}
                         </Link>
                       </TableCell>

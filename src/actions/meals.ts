@@ -12,7 +12,17 @@ export async function getMealsForRange(fromDate: Date, toDate: Date) {
 
   return db.query.meals.findMany({
     with: {
-      recipe: true,
+      recipe: {
+        with: {
+          ingredients: {
+            with: {
+              product: true,
+              unit: true,
+            },
+          },
+          instructions: true,
+        },
+      },
       chef: true,
     },
     where: (meals, { and, gte, lte }) =>

@@ -11,6 +11,9 @@ import {
 import { createInsertSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
+/**
+ * Tables
+ */
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   name: varchar('name').notNull(),
@@ -24,10 +27,6 @@ export const chefs = pgTable('chefs', {
   name: varchar('name').notNull(),
   skill: smallint('skill').notNull(),
 });
-
-export const chefsRelations = relations(chefs, ({ many }) => ({
-  meals: many(meals),
-}));
 
 export const media = pgTable('media', {
   id: serial('id').primaryKey(),
@@ -56,13 +55,6 @@ export const ingredients = pgTable('ingredients', {
     .notNull(),
 });
 
-export const ingredientsRelations = relations(ingredients, ({ one }) => ({
-  recipe: one(recipes, {
-    fields: [ingredients.recipeId],
-    references: [recipes.id],
-  }),
-}));
-
 export const instructions = pgTable('instructions', {
   id: serial('id').primaryKey(),
   order: smallint('order').notNull(),
@@ -70,13 +62,6 @@ export const instructions = pgTable('instructions', {
   recipeId: integer('recipe_id').notNull(),
   mediaId: integer('media_id').references(() => media.id),
 });
-
-export const instructionsRelations = relations(instructions, ({ one }) => ({
-  recipe: one(recipes, {
-    fields: [instructions.recipeId],
-    references: [recipes.id],
-  }),
-}));
 
 export const recipes = pgTable('recipe', {
   id: serial('id').primaryKey(),
@@ -90,12 +75,6 @@ export const recipes = pgTable('recipe', {
   mediaId: integer('media_id').references(() => media.id),
 });
 
-export const recipesRelations = relations(recipes, ({ many }) => ({
-  ingredients: many(ingredients),
-  instructions: many(instructions),
-  meals: many(meals),
-}));
-
 export const meals = pgTable('meal', {
   id: serial('id').primaryKey(),
   date: date('date', { mode: 'string' }).notNull(),
@@ -108,6 +87,32 @@ export const meals = pgTable('meal', {
     .notNull(),
 });
 
+export const units = pgTable('units', {
+  id: serial('id').primaryKey(),
+  name: varchar('name').unique().notNull(),
+  abbreviation: varchar('abbreviation'),
+});
+
+/**
+ * Relations
+ */
+export const chefsRelations = relations(chefs, ({ many }) => ({
+  meals: many(meals),
+}));
+
+export const instructionsRelations = relations(instructions, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [instructions.recipeId],
+    references: [recipes.id],
+  }),
+}));
+
+export const recipesRelations = relations(recipes, ({ many }) => ({
+  ingredients: many(ingredients),
+  instructions: many(instructions),
+  meals: many(meals),
+}));
+
 export const mealsRelations = relations(meals, ({ one }) => ({
   chef: one(chefs, {
     fields: [meals.chefId],
@@ -119,43 +124,75 @@ export const mealsRelations = relations(meals, ({ one }) => ({
   }),
 }));
 
-export const units = pgTable('units', {
-  id: serial('id').primaryKey(),
-  name: varchar('name').unique().notNull(),
-  abbreviation: varchar('abbreviation'),
-});
+export const ingredientsRelations = relations(ingredients, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [ingredients.recipeId],
+    references: [recipes.id],
+  }),
+  product: one(products, {
+    fields: [ingredients.productId],
+    references: [products.id],
+  }),
+  unit: one(units, {
+    fields: [ingredients.unitId],
+    references: [units.id],
+  }),
+}));
 
 export const insertChefSchema = createInsertSchema(chefs, {
   name: z.string().min(3).max(255),
   skill: z.number().int().gte(1).lte(5),
 });
 
+/**
+ * Types
+ */
 export type Chef = typeof chefs.$inferSelect;
 export type ChefFormData = z.infer<typeof insertChefSchema>;
 
+export type Unit = typeof units.$inferSelect;
+export type UnitFormData = z.infer<typeof insertUnitSchema>;
+
+export type Product = typeof products.$inferSelect;
+export type ProductFormData = z.infer<typeof insertProductSchema>;
+
+export type Instruction = typeof instructions.$inferSelect;
+export type InstructionFormData = z.infer<typeof insertInstructionSchema>;
+
+export type Ingredient = typeof ingredients.$inferSelect & {
+  product: Product;
+  unit: Unit;
+};
+export type IngredientFormData = z.infer<typeof insertIngredientSchema>;
+
+export type Recipe = typeof recipes.$inferSelect & {
+  instructions?: Instruction[];
+  ingredients?: Ingredient[];
+};
+export type RecipeFormData = z.infer<typeof insertRecipeSchema>;
+export type Meal = typeof meals.$inferSelect & {
+  chef: Chef;
+  recipe: Recipe;
+};
+export type MealFormData = z.infer<typeof insertMealSchema>;
+
+/**
+ * Zod schemas
+ */
 export const insertUnitSchema = createInsertSchema(units, {
   name: z.string().min(3).max(255),
   abbreviation: (schema) => schema.abbreviation,
 });
-
-export type Unit = typeof units.$inferSelect;
-export type UnitFormData = z.infer<typeof insertUnitSchema>;
 
 export const insertProductSchema = createInsertSchema(products, {
   name: z.string().min(2).max(255),
   description: (schema) => schema.description,
 });
 
-export type Product = typeof products.$inferSelect;
-export type ProductFormData = z.infer<typeof insertProductSchema>;
-
 export const insertInstructionSchema = createInsertSchema(instructions, {
   order: z.number().int(),
   description: z.string(),
 });
-
-export type Instruction = typeof instructions.$inferSelect;
-export type InstructionFormData = z.infer<typeof insertInstructionSchema>;
 
 export const insertIngredientSchema = createInsertSchema(ingredients, {
   quantity: z.number().int().positive(),
@@ -163,9 +200,6 @@ export const insertIngredientSchema = createInsertSchema(ingredients, {
   productId: (schema) => schema.productId,
   unitId: (schema) => schema.unitId,
 });
-
-export type Ingredient = typeof ingredients.$inferSelect;
-export type IngredientFormData = z.infer<typeof insertIngredientSchema>;
 
 export const insertRecipeSchema = createInsertSchema(recipes, {
   name: z.string().min(2).max(255),
@@ -177,20 +211,8 @@ export const insertRecipeSchema = createInsertSchema(recipes, {
   source: (schema) => schema.source,
 });
 
-export type Recipe = typeof recipes.$inferSelect & {
-  instructions?: Instruction[];
-  ingredients?: Ingredient[];
-};
-export type RecipeFormData = z.infer<typeof insertRecipeSchema>;
-
 export const insertMealSchema = createInsertSchema(meals, {
   date: z.string().date(),
   chefId: (schema) => schema.chefId,
   recipeId: (schema) => schema.recipeId,
 });
-
-export type Meal = typeof meals.$inferSelect & {
-  chef: Chef;
-  recipe: Recipe;
-};
-export type MealFormData = z.infer<typeof insertMealSchema>;
