@@ -69,8 +69,8 @@ export default function PlannerMeal() {
   useEffect(() => {
     async function fetchMeals() {
       const meals = await getMealsForRange(
-        monday.current,
-        addDays(monday.current, 6),
+        format(monday.current, 'yyyy-MM-dd'),
+        format(addDays(monday.current, 6), 'yyyy-MM-dd'),
       );
 
       setMeals(meals);
