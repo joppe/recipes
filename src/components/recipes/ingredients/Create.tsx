@@ -10,6 +10,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
@@ -75,20 +76,22 @@ export function Create({
           <DialogTitle>Add ingredient</DialogTitle>
           <DialogDescription>Set the right value for order.</DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form
-            className="grid gap-4 py-4"
-            id="create-ingredient-form"
-            onSubmit={form.handleSubmit(handleSubmit)}
-          >
-            <input type="hidden" {...form.register('recipeId')} />
-            <FormFields
-              control={form.control}
-              products={products}
-              units={units}
-            />
-          </form>
-        </Form>
+        <DialogMain>
+          <Form {...form}>
+            <form
+              className="grid gap-4 py-4"
+              id="create-ingredient-form"
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
+              <input type="hidden" {...form.register('recipeId')} />
+              <FormFields
+                control={form.control}
+                products={products}
+                units={units}
+              />
+            </form>
+          </Form>
+        </DialogMain>
         <DialogFooter>
           <Button type="submit" form="create-ingredient-form">
             Save changes

@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogMain,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
@@ -39,23 +40,25 @@ export function Detail({ meal }: DetailProps) {
             )}
           </DialogDescription>
         </DialogHeader>
-        <Tabs defaultValue="instructions" className="w-[400px]">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="instructions">Instructions</TabsTrigger>
-            <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
-          </TabsList>
-          <TabsContent value="instructions">
-            <div className="grid gap-4 py-4">
-              <Instructions instructions={meal.recipe.instructions} />
-            </div>
-          </TabsContent>
+        <DialogMain>
+          <Tabs defaultValue="instructions" className="w-[400px]">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="instructions">Instructions</TabsTrigger>
+              <TabsTrigger value="ingredients">Ingredients</TabsTrigger>
+            </TabsList>
+            <TabsContent value="instructions">
+              <div className="grid gap-4 py-4">
+                <Instructions instructions={meal.recipe.instructions} />
+              </div>
+            </TabsContent>
 
-          <TabsContent value="ingredients">
-            <div className="grid gap-4 py-4">
-              <Ingredients ingredients={meal.recipe.ingredients} />
-            </div>
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="ingredients">
+              <div className="grid gap-4 py-4">
+                <Ingredients ingredients={meal.recipe.ingredients} />
+              </div>
+            </TabsContent>
+          </Tabs>
+        </DialogMain>
       </DialogContent>
     </Dialog>
   );
