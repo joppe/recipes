@@ -3,6 +3,7 @@
 import { PanelLeft } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 import { ITEMS } from '@/components/layout/navigation/items';
 import { Button } from '@/components/ui/button';
@@ -14,12 +15,26 @@ const CLASS =
   'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground';
 
 export function MobileNavigation() {
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
+  function toggle() {
+    setIsOpen((prev) => !prev);
+  }
+
+  function close() {
+    setIsOpen(false);
+  }
+
   return (
-    <Sheet>
+    <Sheet open={isOpen}>
       <SheetTrigger asChild>
-        <Button size="icon" variant="outline" className="sm:hidden">
+        <Button
+          size="icon"
+          variant="outline"
+          className="sm:hidden"
+          onClick={toggle}
+        >
           <PanelLeft className="h-5 w-5" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
@@ -31,6 +46,7 @@ export function MobileNavigation() {
               key={href}
               href={href}
               className={pathname === href ? ACTIVE_CLASS : CLASS}
+              onClick={close}
             >
               <Icon className="h-5 w-5" />
               {label}
