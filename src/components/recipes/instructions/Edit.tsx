@@ -10,6 +10,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
@@ -65,17 +66,19 @@ export function Edit({ instruction, onFinish, onCancel }: EditProps) {
           <DialogTitle>Edit instruction</DialogTitle>
           <DialogDescription>Set the right value for order.</DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form
-            className="grid gap-4 py-4"
-            id="create-instruction-form"
-            onSubmit={form.handleSubmit(handleSubmit)}
-          >
-            <input type="hidden" {...form.register('id')} />
-            <input type="hidden" {...form.register('recipeId')} />
-            <FormFields control={form.control} />
-          </form>
-        </Form>
+        <DialogMain>
+          <Form {...form}>
+            <form
+              className="grid gap-4 py-4"
+              id="create-instruction-form"
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
+              <input type="hidden" {...form.register('id')} />
+              <input type="hidden" {...form.register('recipeId')} />
+              <FormFields control={form.control} />
+            </form>
+          </Form>
+        </DialogMain>
         <DialogFooter>
           <Button type="submit" form="create-instruction-form">
             Save changes

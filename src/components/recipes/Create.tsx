@@ -10,6 +10,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Form } from '@/components/ui/form';
@@ -63,15 +64,17 @@ export function Create({ onFinish, onCancel }: CreateProps) {
           <DialogTitle>Add recipe</DialogTitle>
           <DialogDescription>A recipe needs to be unique.</DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <form
-            className="grid gap-4 py-4"
-            id="create-recipe-form"
-            onSubmit={form.handleSubmit(handleSubmit)}
-          >
-            <FormFields control={form.control} />
-          </form>
-        </Form>
+        <DialogMain>
+          <Form {...form}>
+            <form
+              className="grid gap-4 py-4"
+              id="create-recipe-form"
+              onSubmit={form.handleSubmit(handleSubmit)}
+            >
+              <FormFields control={form.control} />
+            </form>
+          </Form>
+        </DialogMain>
         <DialogFooter>
           <Button type="submit" form="create-recipe-form">
             Save changes
